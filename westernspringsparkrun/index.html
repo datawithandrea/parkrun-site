@@ -1,1 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Explore Western Springs parkrun through an interactive event report featuring results, milestones, clubs, age groups and participant insights."
+    >
+
+    <title>Western Springs parkrun | Interactive Event Report</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --willow-dark: #253a34;
+            --willow: #456257;
+            --willow-mid: #6e8a76;
+            --willow-light: #dfe8df;
+            --willow-pale: #f2f6f1;
+
+            --lake: #6f9fb5;
+            --lake-light: #dcebf1;
+
+            --autumn: #d6a245;
+            --autumn-light: #edce88;
+
+            --charcoal: #202b28;
+            --body-text: #59645f;
+
+            --white: #ffffff;
+            --off-white: #f8faf8;
+
+            --border: rgba(37, 58, 52, 0.13);
+
+            --shadow:
+                0 20px 60px rgba(29, 52, 45, 0.13);
+
+            --shadow-small:
+                0 12px 32px rgba(29, 52, 45, 0.09);
+
+            --radius-large: 30px;
+            --radius-medium: 20px;
+            --radius-small: 14px;
+
+            --page-width: 1280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            overflow-x: hidden;
+            background: var(--off-white);
+            color: var(--charcoal);
+            font-family: "Manrope", sans-serif;
+            line-height: 1.6;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .page-width {
+            width: min(calc(100% - 48px), var(--page-width));
+            margin-inline: auto;
+        }
+
+        /* Navigation */
+
+        .site-header {
+            position: absolute;
+            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(24, 44, 38, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .navigation {
+            display: flex;
+            min-height: 78px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .brand {
+            color: var(--white);
+            font-size: 0.97rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: var(--autumn-light);
+        }
+
+        .navigation-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navigation-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navigation-links a::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--autumn);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .navigation-links a:hover::after,
+        .navigation-links a:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .menu-button {
+            display: none;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .menu-button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Hero */
+
+        .hero {
+            position: relative;
+            display: flex;
+            min-height: 700px;
+            align-items: center;
+            overflow: hidden;
+            isolation: isolate;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(24, 45, 39, 0.96) 0%,
+                    rgba(33, 59, 50, 0.84) 36%,
+                    rgba(40, 71, 61, 0.44) 69%,
+                    rgba(40, 71, 61, 0.16) 100%
+                ),
+                url("westernsprings-parkrun-hero.jpg")
+                center center / cover no-repeat;
+        }
+
+        .hero::before {
+            position: absolute;
+            z-index: -1;
+            top: -18%;
+            right: -10%;
+            width: 58%;
+            height: 125%;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(214, 162, 69, 0.18),
+                    transparent 64%
+                );
+            content: "";
+        }
+
+        .hero::after {
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            height: 110px;
+            background: var(--off-white);
+            clip-path: polygon(0 78%, 100% 0, 100% 100%, 0 100%);
+            content: "";
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: min(720px, 100%);
+            padding-top: 78px;
+            padding-bottom: 90px;
+            color: var(--white);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            color: var(--autumn-light);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 34px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: "";
+        }
+
+        .hero h1 {
+            max-width: 700px;
+            margin-bottom: 22px;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.075em;
+            line-height: 0.96;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: var(--autumn-light);
+        }
+
+        .hero-description {
+            max-width: 620px;
+            margin-bottom: 34px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2vw, 1.14rem);
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-size: 0.89rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .primary-button {
+            background: var(--autumn);
+            color: var(--willow-dark);
+        }
+
+        .secondary-button {
+            border: 1px solid rgba(255, 255, 255, 0.34);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .primary-button:hover {
+            background: var(--autumn-light);
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Shared sections */
+
+        section {
+            position: relative;
+        }
+
+        .section-heading {
+            max-width: 720px;
+            margin: 0 auto 52px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 15px;
+            color: var(--willow-mid);
+        }
+
+        .section-heading h2 {
+            margin-bottom: 16px;
+            color: var(--willow-dark);
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1.08;
+        }
+
+        .section-heading p {
+            color: var(--body-text);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        /* Intro */
+
+        .intro-section {
+            padding: 90px 0 110px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 0.84fr 1.16fr;
+            align-items: center;
+            gap: clamp(50px, 7vw, 100px);
+        }
+
+        .intro-number {
+            position: relative;
+            display: flex;
+            min-height: 360px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--radius-large);
+            background:
+                radial-gradient(
+                    circle at 30% 25%,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    140deg,
+                    var(--lake),
+                    var(--willow-dark)
+                );
+            box-shadow: var(--shadow);
+            color: var(--white);
+        }
+
+        .intro-number::before,
+        .intro-number::after {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .intro-number::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .intro-number::after {
+            width: 190px;
+            height: 190px;
+        }
+
+        .intro-number-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .intro-number strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--autumn-light);
+            font-size: clamp(5rem, 12vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.08em;
+            line-height: 0.9;
+        }
+
+        .intro-number span {
+            font-size: 0.77rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .intro-copy .eyebrow {
+            margin-bottom: 18px;
+            color: var(--willow-mid);
+        }
+
+        .intro-copy h2 {
+            margin-bottom: 22px;
+            color: var(--willow-dark);
+            font-size: clamp(2.15rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.06em;
+            line-height: 1.05;
+        }
+
+        .intro-copy p {
+            margin-bottom: 18px;
+            color: var(--body-text);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .intro-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 28px;
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-small);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .intro-note-icon {
+            display: flex;
+            width: 42px;
+            min-width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--lake-light);
+            color: var(--willow-dark);
+        }
+
+        .intro-note-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .intro-note strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--willow-dark);
+            font-size: 0.91rem;
+        }
+
+        .intro-note p {
+            margin: 0;
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        /* Tutorial */
+
+        .tutorial-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background: var(--willow-pale);
+        }
+
+        .tutorial-section::before {
+            position: absolute;
+            top: -190px;
+            left: -170px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(69, 98, 87, 0.08);
+            content: "";
+        }
+
+        .tutorial-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .tutorial-card {
+            position: relative;
+            min-height: 255px;
+            overflow: hidden;
+            padding: 28px 22px 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            border-color: rgba(69, 98, 87, 0.3);
+            box-shadow: var(--shadow);
+            transform: translateY(-8px);
+        }
+
+        .tutorial-card::after {
+            position: absolute;
+            right: -42px;
+            bottom: -55px;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: var(--willow-pale);
+            content: "";
+            transition: transform 0.35s ease;
+        }
+
+        .tutorial-card:hover::after {
+            transform: scale(1.2);
+        }
+
+        .step-number {
+            display: flex;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            border-radius: 50%;
+            background: var(--willow-dark);
+            color: var(--autumn-light);
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .tutorial-card h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 12px;
+            color: var(--willow-dark);
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tutorial-card p {
+            position: relative;
+            z-index: 2;
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* Dashboard */
+
+        .dashboard-section {
+            padding: 110px 0 125px;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--off-white) 0%,
+                    var(--white) 100%
+                );
+        }
+
+        .dashboard-shell {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-large);
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 16px 22px;
+        }
+
+        .dashboard-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-status {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--autumn);
+            box-shadow: 0 0 0 6px rgba(214, 162, 69, 0.2);
+        }
+
+        .dashboard-label strong {
+            display: block;
+            color: var(--willow-dark);
+            font-size: 0.93rem;
+        }
+
+        .dashboard-label span {
+            display: block;
+            margin-top: 2px;
+            color: var(--body-text);
+            font-size: 0.76rem;
+        }
+
+        .dashboard-decoration {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dashboard-decoration span {
+            display: block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--willow-light);
+        }
+
+        .dashboard-frame {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #edf3ef;
+            aspect-ratio: 16 / 9;
+        }
+
+        .dashboard-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .dashboard-tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 940px;
+            margin: 22px auto 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--autumn);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+            background: var(--willow-pale);
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        .dashboard-tip strong {
+            color: var(--willow-dark);
+        }
+
+        .dashboard-tip svg {
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            color: var(--willow);
+        }
+
+        /* Closing */
+
+        .closing-section {
+            position: relative;
+            overflow: hidden;
+            padding: 115px 0;
+            background:
+                radial-gradient(
+                    circle at 82% 22%,
+                    rgba(214, 162, 69, 0.17),
+                    transparent 28%
+                ),
+                var(--willow-dark);
+            color: var(--white);
+        }
+
+        .closing-section::before {
+            position: absolute;
+            bottom: -210px;
+            left: -170px;
+            width: 460px;
+            height: 460px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .closing-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .closing-content .eyebrow {
+            justify-content: center;
+            margin-bottom: 19px;
+            color: var(--autumn-light);
+        }
+
+        .closing-content h2 {
+            margin-bottom: 22px;
+            font-size: clamp(2.3rem, 6vw, 4.6rem);
+            font-weight: 800;
+            letter-spacing: -0.065em;
+            line-height: 1.02;
+        }
+
+        .closing-content p {
+            max-width: 690px;
+            margin: 0 auto 35px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .closing-button {
+            margin-bottom: 28px;
+        }
+
+        .closing-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            font-size: 0.83rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .closing-tagline span {
+            color: var(--autumn-light);
+        }
+
+        /* Footer */
+
+        .site-footer {
+            padding: 30px 0;
+            background: #1c2f2a;
+            color: rgba(255, 255, 255, 0.62);
+            text-align: center;
+        }
+
+        .site-footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-footer p {
+            font-size: 0.82rem;
+        }
+
+        .site-footer a {
+            color: var(--white);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: var(--autumn-light);
+        }
+
+        .disclaimer {
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.68rem !important;
+            line-height: 1.55;
+        }
+
+        /* Scroll to top */
+
+        .scroll-top {
+            position: fixed;
+            z-index: 40;
+            right: 22px;
+            bottom: 22px;
+            display: flex;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: var(--willow-dark);
+            box-shadow: 0 14px 34px rgba(29, 52, 45, 0.3);
+            color: var(--white);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: var(--willow);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Animation */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition:
+                opacity 0.75s ease,
+                transform 0.75s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tutorial-card:nth-child(2) {
+            transition-delay: 0.07s;
+        }
+
+        .tutorial-card:nth-child(3) {
+            transition-delay: 0.14s;
+        }
+
+        .tutorial-card:nth-child(4) {
+            transition-delay: 0.21s;
+        }
+
+        .tutorial-card:nth-child(5) {
+            transition-delay: 0.28s;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1050px) {
+            .tutorial-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .page-width {
+                width: min(calc(100% - 34px), var(--page-width));
+            }
+
+            .site-header {
+                background: rgba(24, 44, 38, 0.72);
+            }
+
+            .menu-button {
+                display: flex;
+            }
+
+            .navigation-links {
+                position: fixed;
+                top: 78px;
+                right: 17px;
+                left: 17px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                background: rgba(28, 47, 42, 0.98);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            }
+
+            .navigation-links.open {
+                display: flex;
+            }
+
+            .navigation-links a {
+                display: block;
+                padding: 14px 15px;
+                border-radius: 11px;
+            }
+
+            .navigation-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .navigation-links a::after {
+                display: none;
+            }
+
+            .hero {
+                min-height: 670px;
+                background-position: 58% center;
+            }
+
+            .hero::after {
+                height: 72px;
+            }
+
+            .hero-content {
+                width: 100%;
+                padding-bottom: 80px;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-number {
+                min-height: 315px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tutorial-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dashboard-section,
+            .tutorial-section {
+                padding: 90px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-width {
+                width: min(calc(100% - 28px), var(--page-width));
+            }
+
+            .navigation {
+                min-height: 70px;
+            }
+
+            .navigation-links {
+                top: 70px;
+                right: 14px;
+                left: 14px;
+            }
+
+            .hero {
+                min-height: 660px;
+                align-items: flex-end;
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(24, 45, 39, 0.2) 0%,
+                        rgba(24, 45, 39, 0.46) 35%,
+                        rgba(24, 45, 39, 0.96) 100%
+                    ),
+                    url("westernsprings-parkrun-hero.jpg")
+                    62% center / cover no-repeat;
+            }
+
+            .hero-content {
+                padding-top: 125px;
+                padding-bottom: 86px;
+            }
+
+            .hero h1 {
+                max-width: 470px;
+                font-size: clamp(2.8rem, 14vw, 4.3rem);
+            }
+
+            .hero-description {
+                font-size: 0.98rem;
+                line-height: 1.7;
+            }
+
+            .hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+            .intro-section {
+                padding: 75px 0 85px;
+            }
+
+            .intro-number {
+                min-height: 270px;
+            }
+
+            .intro-copy h2 {
+                font-size: 2.35rem;
+            }
+
+            .section-heading {
+                margin-bottom: 38px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorial-card,
+            .tutorial-card:last-child {
+                min-height: auto;
+                grid-column: auto;
+            }
+
+            .dashboard-shell {
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .dashboard-toolbar {
+                padding: 12px 10px 17px;
+            }
+
+            .dashboard-frame {
+                min-height: 610px;
+                border-radius: 14px;
+                aspect-ratio: auto;
+            }
+
+            .dashboard-tip {
+                padding: 16px;
+                font-size: 0.82rem;
+            }
+
+            .closing-section {
+                padding: 90px 0;
+            }
+
+            .closing-content h2 {
+                font-size: 2.65rem;
+            }
+
+            .closing-tagline {
+                gap: 8px;
+                padding: 12px 15px;
+                font-size: 0.7rem;
+            }
+
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 46px;
+                height: 46px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <nav
+            class="navigation page-width"
+            aria-label="Main navigation"
+        >
+            <a
+                class="brand"
+                href="../"
+                aria-label="Return to Event Insights"
+            >
+                Event <span>Insights</span>
+            </a>
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="navigationLinks"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                >
+                    <path d="M4 7h16"></path>
+                    <path d="M4 12h16"></path>
+                    <path d="M4 17h16"></path>
+                </svg>
+            </button>
+
+            <ul
+                class="navigation-links"
+                id="navigationLinks"
+            >
+                <li>
+                    <a href="../">All event reports</a>
+                </li>
+
+                <li>
+                    <a href="#how-to">How to use it</a>
+                </li>
+
+                <li>
+                    <a href="#report">Explore the report</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="top">
+
+        <section class="hero">
+            <div class="page-width">
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        Interactive event insights
+                    </div>
+
+                    <h1>
+                        Western Springs
+                        <span>parkrun</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Explore Western Springs through interactive statistics,
+                        milestones, participation patterns and the individual
+                        stories created around the lake.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a
+                            class="primary-button"
+                            href="#report"
+                        >
+                            Explore the report
+
+                            <svg
+                                class="button-icon"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="m13 6 6 6-6 6"></path>
+                            </svg>
+                        </a>
+
+                        <a
+                            class="secondary-button"
+                            href="#how-to"
+                        >
+                            Show me how it works
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="intro-section">
+            <div class="page-width">
+
+                <div class="intro-grid">
+
+                    <div class="intro-number reveal">
+                        <div class="intro-number-inner">
+                            <strong>5K</strong>
+                            <span>One park. Many stories.</span>
+                        </div>
+                    </div>
+
+                    <div class="intro-copy reveal">
+
+                        <div class="eyebrow">
+                            Around the lake
+                        </div>
+
+                        <h2>
+                            Discover more than the finishing times.
+                        </h2>
+
+                        <p>
+                            Beneath the willow trees and alongside the water,
+                            every Western Springs event brings together runners,
+                            walkers, volunteers, milestones and personal
+                            achievements.
+                        </p>
+
+                        <p>
+                            This interactive report turns those results into a
+                            story you can explore. Select age groups, clubs,
+                            milestones, charts and individual rows to uncover
+                            different perspectives within the event.
+                        </p>
+
+                        <div class="intro-note">
+
+                            <div class="intro-note-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 11v5"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <strong>Made for the local event community</strong>
+
+                                <p>
+                                    A visual way to explore the people,
+                                    performances and milestones that make
+                                    Western Springs unique.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="tutorial-section"
+            id="how-to"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Quick tutorial
+                    </div>
+
+                    <h2>
+                        Click, filter and explore.
+                    </h2>
+
+                    <p>
+                        The report is fully interactive. Here are five quick
+                        ways to explore the Western Springs event data.
+                    </p>
+
+                </div>
+
+                <div class="tutorial-grid">
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">01</div>
+
+                        <h3>Select a category</h3>
+
+                        <p>
+                            Click an age group, club, milestone or chart item
+                            to filter the other information on the report.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">02</div>
+
+                        <h3>Choose a table row</h3>
+
+                        <p>
+                            Select a participant or result to highlight the
+                            related information across the page.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">03</div>
+
+                        <h3>Hover for detail</h3>
+
+                        <p>
+                            Move your cursor over charts and data points to
+                            reveal additional figures and information.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">04</div>
+
+                        <h3>Use the KPI cards</h3>
+
+                        <p>
+                            Select the KPI cards across the top row of the
+                            report to move between the different report pages.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">05</div>
+
+                        <h3>Reset your selections</h3>
+
+                        <p>
+                            Use the reset button in the bottom-right corner
+                            of the report to clear selections and start again.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="dashboard-section"
+            id="report"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Western Springs parkrun
+                    </div>
+
+                    <h2>
+                        Explore the event report.
+                    </h2>
+
+                    <p>
+                        Select charts, categories and table rows to uncover
+                        different stories within the Western Springs results.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-shell reveal">
+
+                    <div class="dashboard-toolbar">
+
+                        <div class="dashboard-label">
+
+                            <span
+                                class="dashboard-status"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div>
+                                <strong>Interactive Power BI report</strong>
+                                <span>Western Springs parkrun</span>
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="dashboard-decoration"
+                            aria-hidden="true"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-frame">
+                        <iframe
+                            title="Western Springs parkrun"
+                            src="<iframe title="Western Springs parkrun" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMTU3OTdmNTMtYjE0OS00YWFjLTlhNmQtMzk1ZDNiYjExODk4IiwidCI6ImFkNWEwYmM3LWM4YjMtNDMzNC04NzNlLWJkODQ1NzMxMGIzZSJ9" frameborder="0" allowFullScreen="true"></iframe>"
+                            frameborder="0"
+                            allowfullscreen="true"
+                        ></iframe>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-tip reveal">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                        <path d="M9 18h6"></path>
+                    </svg>
+
+                    <p>
+                        <strong>Tip:</strong>
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the report.
+                    </p>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="closing-section">
+            <div class="page-width">
+
+                <div class="closing-content reveal">
+
+                    <div class="eyebrow">
+                        Thanks for visiting
+                    </div>
+
+                    <h2>
+                        Every lap around the lake tells a story.
+                    </h2>
+
+                    <p>
+                        Whether you are checking a result, celebrating a
+                        milestone, recognising a familiar name or simply
+                        exploring the event, enjoy discovering the stories
+                        created at Western Springs parkrun.
+                    </p>
+
+                    <a
+                        class="secondary-button closing-button"
+                        href="../"
+                    >
+                        Explore another event
+                    </a>
+
+                    <div class="closing-tagline">
+                        Scan. <span>Explore.</span> Nerd out.
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="page-width site-footer-content">
+
+            <p>
+                Event Insights is made with ❤️ by
+                <a
+                    href="https://datawithandrea.com.au"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Data with Andrea
+                </a>
+            </p>
+
+            <p class="disclaimer">
+                Event Insights is an independent project and is not affiliated
+                with, sponsored by or endorsed by parkrun.
+            </p>
+
+        </div>
+    </footer>
+
+    <button
+        class="scroll-top"
+        id="scrollTopButton"
+        type="button"
+        aria-label="Scroll back to the top"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
+
+    <script>
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const navigationLinks =
+            document.getElementById("navigationLinks");
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navigationLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            document.body.classList.toggle(
+                "menu-open",
+                isOpen
+            );
+        });
+
+        navigationLinks
+            .querySelectorAll("a")
+            .forEach((link) => {
+                link.addEventListener("click", () => {
+                    navigationLinks.classList.remove("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+                });
+            });
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12
+                }
+            );
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+
+        const scrollTopButton =
+            document.getElementById(
+                "scrollTopButton"
+            );
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                scrollTopButton.classList.toggle(
+                    "visible",
+                    window.scrollY > 600
+                );
+            },
+            {
+                passive: true
+            }
+        );
+
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+    </script>
+
+</body>
+</html>
