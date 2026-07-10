@@ -1,406 +1,1611 @@
-import os
-import re
-import sys
-import requests
-import pandas as pd
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse, urljoin
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/123.0.0.0 Safari/537.36"
-    )
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-# -----------------------------
-# OUTPUT (fixed filenames)
-# -----------------------------
-OUT_DIR = r"C:\DataWithAndrea\parkrunData\Report Writer\Latest"
-OUT_RESULTS_CSV = os.path.join(OUT_DIR, "parkrun_results.csv")
-OUT_VOLUNTEERS_CSV = os.path.join(OUT_DIR, "parkrun_volunteers.csv")
-OUT_HEADER_CSV = os.path.join(OUT_DIR, "parkrun_eventheader.csv")
-# -----------------------------
+    <meta
+        name="description"
+        content="Explore the Southern Path parkrun event through an interactive Power BI report."
+    >
 
-def _collapse_ws(s: str) -> str:
-    return " ".join(str(s).split()).strip()
+    <title>Southern Path parkrun | Interactive Event Report</title>
 
-def _title_case_name(s: str) -> str:
-    s = _collapse_ws(s)
-    return " ".join(w.capitalize() for w in s.split())
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-def _extract_credits(text: str) -> int | None:
-    if not text:
-        return None
-    m = re.search(r"\b(\d+)\s+volunteer\s+credits?\b", text, flags=re.IGNORECASE)
-    return int(m.group(1)) if m else None
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-def _time_to_seconds(t: str | None) -> int:
-    if not t:
-        return 0
-    t = t.strip()
-    parts = t.split(":")
-    try:
-        if len(parts) == 3:
-            h, m, s = map(int, parts)
-        elif len(parts) == 2:
-            h = 0
-            m, s = map(int, parts)
-        else:
-            return 0
-        return h * 3600 + m * 60 + s
-    except ValueError:
-        return 0
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-def _parse_parkrun_count(text: str) -> int | None:
-    if not text:
-        return None
-    m = re.search(r"\b(\d+)\s+(?:Finishes?|parkruns?)\b", text, flags=re.IGNORECASE)
-    return int(m.group(1)) if m else None
+    <style>
+        :root {
+            --green-dark: #173f35;
+            --green: #2f765f;
+            --green-light: #dcece5;
+            --green-pale: #f1f7f4;
+            --lime: #b9d432;
+            --charcoal: #1c2824;
+            --body-text: #53615c;
+            --white: #ffffff;
+            --off-white: #f8faf9;
+            --border: rgba(23, 63, 53, 0.12);
+            --shadow:
+                0 20px 60px rgba(19, 52, 43, 0.12);
+            --shadow-small:
+                0 12px 32px rgba(19, 52, 43, 0.09);
+            --radius-large: 30px;
+            --radius-medium: 20px;
+            --radius-small: 14px;
+            --page-width: 1280px;
+        }
 
-def _parse_age_grade(text: str) -> float | None:
-    if not text:
-        return None
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    m = re.search(r"(\d{1,3}(?:\.\d+)?)%\s*Age\s*Grade\b", text, flags=re.IGNORECASE)
-    if m:
-        try:
-            return float(m.group(1)) / 100.0
-        except ValueError:
-            return None
+        html {
+            scroll-behavior: smooth;
+        }
 
-    m2 = re.search(r"\b(\d{1,3}(?:\.\d+)?)%\b", text)
-    if not m2:
-        return None
-    try:
-        return float(m2.group(1)) / 100.0
-    except ValueError:
-        return None
+        body {
+            min-width: 320px;
+            overflow-x: hidden;
+            background: var(--off-white);
+            color: var(--charcoal);
+            font-family: "Manrope", sans-serif;
+            line-height: 1.6;
+        }
 
-def _parse_age_group(text: str) -> str | None:
-    if not text:
-        return None
-    m = re.search(r"\b([A-Za-z]{1,2}\d{1,2}-\d{1,2})\b", text)
-    return m.group(1).upper() if m else None
+        body.menu-open {
+            overflow: hidden;
+        }
 
-def _parse_gender(text: str) -> str:
-    if not text:
-        return "Unknown"
-    first = text.splitlines()[0].strip()
-    if not first:
-        return "Unknown"
-    m = re.search(r"\b(Male|Female)\b", first, flags=re.IGNORECASE)
-    return m.group(1).capitalize() if m else first
+        a {
+            color: inherit;
+        }
 
-def _parse_time_status_pb(raw: str) -> tuple[str | None, str | None, str | None]:
-    if not raw:
-        return None, None, None
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    cleaned = _collapse_ws(raw)
+        img {
+            display: block;
+            max-width: 100%;
+        }
 
-    if "First Timer!" in cleaned:
-        duration = cleaned.split("First Timer!", 1)[0].strip()
-        return duration, "First Timer", duration or None
+        .page-width {
+            width: min(calc(100% - 48px), var(--page-width));
+            margin-inline: auto;
+        }
 
-    if "New PB" in cleaned:
-        duration = cleaned.split("New PB", 1)[0].strip()
-        return duration, "New PB", duration or None
+        /* Navigation */
 
-    if re.search(r"\bPB\b", cleaned):
-        before, after = cleaned.split("PB", 1)
-        duration = before.strip()
-        pb_time = after.strip() or None
-        return duration or None, "PB", pb_time
+        .site-header {
+            position: absolute;
+            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(13, 37, 31, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
 
-    return cleaned, None, None
+        .navigation {
+            display: flex;
+            min-height: 78px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
 
-def _extract_event_date_from_url(url: str) -> str | None:
-    m = re.search(r"/results/(\d{4}-\d{2}-\d{2})/", url)
-    return m.group(1) if m else None
+        .brand {
+            color: var(--white);
+            font-size: 0.97rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
 
-def _extract_event_metadata(url: str) -> dict:
-    parsed = urlparse(url)
-    parts = [p for p in parsed.path.split("/") if p]
-    slug = parts[0] if parts else None
-    event_date = _extract_event_date_from_url(url)
-    return {"EventUrl": url, "EventSlug": slug, "EventDate": event_date}
+        .brand span {
+            color: var(--lime);
+        }
 
-def _get_html(url: str) -> BeautifulSoup:
-    r = requests.get(url, headers=HEADERS, timeout=40)
-    r.raise_for_status()
-    return BeautifulSoup(r.text, "html.parser")
+        .navigation-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
 
-def _infer_dated_results_url_from_latest(latestresults_url: str) -> str | None:
-    soup = _get_html(latestresults_url)
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if re.search(r"/results/\d{4}-\d{2}-\d{2}/", href):
-            return urljoin(latestresults_url, href)
-    return None
+        .navigation-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
 
-# -----------------------------
-# EVENT HEADER SCRAPER
-# -----------------------------
-def scrape_event_header(url: str) -> pd.DataFrame:
-    soup = _get_html(url)
-    meta = _extract_event_metadata(url)
+        .navigation-links a::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--lime);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
 
-    # Event Name (h1)
-    h1 = soup.find("h1")
-    event_name = _collapse_ws(h1.get_text(" ", strip=True)) if h1 else None
+        .navigation-links a:hover::after,
+        .navigation-links a:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
 
-    # Event Date (span class="format-date")
-    date_span = soup.find("span", class_="format-date")
-    event_date_display = _collapse_ws(date_span.get_text(" ", strip=True)) if date_span else None
+        .menu-button {
+            display: none;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+        }
 
-    # Event Number (span like "#123")
-    event_number = None
-    for span in soup.find_all("span"):
-        txt = _collapse_ws(span.get_text(" ", strip=True))
-        if re.match(r"#\d+", txt):
-            event_number = txt.replace("#", "").strip()
-            break
+        .menu-button svg {
+            width: 22px;
+            height: 22px;
+        }
 
-    return pd.DataFrame([{
-        **meta,
-        "Event Name": event_name,
-        "Event Date Display": event_date_display,
-        "Event Number": event_number
-    }])
+        /* Hero */
 
-# -----------------------------
-# RESULTS SCRAPER
-# -----------------------------
-def fetch_results(results_url: str) -> pd.DataFrame:
-    soup = _get_html(results_url)
+        .hero {
+            position: relative;
+            display: flex;
+            min-height: 690px;
+            align-items: center;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(10, 35, 28, 0.94) 0%,
+                    rgba(12, 45, 36, 0.83) 37%,
+                    rgba(13, 44, 35, 0.38) 72%,
+                    rgba(13, 44, 35, 0.25) 100%
+                ),
+                url("southern-path-parkrun-hero.jpg")
+                center center / cover no-repeat;
+        }
 
-    tbody = soup.select_one("table tbody")
-    if not tbody:
-        raise RuntimeError("Could not find results table <table><tbody>. Page layout may have changed.")
+        .hero::before {
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            right: -12%;
+            width: 56%;
+            height: 100%;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(185, 212, 50, 0.16),
+                    transparent 66%
+                );
+            content: "";
+        }
 
-    meta = _extract_event_metadata(results_url)
+        .hero::after {
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            height: 110px;
+            background: var(--off-white);
+            clip-path: polygon(0 78%, 100% 0, 100% 100%, 0 100%);
+            content: "";
+        }
 
-    records = []
-    for tr in tbody.select("tr"):
-        tds = tr.select("td")
-        if len(tds) < 6:
-            continue
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: min(700px, 100%);
+            padding-top: 78px;
+            padding-bottom: 80px;
+            color: var(--white);
+        }
 
-        td_texts = [_collapse_ws(td.get_text(" ", strip=True)) for td in tds]
-        row_text = _collapse_ws(" | ".join([t for t in td_texts if t]))
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            color: var(--lime);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
 
-        # Position
-        pos_text = td_texts[0] if len(td_texts) > 0 else ""
-        try:
-            position = int(re.sub(r"\D+", "", pos_text)) if pos_text else None
-        except ValueError:
-            position = None
+        .eyebrow::before {
+            width: 34px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: "";
+        }
 
-        # Parkrunner name
-        parkrunner_td = tds[1]
-        a = parkrunner_td.select_one("a")
-        if a and _collapse_ws(a.get_text(" ", strip=True)):
-            parkrunner_name = _collapse_ws(a.get_text(" ", strip=True))
-        else:
-            fallback_name = _collapse_ws(parkrunner_td.get_text(" ", strip=True))
-            fallback_name = re.sub(
-                r"\b\d+\s+(?:Finishes?|parkruns?)\b.*$",
-                "",
-                fallback_name,
-                flags=re.IGNORECASE
-            ).strip()
-            parkrunner_name = fallback_name
+        .hero h1 {
+            max-width: 680px;
+            margin-bottom: 22px;
+            font-size: clamp(3.1rem, 7vw, 6.2rem);
+            font-weight: 800;
+            letter-spacing: -0.075em;
+            line-height: 0.96;
+        }
 
-        # Parkrun count
-        parkrunner_full_text = _collapse_ws(parkrunner_td.get_text(" ", strip=True))
-        n_runs = _parse_parkrun_count(parkrunner_full_text)
-        if n_runs is None:
-            n_runs = _parse_parkrun_count(row_text)
+        .hero h1 span {
+            display: block;
+            color: var(--lime);
+        }
 
-        # Gender
-        gender_raw = tds[2].get_text("\n", strip=True) if len(tds) > 2 else ""
-        gender = _parse_gender(gender_raw)
+        .hero-description {
+            max-width: 590px;
+            margin-bottom: 34px;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: clamp(1rem, 2vw, 1.14rem);
+            line-height: 1.75;
+        }
 
-        # Age group & grade
-        age_cell_text = td_texts[3] if len(td_texts) > 3 else ""
-        age_group = _parse_age_group(age_cell_text)
-        age_grade = _parse_age_grade(age_cell_text)
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
 
-        if age_group is None:
-            age_group = _parse_age_group(row_text)
-        if age_grade is None:
-            age_grade = _parse_age_grade(row_text)
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-size: 0.89rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+        }
 
-        # Club
-        club = td_texts[4] if len(td_texts) > 4 else None
-        club = club if club else None
+        .primary-button {
+            background: var(--lime);
+            color: #183026;
+        }
 
-        # Time
-        time_raw = td_texts[5] if len(td_texts) > 5 else ""
-        duration, status, pb = _parse_time_status_pb(time_raw)
-        seconds = _time_to_seconds(duration)
+        .secondary-button {
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
 
-        records.append(
-            {
-                **meta,
-                "Position": position,
-                "Parkrunner": parkrunner_name,
-                "Number of parkruns": n_runs,
-                "Gender": gender if gender else "Unknown",
-                "Age Group": age_group,
-                "Age Grade": age_grade,
-                "Club": club,
-                "Time": duration,
-                "Status": status,
-                "PB": pb,
-                "Seconds": seconds,
+        .primary-button:hover,
+        .secondary-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(255, 255, 255, 0.62);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Shared section styles */
+
+        section {
+            position: relative;
+        }
+
+        .section-heading {
+            max-width: 720px;
+            margin: 0 auto 52px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 15px;
+            color: var(--green);
+        }
+
+        .section-heading h2 {
+            margin-bottom: 16px;
+            color: var(--green-dark);
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1.08;
+        }
+
+        .section-heading p {
+            color: var(--body-text);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        /* Intro */
+
+        .intro-section {
+            padding: 90px 0 110px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 0.84fr 1.16fr;
+            align-items: center;
+            gap: clamp(50px, 7vw, 100px);
+        }
+
+        .intro-number {
+            position: relative;
+            display: flex;
+            min-height: 360px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--radius-large);
+            background:
+                radial-gradient(
+                    circle at 30% 25%,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    140deg,
+                    var(--green),
+                    var(--green-dark)
+                );
+            box-shadow: var(--shadow);
+            color: var(--white);
+        }
+
+        .intro-number::before,
+        .intro-number::after {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .intro-number::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .intro-number::after {
+            width: 190px;
+            height: 190px;
+        }
+
+        .intro-number-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .intro-number strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--lime);
+            font-size: clamp(5rem, 12vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.08em;
+            line-height: 0.9;
+        }
+
+        .intro-number span {
+            font-size: 0.77rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .intro-copy .eyebrow {
+            margin-bottom: 18px;
+            color: var(--green);
+        }
+
+        .intro-copy h2 {
+            margin-bottom: 22px;
+            color: var(--green-dark);
+            font-size: clamp(2.15rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.06em;
+            line-height: 1.05;
+        }
+
+        .intro-copy p {
+            margin-bottom: 18px;
+            color: var(--body-text);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .intro-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 28px;
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-small);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .intro-note-icon {
+            display: flex;
+            width: 42px;
+            min-width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .intro-note-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .intro-note strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--green-dark);
+            font-size: 0.91rem;
+        }
+
+        .intro-note p {
+            margin: 0;
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        /* Tutorial */
+
+        .tutorial-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background: var(--green-pale);
+        }
+
+        .tutorial-section::before {
+            position: absolute;
+            top: -190px;
+            left: -170px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(47, 118, 95, 0.07);
+            content: "";
+        }
+
+        .tutorial-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .tutorial-card {
+            position: relative;
+            min-height: 255px;
+            overflow: hidden;
+            padding: 28px 22px 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            border-color: rgba(47, 118, 95, 0.26);
+            box-shadow: var(--shadow);
+            transform: translateY(-8px);
+        }
+
+        .tutorial-card::after {
+            position: absolute;
+            right: -42px;
+            bottom: -55px;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: var(--green-pale);
+            content: "";
+            transition: transform 0.35s ease;
+        }
+
+        .tutorial-card:hover::after {
+            transform: scale(1.2);
+        }
+
+        .step-number {
+            display: flex;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            border-radius: 50%;
+            background: var(--green-dark);
+            color: var(--lime);
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .tutorial-card h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 12px;
+            color: var(--green-dark);
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tutorial-card p {
+            position: relative;
+            z-index: 2;
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* Dashboard */
+
+        .dashboard-section {
+            padding: 110px 0 125px;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--off-white) 0%,
+                    #ffffff 100%
+                );
+        }
+
+        .dashboard-shell {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-large);
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 16px 22px;
+        }
+
+        .dashboard-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-status {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--lime);
+            box-shadow: 0 0 0 6px rgba(185, 212, 50, 0.18);
+        }
+
+        .dashboard-label strong {
+            display: block;
+            color: var(--green-dark);
+            font-size: 0.93rem;
+        }
+
+        .dashboard-label span {
+            display: block;
+            margin-top: 2px;
+            color: var(--body-text);
+            font-size: 0.76rem;
+        }
+
+        .dashboard-decoration {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dashboard-decoration span {
+            display: block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--green-light);
+        }
+
+        .dashboard-frame {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #eef3f0;
+            aspect-ratio: 16 / 9;
+        }
+
+        .dashboard-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .dashboard-tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 940px;
+            margin: 22px auto 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--lime);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+            background: var(--green-pale);
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        .dashboard-tip strong {
+            color: var(--green-dark);
+        }
+
+        .dashboard-tip svg {
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            color: var(--green);
+        }
+
+        /* Closing section */
+
+        .closing-section {
+            position: relative;
+            overflow: hidden;
+            padding: 115px 0;
+            background:
+                radial-gradient(
+                    circle at 82% 22%,
+                    rgba(185, 212, 50, 0.16),
+                    transparent 28%
+                ),
+                var(--green-dark);
+            color: var(--white);
+        }
+
+        .closing-section::before {
+            position: absolute;
+            bottom: -210px;
+            left: -170px;
+            width: 460px;
+            height: 460px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .closing-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .closing-content .eyebrow {
+            justify-content: center;
+            margin-bottom: 19px;
+            color: var(--lime);
+        }
+
+        .closing-content h2 {
+            margin-bottom: 22px;
+            font-size: clamp(2.3rem, 6vw, 4.6rem);
+            font-weight: 800;
+            letter-spacing: -0.065em;
+            line-height: 1.02;
+        }
+
+        .closing-content p {
+            max-width: 690px;
+            margin: 0 auto 35px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .closing-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            font-size: 0.83rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .closing-tagline span {
+            color: var(--lime);
+        }
+
+        /* Footer */
+
+        .site-footer {
+            padding: 30px 0;
+            background: #0f2d25;
+            color: rgba(255, 255, 255, 0.62);
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-size: 0.82rem;
+        }
+
+        .site-footer a {
+            color: var(--white);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: var(--lime);
+        }
+
+        /* Scroll-to-top button */
+
+        .scroll-top {
+            position: fixed;
+            z-index: 40;
+            right: 22px;
+            bottom: 22px;
+            display: flex;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: var(--green-dark);
+            box-shadow: 0 14px 34px rgba(15, 45, 37, 0.3);
+            color: var(--white);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: var(--green);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Scroll animation */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition:
+                opacity 0.75s ease,
+                transform 0.75s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tutorial-card:nth-child(2) {
+            transition-delay: 0.07s;
+        }
+
+        .tutorial-card:nth-child(3) {
+            transition-delay: 0.14s;
+        }
+
+        .tutorial-card:nth-child(4) {
+            transition-delay: 0.21s;
+        }
+
+        .tutorial-card:nth-child(5) {
+            transition-delay: 0.28s;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1050px) {
+            .tutorial-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
-        )
 
-    df = pd.DataFrame.from_records(records)
+            .tutorial-card:nth-child(4),
+            .tutorial-card:nth-child(5) {
+                grid-column: auto;
+            }
+        }
 
-    if not df.empty:
-        df["Position"] = pd.to_numeric(df["Position"], errors="coerce").astype("Int64")
-        df["Number of parkruns"] = pd.to_numeric(df["Number of parkruns"], errors="coerce").astype("Int64")
-        df["Seconds"] = pd.to_numeric(df["Seconds"], errors="coerce").fillna(0).astype("int64")
-        df["Age Grade"] = pd.to_numeric(df["Age Grade"], errors="coerce")
-        df["Gender"] = df["Gender"].fillna("Unknown").replace("", "Unknown")
+        @media (max-width: 850px) {
+            .page-width {
+                width: min(calc(100% - 34px), var(--page-width));
+            }
 
-    return df
+            .site-header {
+                background: rgba(13, 37, 31, 0.68);
+            }
 
-# -----------------------------
-# VOLUNTEERS SCRAPER
-# -----------------------------
-def _find_volunteers_table(soup: BeautifulSoup):
-    anchor = soup.find(id="volunteers-table")
-    if anchor:
-        t = anchor.find("table")
-        if t:
-            return t
-        t = anchor.find_next("table")
-        if t:
-            return t
+            .menu-button {
+                display: flex;
+            }
 
-    for table in soup.find_all("table"):
-        header_text = _collapse_ws(table.get_text(" ", strip=True)).lower()
-        if "volunteer roles" in header_text and "parkrunner" in header_text:
-            return table
+            .navigation-links {
+                position: fixed;
+                top: 78px;
+                right: 17px;
+                left: 17px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                background: rgba(15, 45, 37, 0.98);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            }
 
-    return None
+            .navigation-links.open {
+                display: flex;
+            }
 
-def scrape_volunteers(volunteers_url: str) -> pd.DataFrame:
-    soup = _get_html(volunteers_url)
+            .navigation-links a {
+                display: block;
+                padding: 14px 15px;
+                border-radius: 11px;
+            }
 
-    table = _find_volunteers_table(soup)
-    if table is None:
-        return pd.DataFrame([{
-            "EventUrl": volunteers_url,
-            "Error": "Volunteers table not found in HTML. It may be rendered by JavaScript.",
-        }])
+            .navigation-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
+            }
 
-    meta = _extract_event_metadata(volunteers_url)
+            .navigation-links a::after {
+                display: none;
+            }
 
-    tbody = table.find("tbody")
-    rows = tbody.find_all("tr") if tbody else table.find_all("tr")
+            .hero {
+                min-height: 660px;
+                background-position: 62% center;
+            }
 
-    records = []
-    for tr in rows:
-        tds = tr.find_all("td")
-        if len(tds) < 2:
-            continue
+            .hero::after {
+                height: 72px;
+            }
 
-        parkrunner_cell = tds[0]
-        roles_cell = tds[1]
-        group_cell = tds[2] if len(tds) >= 3 else None
+            .hero-content {
+                width: 100%;
+                padding-bottom: 72px;
+            }
 
-        parkrunner_text = _collapse_ws(parkrunner_cell.get_text(" ", strip=True))
-        roles_text = _collapse_ws(roles_cell.get_text(" ", strip=True))
-        group_text = _collapse_ws(group_cell.get_text(" ", strip=True)) if group_cell else None
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
 
-        a = parkrunner_cell.find("a")
-        name = _collapse_ws(a.get_text(" ", strip=True)) if a else None
-        if not name:
-            name = re.split(r"\b\d+\s+volunteer\s+credits?\b", parkrunner_text, flags=re.IGNORECASE)[0].strip()
-        name = _title_case_name(name) if name else None
+            .intro-number {
+                min-height: 315px;
+            }
 
-        profile_url = None
-        if a and a.get("href"):
-            profile_url = a["href"]
-            if profile_url.startswith("/"):
-                profile_url = "https://www.parkrun.com.au" + profile_url
+            .tutorial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-        credits = _extract_credits(parkrunner_text)
+            .tutorial-card:last-child {
+                grid-column: 1 / -1;
+            }
 
-        roles_parts = [p.strip() for p in re.split(r"\s{2,}|\n|;", roles_cell.get_text("\n", strip=True)) if p.strip()]
-        seen = set()
-        roles_parts_dedup = []
-        for p in roles_parts:
-            if p not in seen:
-                seen.add(p)
-                roles_parts_dedup.append(p)
-        roles_joined = "; ".join(roles_parts_dedup) if roles_parts_dedup else roles_text
+            .dashboard-section,
+            .tutorial-section {
+                padding: 90px 0;
+            }
+        }
 
-        records.append({
-            **meta,
-            "Parkrunner": name,
-            "VolunteerCredits": credits,
-            "VolunteerRoles": roles_joined,
-            "Group": group_text,
-            "ParkrunnerProfileURL": profile_url,
-            "RawParkrunnerCell": parkrunner_text,
-            "RawRolesCell": roles_text
-        })
+        @media (max-width: 600px) {
+            .page-width {
+                width: min(calc(100% - 28px), var(--page-width));
+            }
 
-    df = pd.DataFrame.from_records(records)
+            .navigation {
+                min-height: 70px;
+            }
 
-    if not df.empty and "Parkrunner" in df.columns:
-        df["Parkrunner"] = df["Parkrunner"].fillna("").apply(_collapse_ws).replace("", None)
+            .navigation-links {
+                top: 70px;
+                right: 14px;
+                left: 14px;
+            }
 
-    return df
+            .hero {
+                min-height: 640px;
+                align-items: flex-end;
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(10, 35, 28, 0.38) 0%,
+                        rgba(10, 35, 28, 0.62) 34%,
+                        rgba(10, 35, 28, 0.96) 100%
+                    ),
+                    url("southern-path-parkrun-hero.jpg")
+                    63% center / cover no-repeat;
+            }
 
-# -----------------------------
-# MAIN
-# -----------------------------
-if __name__ == "__main__":
-    # Pass EITHER:
-    # - latestresults url: https://www.parkrun.co.nz/SouthernPath/results/latestresults/
-    # - OR dated results url: https://www.parkrun.co.nz/SouthernPath/results/2026-07-04/
-    base_url = "https://www.parkrun.co.nz/SouthernPath/results/latestresults/"
-    if len(sys.argv) > 1 and sys.argv[1].strip():
-        base_url = sys.argv[1].strip()
+            .hero-content {
+                padding-top: 125px;
+                padding-bottom: 82px;
+            }
 
-    os.makedirs(OUT_DIR, exist_ok=True)
+            .hero h1 {
+                max-width: 430px;
+                font-size: clamp(3rem, 15vw, 4.5rem);
+            }
 
-    # Results URL can be latestresults or dated — both work for results/header.
-    results_url = base_url
+            .hero-description {
+                font-size: 0.98rem;
+                line-height: 1.7;
+            }
 
-    # Volunteers works best with dated results page.
-    dated_results_url = None
-    if "latestresults" in base_url and not _extract_event_date_from_url(base_url):
-        dated_results_url = _infer_dated_results_url_from_latest(base_url)
-    else:
-        dated_results_url = base_url
+            .hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
 
-    if dated_results_url:
-        volunteers_url = dated_results_url.rstrip("/") + "/#volunteers-table"
-    else:
-        volunteers_url = base_url.rstrip("/") + "/#volunteers-table"
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
 
-    # 1) RESULTS
-    df_results = fetch_results(results_url)
-    df_results.to_csv(OUT_RESULTS_CSV, index=False, encoding="utf-8-sig")
-    print(f"Saved results: {OUT_RESULTS_CSV}")
-    print(df_results.head(10).to_string(index=False))
+            .intro-section {
+                padding: 75px 0 85px;
+            }
 
-    # 2) VOLUNTEERS
-    df_vols = scrape_volunteers(volunteers_url)
-    df_vols.to_csv(OUT_VOLUNTEERS_CSV, index=False, encoding="utf-8-sig")
-    print(f"\nSaved volunteers: {OUT_VOLUNTEERS_CSV}")
-    print(df_vols.head(30).to_string(index=False))
+            .intro-number {
+                min-height: 270px;
+            }
 
-    # 3) EVENT HEADER
-    df_header = scrape_event_header(results_url)
-    df_header.to_csv(OUT_HEADER_CSV, index=False, encoding="utf-8-sig")
-    print(f"\nSaved header: {OUT_HEADER_CSV}")
-    print(df_header.to_string(index=False))
+            .intro-copy h2 {
+                font-size: 2.35rem;
+            }
+
+            .section-heading {
+                margin-bottom: 38px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorial-card,
+            .tutorial-card:last-child {
+                min-height: auto;
+                grid-column: auto;
+            }
+
+            .dashboard-shell {
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .dashboard-toolbar {
+                padding: 12px 10px 17px;
+            }
+
+            .dashboard-frame {
+                min-height: 610px;
+                border-radius: 14px;
+                aspect-ratio: auto;
+            }
+
+            .dashboard-tip {
+                padding: 16px;
+                font-size: 0.82rem;
+            }
+
+            .closing-section {
+                padding: 90px 0;
+            }
+
+            .closing-content h2 {
+                font-size: 2.65rem;
+            }
+
+            .closing-tagline {
+                gap: 8px;
+                padding: 12px 15px;
+                font-size: 0.7rem;
+            }
+
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 46px;
+                height: 46px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <nav
+            class="navigation page-width"
+            aria-label="Main navigation"
+        >
+            <a
+                class="brand"
+                href="#top"
+                aria-label="Southern Path parkrun home"
+            >
+                Southern Path <span>parkrun</span>
+            </a>
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="navigationLinks"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                >
+                    <path d="M4 7h16"></path>
+                    <path d="M4 12h16"></path>
+                    <path d="M4 17h16"></path>
+                </svg>
+            </button>
+
+            <ul
+                class="navigation-links"
+                id="navigationLinks"
+            >
+                <li>
+                    <a href="#about">About</a>
+                </li>
+
+                <li>
+                    <a href="#how-to">How to use it</a>
+                </li>
+
+                <li>
+                    <a href="#report">Explore the report</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="top">
+
+        <section class="hero">
+            <div class="page-width">
+                <div class="hero-content">
+                    <div class="eyebrow">
+                        Interactive event report
+                    </div>
+
+                    <h1>
+                        Southern Path
+                        <span>parkrun</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Explore the event through interactive statistics,
+                        participant insights, milestones and stories hidden
+                        within the results.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a
+                            class="primary-button"
+                            href="#report"
+                        >
+                            Explore the report
+
+                            <svg
+                                class="button-icon"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="m13 6 6 6-6 6"></path>
+                            </svg>
+                        </a>
+
+                        <a
+                            class="secondary-button"
+                            href="#how-to"
+                        >
+                            Show me how it works
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="intro-section"
+            id="about"
+        >
+            <div class="page-width">
+                <div class="intro-grid">
+
+                    <div class="intro-number reveal">
+                        <div class="intro-number-inner">
+                            <strong>5K</strong>
+                            <span>One event. Many stories.</span>
+                        </div>
+                    </div>
+
+                    <div class="intro-copy reveal">
+                        <div class="eyebrow">
+                            Beyond the finish line
+                        </div>
+
+                        <h2>
+                            Explore more than just the finishing times.
+                        </h2>
+
+                        <p>
+                            Every parkrun result tells part of a much bigger
+                            story. This interactive report brings together the
+                            numbers, achievements and patterns from Southern
+                            Path parkrun in one easy-to-explore place.
+                        </p>
+
+                        <p>
+                            Use the report to discover age groups, clubs,
+                            milestones, participation trends and individual
+                            results. Select almost anything you see to explore
+                            the event from a different angle.
+                        </p>
+
+                        <div class="intro-note">
+                            <div class="intro-note-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 11v5"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <strong>A one-off event feature</strong>
+
+                                <p>
+                                    This report has been created as a special
+                                    interactive look at Southern Path parkrun.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="tutorial-section"
+            id="how-to"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+                    <div class="eyebrow">
+                        Quick tutorial
+                    </div>
+
+                    <h2>
+                        Click, filter and explore.
+                    </h2>
+
+                    <p>
+                        The report is fully interactive. Here are five quick
+                        ways to get the most out of it.
+                    </p>
+                </div>
+
+                <div class="tutorial-grid">
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">01</div>
+
+                        <h3>Select a category</h3>
+
+                        <p>
+                            Click an age group, club, milestone or chart item
+                            to filter the rest of the report.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">02</div>
+
+                        <h3>Choose a table row</h3>
+
+                        <p>
+                            Select a participant or result to highlight the
+                            related information across the page.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">03</div>
+
+                        <h3>Hover for detail</h3>
+
+                        <p>
+                            Move your cursor over charts and data points to
+                            reveal additional information.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+   			<div class="step-number">04</div>
+
+    			<h3>Use the KPI cards</h3>
+
+    			<p>
+        		    Select the KPI cards across the top row of the report to move
+        		    between the different report pages.
+    			</p>
+		     </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">05</div>
+
+                        <h3>Reset your selections</h3>
+
+                        <p>
+                            Use the reset button in the bottom-right corner of
+                            the report to clear selections and start again.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="dashboard-section"
+            id="report"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+                    <div class="eyebrow">
+                        Southern Path parkrun
+                    </div>
+
+                    <h2>
+                        Explore the event report.
+                    </h2>
+
+                    <p>
+                        Select charts, categories and table rows to uncover
+                        different stories within the event data.
+                    </p>
+                </div>
+
+                <div class="dashboard-shell reveal">
+
+                    <div class="dashboard-toolbar">
+                        <div class="dashboard-label">
+                            <span
+                                class="dashboard-status"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div>
+                                <strong>Interactive Power BI report</strong>
+                                <span>Southern Path parkrun</span>
+                            </div>
+                        </div>
+
+                        <div
+                            class="dashboard-decoration"
+                            aria-hidden="true"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-frame">
+                        <iframe
+                            title="Southern Path parkrun"
+                            src="https://app.powerbi.com/view?r=eyJrIjoiYTEyMTcxZDEtYzUwMC00NDU2LThhM2ItNTQxMDI5YTdhOTRiIiwidCI6ImFkNWEwYmM3LWM4YjMtNDMzNC04NzNlLWJkODQ1NzMxMGIzZSJ9"
+                            frameborder="0"
+                            allowfullscreen="true"
+                        ></iframe>
+                    </div>
+
+                </div>
+
+<div class="dashboard-tip reveal">
+    <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.8.6 1.3V16h6v-.9c0-.5.2-1 .6-1.3A6 6 0 0 0 12 3Z"></path>
+        <path d="M9 20h6"></path>
+        <path d="M10 16v1"></path>
+        <path d="M14 16v1"></path>
+    </svg>
+
+    <p>
+        <strong>Tip:</strong>
+        For the best experience on mobile, rotate your phone to landscape
+        before exploring the report.
+    </p>
+</div>
+        </section>
+
+        <section class="closing-section">
+            <div class="page-width">
+                <div class="closing-content reveal">
+
+                    <div class="eyebrow">
+                        Thanks for visiting
+                    </div>
+
+                    <h2>
+                        There is a story behind every result.
+                    </h2>
+
+                    <p>
+                        Whether you are checking a result, celebrating a
+                        milestone, comparing performances or simply exploring
+                        the event, enjoy discovering the stories hidden within
+                        the Southern Path parkrun data.
+                    </p>
+
+                    <div class="closing-tagline">
+                        Scan. <span>Explore.</span> Nerd out.
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="page-width">
+            <p>
+                Made with ❤️ by
+                <a
+                    href="https://datawithandrea.com.au"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Data with Andrea
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <button
+        class="scroll-top"
+        id="scrollTopButton"
+        type="button"
+        aria-label="Scroll back to the top"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
+
+    <script>
+        const menuButton = document.getElementById("menuButton");
+        const navigationLinks =
+            document.getElementById("navigationLinks");
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navigationLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            document.body.classList.toggle(
+                "menu-open",
+                isOpen
+            );
+        });
+
+        navigationLinks
+            .querySelectorAll("a")
+            .forEach((link) => {
+                link.addEventListener("click", () => {
+                    navigationLinks.classList.remove("open");
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+                });
+            });
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.12
+            }
+        );
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+
+        const scrollTopButton =
+            document.getElementById("scrollTopButton");
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                scrollTopButton.classList.toggle(
+                    "visible",
+                    window.scrollY > 600
+                );
+            },
+            {
+                passive: true
+            }
+        );
+
+        scrollTopButton.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+
+</body>
+</html>
