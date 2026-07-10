@@ -32,48 +32,42 @@
     >
 
     <style>
-:root {
-    /* Main earthy palette */
-    --earth-dark: #3b4638;
-    --earth: #6f7f67;
-    --sage: #aab5a0;
-    --sage-light: #dce3d7;
-    --cream: #f4efe6;
-    --sand: #d8c5a4;
-    --clay: #b8755c;
-    --clay-light: #cf947d;
-    --charcoal: #292f29;
-    --text: #626961;
-    --white: #ffffff;
-    --border: rgba(59, 70, 56, 0.14);
+        :root {
+            --forest-deep: #102d28;
+            --forest-dark: #173b35;
+            --forest: #245047;
+            --forest-soft: #42675f;
 
-    /* Existing variable names used throughout the HTML */
-    --green-dark: #3b4638;
-    --green: #6f7f67;
-    --green-mid: #87947d;
-    --green-light: #dce3d7;
-    --green-pale: #f4efe6;
+            --copper: #c57b57;
+            --copper-dark: #aa6244;
+            --copper-light: #d99a7b;
 
-    --lime: #b8755c;
-    --lime-light: #cf947d;
+            --ivory: #f8f5ef;
+            --linen: #fdfbf8;
+            --stone: #e9e2d8;
+            --stone-light: #f1ece4;
 
-    --off-white: #f7f3ec;
-    --error: #a34f43;
-    --error-light: #fff1ee;
+            --charcoal: #242a27;
+            --text: #626963;
+            --white: #ffffff;
 
-    /* Layout and shadows */
-    --shadow:
-        0 22px 65px rgba(59, 70, 56, 0.13);
+            --border: rgba(23, 59, 53, 0.13);
+            --border-light: rgba(255, 255, 255, 0.13);
 
-    --shadow-small:
-        0 12px 34px rgba(59, 70, 56, 0.09);
+            --error: #a4473f;
 
-    --radius-large: 30px;
-    --radius-medium: 20px;
-    --radius-small: 14px;
+            --shadow:
+                0 24px 70px rgba(16, 45, 40, 0.14);
 
-    --page-width: 1180px;
-}
+            --shadow-small:
+                0 14px 38px rgba(16, 45, 40, 0.09);
+
+            --radius-large: 30px;
+            --radius-medium: 20px;
+            --radius-small: 14px;
+
+            --page-width: 1180px;
+        }
 
         * {
             box-sizing: border-box;
@@ -88,7 +82,7 @@
         body {
             min-width: 320px;
             overflow-x: hidden;
-            background: var(--off-white);
+            background: var(--ivory);
             color: var(--charcoal);
             font-family: "Manrope", sans-serif;
             line-height: 1.6;
@@ -127,10 +121,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.13);
-            background: rgba(10, 35, 28, 0.18);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+            background: rgba(16, 45, 40, 0.22);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         .navigation {
@@ -142,46 +136,30 @@
         }
 
         .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 11px;
             color: var(--white);
             font-size: 1rem;
             font-weight: 800;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.035em;
             text-decoration: none;
         }
 
-        .brand-mark {
-            display: flex;
-            width: 34px;
-            height: 34px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--lime);
-            color: var(--green-dark);
-            font-size: 0.78rem;
-            font-weight: 800;
-        }
-
-        .brand span:last-child {
-            color: var(--lime);
+        .brand span {
+            color: var(--copper-light);
         }
 
         .navigation-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            color: rgba(255, 255, 255, 0.86);
+            color: rgba(255, 255, 255, 0.88);
             font-size: 0.86rem;
             font-weight: 700;
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
-        .navigation-link:hover {
-            color: var(--lime);
+        .navigation-link:hover,
+        .navigation-link:focus-visible {
+            color: var(--copper-light);
         }
 
         /* Hero */
@@ -193,17 +171,18 @@
             align-items: center;
             overflow: hidden;
             isolation: isolate;
+
             background:
                 radial-gradient(
-                    circle at 79% 24%,
-                    rgba(185, 212, 50, 0.17),
-                    transparent 29%
+                    circle at 83% 22%,
+                    rgba(197, 123, 87, 0.13),
+                    transparent 28%
                 ),
                 linear-gradient(
                     145deg,
-                    #0f3028 0%,
-                    #17483b 54%,
-                    #215a49 100%
+                    #0d2924 0%,
+                    #173b35 55%,
+                    #265248 100%
                 );
         }
 
@@ -211,10 +190,10 @@
             position: absolute;
             z-index: -1;
             top: -170px;
-            right: -130px;
+            right: -120px;
             width: 560px;
             height: 560px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 50%;
             content: "";
         }
@@ -224,8 +203,8 @@
             right: 0;
             bottom: -1px;
             left: 0;
-            height: 115px;
-            background: var(--off-white);
+            height: 105px;
+            background: var(--ivory);
             clip-path: polygon(0 78%, 100% 10%, 100% 100%, 0 100%);
             content: "";
         }
@@ -233,10 +212,10 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            width: min(860px, 100%);
+            width: min(880px, 100%);
             margin: 0 auto;
-            padding-top: 105px;
-            padding-bottom: 105px;
+            padding-top: 112px;
+            padding-bottom: 110px;
             text-align: center;
         }
 
@@ -245,10 +224,10 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 22px;
-            color: var(--lime);
-            font-size: 0.78rem;
+            color: var(--copper-light);
+            font-size: 0.77rem;
             font-weight: 800;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.17em;
             text-transform: uppercase;
         }
 
@@ -262,22 +241,24 @@
         }
 
         .hero h1 {
-            margin-bottom: 22px;
+            max-width: 840px;
+            margin: 0 auto 24px;
             color: var(--white);
-            font-size: clamp(3rem, 7vw, 6.2rem);
+            font-size: clamp(3rem, 7vw, 6.15rem);
             font-weight: 800;
             letter-spacing: -0.075em;
             line-height: 0.98;
         }
 
         .hero h1 span {
-            color: var(--lime);
+            display: block;
+            color: var(--copper-light);
         }
 
         .hero-description {
             max-width: 710px;
-            margin: 0 auto 38px;
-            color: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 40px;
+            color: rgba(255, 255, 255, 0.79);
             font-size: clamp(1rem, 2vw, 1.13rem);
             line-height: 1.75;
         }
@@ -286,7 +267,8 @@
 
         .search-area {
             position: relative;
-            max-width: 760px;
+            z-index: 3;
+            max-width: 780px;
             margin: 0 auto;
             text-align: left;
         }
@@ -296,11 +278,11 @@
             align-items: center;
             gap: 14px;
             padding: 11px 13px 11px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.24);
+            border: 1px solid rgba(255, 255, 255, 0.34);
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.97);
+            background: rgba(255, 255, 255, 0.98);
             box-shadow:
-                0 24px 55px rgba(0, 0, 0, 0.22);
+                0 26px 65px rgba(0, 0, 0, 0.24);
         }
 
         .search-field-row {
@@ -315,7 +297,7 @@
             width: 22px;
             min-width: 22px;
             height: 22px;
-            color: var(--green);
+            color: var(--forest);
         }
 
         .search-input {
@@ -330,30 +312,32 @@
         }
 
         .search-input::placeholder {
-            color: #87948f;
+            color: #929a95;
         }
 
         .search-button {
             display: inline-flex;
-            min-width: 120px;
+            min-width: 124px;
             min-height: 48px;
             flex-shrink: 0;
             align-items: center;
             justify-content: center;
             border: 0;
             border-radius: 999px;
-            background: var(--lime);
-            color: #183126;
+            background: var(--copper);
+            color: var(--white);
             font-size: 0.86rem;
             font-weight: 800;
             cursor: pointer;
             transition:
                 transform 0.22s ease,
-                background 0.22s ease;
+                background 0.22s ease,
+                box-shadow 0.22s ease;
         }
 
         .search-button:hover {
-            background: var(--lime-light);
+            background: var(--copper-dark);
+            box-shadow: 0 10px 24px rgba(170, 98, 68, 0.25);
             transform: translateY(-2px);
         }
 
@@ -361,11 +345,10 @@
             display: none;
             margin-top: 14px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid var(--border);
             border-radius: var(--radius-medium);
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow:
-                0 24px 55px rgba(0, 0, 0, 0.22);
+            background: rgba(255, 255, 255, 0.99);
+            box-shadow: var(--shadow);
         }
 
         .search-results.visible {
@@ -389,14 +372,14 @@
 
         .result-item:hover,
         .result-item:focus-visible {
-            background: var(--green-pale);
+            background: var(--stone-light);
         }
 
         .result-name {
             display: block;
             margin-bottom: 3px;
-            color: var(--green-dark);
-            font-size: 0.95rem;
+            color: var(--forest-dark);
+            font-size: 0.96rem;
             font-weight: 800;
         }
 
@@ -407,11 +390,11 @@
 
         .result-action {
             display: inline-flex;
-            min-width: 100px;
+            min-width: 110px;
             align-items: center;
             justify-content: center;
             gap: 7px;
-            color: var(--green);
+            color: var(--copper-dark);
             font-size: 0.8rem;
             font-weight: 800;
             white-space: nowrap;
@@ -425,12 +408,11 @@
         .no-result {
             display: none;
             margin-top: 14px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border: 1px solid var(--border);
             border-radius: var(--radius-medium);
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow:
-                0 24px 55px rgba(0, 0, 0, 0.22);
+            background: rgba(255, 255, 255, 0.99);
+            box-shadow: var(--shadow);
             text-align: center;
         }
 
@@ -440,7 +422,7 @@
 
         .no-result h2 {
             margin-bottom: 7px;
-            color: var(--green-dark);
+            color: var(--forest-dark);
             font-size: 1.05rem;
             font-weight: 800;
         }
@@ -457,10 +439,10 @@
             align-items: center;
             justify-content: center;
             gap: 9px;
-            padding: 0 20px;
+            padding: 0 21px;
             border: 0;
             border-radius: 999px;
-            background: var(--green-dark);
+            background: var(--forest-dark);
             color: var(--white);
             font-size: 0.84rem;
             font-weight: 800;
@@ -471,13 +453,13 @@
         }
 
         .request-button:hover {
-            background: var(--green);
+            background: var(--forest);
             transform: translateY(-2px);
         }
 
         .search-note {
-            margin-top: 14px;
-            color: rgba(255, 255, 255, 0.58);
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.56);
             font-size: 0.76rem;
             text-align: center;
         }
@@ -485,23 +467,24 @@
         /* How it works */
 
         .how-section {
-            padding: 90px 0 115px;
+            padding: 100px 0 125px;
+            background: var(--ivory);
         }
 
         .section-heading {
-            max-width: 720px;
-            margin: 0 auto 52px;
+            max-width: 730px;
+            margin: 0 auto 54px;
             text-align: center;
         }
 
         .section-heading .eyebrow {
             margin-bottom: 15px;
-            color: var(--green);
+            color: var(--copper);
         }
 
         .section-heading h2 {
             margin-bottom: 16px;
-            color: var(--green-dark);
+            color: var(--forest-dark);
             font-size: clamp(2.1rem, 5vw, 3.7rem);
             font-weight: 800;
             letter-spacing: -0.055em;
@@ -523,11 +506,21 @@
         .step-card {
             position: relative;
             overflow: hidden;
-            padding: 34px 28px;
+            padding: 35px 29px;
             border: 1px solid var(--border);
             border-radius: var(--radius-medium);
-            background: var(--white);
+            background: var(--linen);
             box-shadow: var(--shadow-small);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .step-card:hover {
+            border-color: rgba(197, 123, 87, 0.35);
+            box-shadow: var(--shadow);
+            transform: translateY(-7px);
         }
 
         .step-card::after {
@@ -537,7 +530,7 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            background: var(--green-pale);
+            background: var(--stone-light);
             content: "";
         }
 
@@ -551,8 +544,8 @@
             justify-content: center;
             margin-bottom: 22px;
             border-radius: 50%;
-            background: var(--green-dark);
-            color: var(--lime);
+            background: var(--forest-dark);
+            color: var(--copper-light);
             font-size: 0.83rem;
             font-weight: 800;
         }
@@ -561,7 +554,7 @@
             position: relative;
             z-index: 2;
             margin-bottom: 10px;
-            color: var(--green-dark);
+            color: var(--forest-dark);
             font-size: 1.05rem;
             font-weight: 800;
         }
@@ -577,28 +570,46 @@
         /* Future section */
 
         .future-section {
-            padding: 110px 0;
+            position: relative;
             overflow: hidden;
+            padding: 115px 0;
             background:
                 radial-gradient(
-                    circle at 82% 22%,
-                    rgba(185, 212, 50, 0.14),
-                    transparent 28%
+                    circle at 86% 18%,
+                    rgba(197, 123, 87, 0.13),
+                    transparent 27%
                 ),
-                var(--green-dark);
+                linear-gradient(
+                    145deg,
+                    #173b35 0%,
+                    #102d28 100%
+                );
             color: var(--white);
         }
 
+        .future-section::before {
+            position: absolute;
+            bottom: -220px;
+            left: -180px;
+            width: 480px;
+            height: 480px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            content: "";
+        }
+
         .future-content {
+            position: relative;
+            z-index: 2;
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1.1fr 0.9fr;
             align-items: center;
-            gap: 70px;
+            gap: 76px;
         }
 
         .future-copy .eyebrow {
             margin-bottom: 17px;
-            color: var(--lime);
+            color: var(--copper-light);
         }
 
         .future-copy .eyebrow::after {
@@ -606,60 +617,62 @@
         }
 
         .future-copy h2 {
+            max-width: 650px;
             margin-bottom: 20px;
-            font-size: clamp(2.1rem, 5vw, 4rem);
+            font-size: clamp(2.2rem, 5vw, 4rem);
             font-weight: 800;
             letter-spacing: -0.06em;
             line-height: 1.06;
         }
 
         .future-copy p {
-            max-width: 650px;
-            color: rgba(255, 255, 255, 0.76);
+            max-width: 670px;
+            color: rgba(255, 255, 255, 0.73);
             font-size: 1rem;
             line-height: 1.8;
         }
 
         .future-panel {
-            padding: 30px;
+            padding: 32px;
             border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: var(--radius-medium);
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.065);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         .future-panel strong {
             display: block;
             margin-bottom: 10px;
-            color: var(--lime);
-            font-size: 0.86rem;
-            letter-spacing: 0.08em;
+            color: var(--copper-light);
+            font-size: 0.84rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         .future-panel p {
-            margin-bottom: 22px;
-            color: rgba(255, 255, 255, 0.76);
+            margin-bottom: 23px;
+            color: rgba(255, 255, 255, 0.74);
             font-size: 0.88rem;
             line-height: 1.7;
         }
 
         .future-panel .request-button {
             width: 100%;
-            background: var(--lime);
-            color: #173027;
+            background: var(--copper);
+            color: var(--white);
         }
 
         .future-panel .request-button:hover {
-            background: var(--lime-light);
+            background: var(--copper-dark);
         }
 
         /* Footer */
 
         .site-footer {
-            padding: 30px 0;
-            background: #0e2b23;
+            padding: 31px 0;
+            background: #0b211d;
             color: rgba(255, 255, 255, 0.6);
             text-align: center;
         }
@@ -682,12 +695,12 @@
         }
 
         .site-footer a:hover {
-            color: var(--lime);
+            color: var(--copper-light);
         }
 
         .disclaimer {
             max-width: 700px;
-            color: rgba(255, 255, 255, 0.42);
+            color: rgba(255, 255, 255, 0.38);
             font-size: 0.68rem;
             line-height: 1.55;
         }
@@ -702,9 +715,9 @@
             align-items: center;
             justify-content: center;
             padding: 24px;
-            background: rgba(8, 26, 21, 0.76);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(7, 24, 21, 0.8);
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
         }
 
         .modal-overlay.open {
@@ -717,8 +730,8 @@
             max-height: min(88vh, 900px);
             overflow-y: auto;
             border-radius: var(--radius-large);
-            background: var(--white);
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+            background: var(--linen);
+            box-shadow: 0 32px 95px rgba(0, 0, 0, 0.38);
         }
 
         .modal-header {
@@ -731,13 +744,15 @@
             gap: 24px;
             padding: 30px 32px 24px;
             border-bottom: 1px solid var(--border);
-            background: var(--white);
+            background: rgba(253, 251, 248, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .modal-heading span {
             display: block;
             margin-bottom: 7px;
-            color: var(--green);
+            color: var(--copper-dark);
             font-size: 0.73rem;
             font-weight: 800;
             letter-spacing: 0.13em;
@@ -746,7 +761,7 @@
 
         .modal-heading h2 {
             margin-bottom: 7px;
-            color: var(--green-dark);
+            color: var(--forest-dark);
             font-size: clamp(1.6rem, 4vw, 2.3rem);
             font-weight: 800;
             letter-spacing: -0.045em;
@@ -768,13 +783,13 @@
             justify-content: center;
             border: 0;
             border-radius: 50%;
-            background: var(--green-pale);
-            color: var(--green-dark);
+            background: var(--stone-light);
+            color: var(--forest-dark);
             cursor: pointer;
         }
 
         .modal-close:hover {
-            background: var(--green-light);
+            background: var(--stone);
         }
 
         .modal-close svg {
@@ -803,7 +818,7 @@
         }
 
         .form-group label {
-            color: var(--green-dark);
+            color: var(--forest-dark);
             font-size: 0.8rem;
             font-weight: 800;
         }
@@ -818,7 +833,7 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             outline: none;
-            background: var(--off-white);
+            background: var(--ivory);
             color: var(--charcoal);
             padding: 0 15px;
             transition:
@@ -834,9 +849,9 @@
         }
 
         .form-control:focus {
-            border-color: var(--green-mid);
+            border-color: var(--copper);
             background: var(--white);
-            box-shadow: 0 0 0 4px rgba(47, 118, 95, 0.11);
+            box-shadow: 0 0 0 4px rgba(197, 123, 87, 0.12);
         }
 
         .checkbox-group {
@@ -846,7 +861,7 @@
             padding: 16px;
             border: 1px solid var(--border);
             border-radius: 12px;
-            background: var(--green-pale);
+            background: var(--stone-light);
         }
 
         .checkbox-group input {
@@ -854,7 +869,7 @@
             min-width: 18px;
             height: 18px;
             margin-top: 2px;
-            accent-color: var(--green);
+            accent-color: var(--copper);
         }
 
         .checkbox-group label {
@@ -867,9 +882,9 @@
         .form-note {
             margin-top: 22px;
             padding: 15px 17px;
-            border-left: 4px solid var(--lime);
+            border-left: 4px solid var(--copper);
             border-radius: 0 10px 10px 0;
-            background: var(--green-pale);
+            background: var(--stone-light);
             color: var(--text);
             font-size: 0.77rem;
             line-height: 1.6;
@@ -885,7 +900,7 @@
             margin-top: 22px;
             border: 0;
             border-radius: 999px;
-            background: var(--green-dark);
+            background: var(--forest-dark);
             color: var(--white);
             font-size: 0.87rem;
             font-weight: 800;
@@ -896,7 +911,7 @@
         }
 
         .submit-button:hover {
-            background: var(--green);
+            background: var(--forest);
             transform: translateY(-2px);
         }
 
@@ -929,7 +944,7 @@
 
             .future-content {
                 grid-template-columns: 1fr;
-                gap: 38px;
+                gap: 40px;
             }
         }
 
@@ -943,12 +958,7 @@
             }
 
             .brand {
-                font-size: 0.9rem;
-            }
-
-            .brand-mark {
-                width: 31px;
-                height: 31px;
+                font-size: 0.91rem;
             }
 
             .navigation-link {
@@ -964,8 +974,8 @@
             }
 
             .hero-content {
-                padding-top: 110px;
-                padding-bottom: 80px;
+                padding-top: 112px;
+                padding-bottom: 84px;
             }
 
             .hero h1 {
@@ -981,7 +991,7 @@
 
             .search-field-row {
                 width: 100%;
-                padding: 3px 7px;
+                padding: 4px 7px;
             }
 
             .search-button {
@@ -999,11 +1009,11 @@
             }
 
             .how-section {
-                padding: 75px 0 90px;
+                padding: 80px 0 95px;
             }
 
             .future-section {
-                padding: 85px 0;
+                padding: 90px 0;
             }
 
             .modal-overlay {
@@ -1067,11 +1077,7 @@
                 href="./"
                 aria-label="Event Insights home"
             >
-                <span class="brand-mark">EI</span>
-
-                <span>
-                    Event <span>Insights</span>
-                </span>
+                Event <span>Insights</span>
             </a>
 
             <a
@@ -1186,6 +1192,7 @@
             <div class="page-width">
 
                 <div class="section-heading reveal">
+
                     <div class="eyebrow">
                         How it works
                     </div>
@@ -1198,6 +1205,7 @@
                         Find an available event report or request a custom
                         interactive dashboard for a specific event date.
                     </p>
+
                 </div>
 
                 <div class="steps-grid">
@@ -1237,6 +1245,7 @@
                     </article>
 
                 </div>
+
             </div>
         </section>
 
@@ -1246,6 +1255,7 @@
                 <div class="future-content">
 
                     <div class="future-copy reveal">
+
                         <div class="eyebrow">
                             Looking ahead
                         </div>
@@ -1260,9 +1270,11 @@
                             teams can register their interest now without
                             making any commitment.
                         </p>
+
                     </div>
 
                     <div class="future-panel reveal">
+
                         <strong>Register your interest</strong>
 
                         <p>
@@ -1277,6 +1289,7 @@
                         >
                             Open request form
                         </button>
+
                     </div>
 
                 </div>
@@ -1320,6 +1333,7 @@
             <div class="modal-header">
 
                 <div class="modal-heading">
+
                     <span>Event dashboard request</span>
 
                     <h2 id="requestModalTitle">
@@ -1330,6 +1344,7 @@
                         Submit a request for a one-off report or register
                         interest in a future ongoing dashboard.
                     </p>
+
                 </div>
 
                 <button
@@ -1362,6 +1377,7 @@
                 <div class="form-grid">
 
                     <div class="form-group">
+
                         <label for="eventName">
                             Event name <span>*</span>
                         </label>
@@ -1374,9 +1390,11 @@
                             required
                             placeholder="e.g. New Farm parkrun"
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="eventLocation">
                             Location and country <span>*</span>
                         </label>
@@ -1389,9 +1407,11 @@
                             required
                             placeholder="e.g. Brisbane, Australia"
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="requestedDate">
                             Requested event date
                         </label>
@@ -1402,9 +1422,11 @@
                             name="requested_event_date"
                             type="date"
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="requestType">
                             Request type <span>*</span>
                         </label>
@@ -1431,9 +1453,11 @@
                                 Both
                             </option>
                         </select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="requesterName">
                             Your name <span>*</span>
                         </label>
@@ -1446,9 +1470,11 @@
                             required
                             placeholder="Your name"
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="email">
                             Email address <span>*</span>
                         </label>
@@ -1461,9 +1487,11 @@
                             required
                             placeholder="name@example.com"
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="relationship">
                             Relationship to the event <span>*</span>
                         </label>
@@ -1502,9 +1530,11 @@
                                 Other
                             </option>
                         </select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="approvalStatus">
                             Event team approval <span>*</span>
                         </label>
@@ -1535,9 +1565,11 @@
                                 Not applicable
                             </option>
                         </select>
+
                     </div>
 
                     <div class="form-group full-width">
+
                         <label for="dashboardIdeas">
                             What would you like included?
                         </label>
@@ -1548,10 +1580,13 @@
                             name="dashboard_ideas"
                             placeholder="Tell us about the results, milestones, statistics or stories you would like explored."
                         ></textarea>
+
                     </div>
 
                     <div class="form-group full-width">
+
                         <div class="checkbox-group">
+
                             <input
                                 id="futureInterest"
                                 name="future_ongoing_interest"
@@ -1563,10 +1598,13 @@
                                 I may be interested in an automatically updated
                                 dashboard for this event in the future.
                             </label>
+
                         </div>
+
                     </div>
 
                     <div class="form-group full-width">
+
                         <label for="comments">
                             Additional comments
                         </label>
@@ -1577,6 +1615,7 @@
                             name="additional_comments"
                             placeholder="Anything else you would like us to know?"
                         ></textarea>
+
                     </div>
 
                 </div>
@@ -1766,9 +1805,7 @@
         function openRequestModal() {
             const searchedEvent = eventSearch.value.trim();
 
-            if (
-                searchedEvent.length >= minimumSearchLength
-            ) {
+            if (searchedEvent.length >= minimumSearchLength) {
                 eventNameField.value = searchedEvent;
             }
 
@@ -1846,19 +1883,25 @@
         const revealElements =
             document.querySelectorAll(".reveal");
 
-        const revealObserver = new IntersectionObserver(
-            (entries, observer) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                threshold: 0.12
-            }
-        );
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12
+                }
+            );
 
         revealElements.forEach((element) => {
             revealObserver.observe(element);
