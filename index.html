@@ -2,38 +2,1754 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
+    <meta
+        name="description"
+        content="Search for an interactive parkrun event report or request a dashboard for your event."
+    >
+
     <title>parkrun Reports | Data with Andrea</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --green-dark: #153f34;
+            --green: #2f765f;
+            --green-mid: #438c75;
+            --green-light: #dcece5;
+            --green-pale: #f0f7f4;
+            --lime: #b9d432;
+            --lime-light: #d9e86f;
+            --charcoal: #1c2824;
+            --text: #53615c;
+            --white: #ffffff;
+            --off-white: #f7faf8;
+            --border: rgba(21, 63, 52, 0.14);
+            --error: #a33c3c;
+            --error-light: #fff1f1;
+            --shadow:
+                0 22px 65px rgba(15, 49, 40, 0.13);
+            --shadow-small:
+                0 12px 34px rgba(15, 49, 40, 0.09);
+            --radius-large: 30px;
+            --radius-medium: 20px;
+            --radius-small: 14px;
+            --page-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            overflow-x: hidden;
+            background: var(--off-white);
+            color: var(--charcoal);
+            font-family: "Manrope", sans-serif;
+            line-height: 1.6;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .page-width {
+            width: min(calc(100% - 48px), var(--page-width));
+            margin-inline: auto;
+        }
+
+        /* Header */
+
+        .site-header {
+            position: absolute;
+            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+            background: rgba(10, 35, 28, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .navigation {
+            display: flex;
+            min-height: 78px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: var(--lime);
+        }
+
+        .navigation-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.86);
+            font-size: 0.86rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .navigation-link:hover {
+            color: var(--lime);
+        }
+
+        /* Hero */
+
+        .hero {
+            position: relative;
+            display: flex;
+            min-height: 720px;
+            align-items: center;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                radial-gradient(
+                    circle at 79% 24%,
+                    rgba(185, 212, 50, 0.17),
+                    transparent 29%
+                ),
+                linear-gradient(
+                    145deg,
+                    #0f3028 0%,
+                    #17483b 54%,
+                    #215a49 100%
+                );
+        }
+
+        .hero::before {
+            position: absolute;
+            z-index: -1;
+            top: -170px;
+            right: -130px;
+            width: 560px;
+            height: 560px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .hero::after {
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            height: 115px;
+            background: var(--off-white);
+            clip-path: polygon(0 78%, 100% 10%, 100% 100%, 0 100%);
+            content: "";
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: min(820px, 100%);
+            margin: 0 auto;
+            padding-top: 105px;
+            padding-bottom: 105px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            color: var(--lime);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            width: 30px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: "";
+        }
+
+        .hero h1 {
+            margin-bottom: 22px;
+            color: var(--white);
+            font-size: clamp(3rem, 7vw, 6.2rem);
+            font-weight: 800;
+            letter-spacing: -0.075em;
+            line-height: 0.98;
+        }
+
+        .hero h1 span {
+            color: var(--lime);
+        }
+
+        .hero-description {
+            max-width: 690px;
+            margin: 0 auto 38px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(1rem, 2vw, 1.13rem);
+            line-height: 1.75;
+        }
+
+        /* Search */
+
+        .search-area {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .search-shell {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 13px 11px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow:
+                0 24px 55px rgba(0, 0, 0, 0.22);
+        }
+
+        .search-icon {
+            width: 22px;
+            min-width: 22px;
+            height: 22px;
+            color: var(--green);
+        }
+
+        .search-input {
+            width: 100%;
+            min-width: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: var(--charcoal);
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: #87948f;
+        }
+
+        .search-button {
+            display: inline-flex;
+            min-width: 120px;
+            min-height: 48px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 999px;
+            background: var(--lime);
+            color: #183126;
+            font-size: 0.86rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition:
+                transform 0.22s ease,
+                background 0.22s ease;
+        }
+
+        .search-button:hover {
+            background: var(--lime-light);
+            transform: translateY(-2px);
+        }
+
+        .search-results {
+            display: none;
+            margin-top: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-medium);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow:
+                0 24px 55px rgba(0, 0, 0, 0.22);
+        }
+
+        .search-results.visible {
+            display: block;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 20px 22px;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .result-item:last-child {
+            border-bottom: 0;
+        }
+
+        .result-item:hover {
+            background: var(--green-pale);
+        }
+
+        .result-name {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--green-dark);
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+
+        .result-description {
+            color: var(--text);
+            font-size: 0.79rem;
+        }
+
+        .result-action {
+            display: inline-flex;
+            min-width: 100px;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            color: var(--green);
+            font-size: 0.8rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .result-action svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .no-result {
+            display: none;
+            margin-top: 14px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-medium);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow:
+                0 24px 55px rgba(0, 0, 0, 0.22);
+            text-align: center;
+        }
+
+        .no-result.visible {
+            display: block;
+        }
+
+        .no-result h2 {
+            margin-bottom: 7px;
+            color: var(--green-dark);
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .no-result p {
+            margin-bottom: 18px;
+            color: var(--text);
+            font-size: 0.86rem;
+        }
+
+        .request-button {
+            display: inline-flex;
+            min-height: 48px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 0 20px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--green-dark);
+            color: var(--white);
+            font-size: 0.84rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .request-button:hover {
+            background: var(--green);
+            transform: translateY(-2px);
+        }
+
+        .search-note {
+            margin-top: 14px;
+            color: rgba(255, 255, 255, 0.56);
+            font-size: 0.76rem;
+            text-align: center;
+        }
+
+        /* How it works */
+
+        .how-section {
+            padding: 90px 0 115px;
+        }
+
+        .section-heading {
+            max-width: 720px;
+            margin: 0 auto 52px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 15px;
+            color: var(--green);
+        }
+
+        .section-heading h2 {
+            margin-bottom: 16px;
+            color: var(--green-dark);
+            font-size: clamp(2.1rem, 5vw, 3.7rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1.08;
+        }
+
+        .section-heading p {
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .step-card {
+            position: relative;
+            overflow: hidden;
+            padding: 34px 28px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .step-card::after {
+            position: absolute;
+            right: -55px;
+            bottom: -70px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--green-pale);
+            content: "";
+        }
+
+        .step-number {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            border-radius: 50%;
+            background: var(--green-dark);
+            color: var(--lime);
+            font-size: 0.83rem;
+            font-weight: 800;
+        }
+
+        .step-card h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 10px;
+            color: var(--green-dark);
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .step-card p {
+            position: relative;
+            z-index: 2;
+            color: var(--text);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        /* Future section */
+
+        .future-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    circle at 82% 22%,
+                    rgba(185, 212, 50, 0.14),
+                    transparent 28%
+                ),
+                var(--green-dark);
+            color: var(--white);
+        }
+
+        .future-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 70px;
+        }
+
+        .future-copy .eyebrow {
+            margin-bottom: 17px;
+            color: var(--lime);
+        }
+
+        .future-copy .eyebrow::after {
+            display: none;
+        }
+
+        .future-copy h2 {
+            margin-bottom: 20px;
+            font-size: clamp(2.1rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.06em;
+            line-height: 1.06;
+        }
+
+        .future-copy p {
+            max-width: 650px;
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .future-panel {
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: var(--radius-medium);
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .future-panel strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--lime);
+            font-size: 0.86rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .future-panel p {
+            margin-bottom: 22px;
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .future-panel .request-button {
+            width: 100%;
+            background: var(--lime);
+            color: #173027;
+        }
+
+        .future-panel .request-button:hover {
+            background: var(--lime-light);
+        }
+
+        /* Footer */
+
+        .site-footer {
+            padding: 28px 0;
+            background: #0e2b23;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-size: 0.81rem;
+        }
+
+        .site-footer a {
+            color: var(--white);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: var(--lime);
+        }
+
+        /* Modal */
+
+        .modal-overlay {
+            position: fixed;
+            z-index: 100;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(8, 26, 21, 0.76);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            position: relative;
+            width: min(760px, 100%);
+            max-height: min(88vh, 900px);
+            overflow-y: auto;
+            border-radius: var(--radius-large);
+            background: var(--white);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+        }
+
+        .modal-header {
+            position: sticky;
+            z-index: 4;
+            top: 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 30px 32px 24px;
+            border-bottom: 1px solid var(--border);
+            background: var(--white);
+        }
+
+        .modal-heading span {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--green);
+            font-size: 0.73rem;
+            font-weight: 800;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .modal-heading h2 {
+            margin-bottom: 7px;
+            color: var(--green-dark);
+            font-size: clamp(1.6rem, 4vw, 2.3rem);
+            font-weight: 800;
+            letter-spacing: -0.045em;
+            line-height: 1.12;
+        }
+
+        .modal-heading p {
+            color: var(--text);
+            font-size: 0.84rem;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            display: flex;
+            width: 42px;
+            min-width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: var(--green-pale);
+            color: var(--green-dark);
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: var(--green-light);
+        }
+
+        .modal-close svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .request-form {
+            padding: 30px 32px 36px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--green-dark);
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .form-group label span {
+            color: var(--error);
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 50px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--off-white);
+            color: var(--charcoal);
+            padding: 0 15px;
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+            padding-top: 13px;
+        }
+
+        .form-control:focus {
+            border-color: var(--green-mid);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(47, 118, 95, 0.11);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--green-pale);
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            min-width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--green);
+        }
+
+        .checkbox-group label {
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1.55;
+        }
+
+        .form-note {
+            margin-top: 22px;
+            padding: 15px 17px;
+            border-left: 4px solid var(--lime);
+            border-radius: 0 10px 10px 0;
+            background: var(--green-pale);
+            color: var(--text);
+            font-size: 0.77rem;
+            line-height: 1.6;
+        }
+
+        .submit-button {
+            display: inline-flex;
+            width: 100%;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 22px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--green-dark);
+            color: var(--white);
+            font-size: 0.87rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--green);
+            transform: translateY(-2px);
+        }
+
+        .submit-button svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Reveal animation */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition:
+                opacity 0.7s ease,
+                transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+
+        @media (max-width: 900px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .future-content {
+                grid-template-columns: 1fr;
+                gap: 38px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .page-width {
+                width: min(calc(100% - 28px), var(--page-width));
+            }
+
+            .navigation {
+                min-height: 70px;
+            }
+
+            .navigation-link {
+                font-size: 0.78rem;
+            }
+
+            .hero {
+                min-height: 690px;
+            }
+
+            .hero::after {
+                height: 72px;
+            }
+
+            .hero-content {
+                padding-top: 110px;
+                padding-bottom: 80px;
+            }
+
+            .hero h1 {
+                font-size: clamp(3rem, 15vw, 4.6rem);
+            }
+
+            .search-shell {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 14px;
+                border-radius: 22px;
+            }
+
+            .search-field-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 3px 7px;
+            }
+
+            .search-button {
+                width: 100%;
+            }
+
+            .result-item {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .result-action {
+                min-width: auto;
+            }
+
+            .how-section {
+                padding: 75px 0 90px;
+            }
+
+            .future-section {
+                padding: 85px 0;
+            }
+
+            .modal-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+
+            .modal {
+                width: 100%;
+                max-height: 94vh;
+                border-radius: 24px 24px 0 0;
+            }
+
+            .modal-header {
+                padding: 24px 20px 20px;
+            }
+
+            .request-form {
+                padding: 24px 20px 30px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Interactive parkrun Reports</h1>
 
-    <p>
-        Explore event statistics and stories through interactive reports.
-    </p>
-
-    <ul>
-        <li>
-            <a href="southernpathparkrun/">
-                Southern Path parkrun
+    <header class="site-header">
+        <nav class="navigation page-width">
+            <a
+                class="brand"
+                href="./"
+            >
+                parkrun <span>reports</span>
             </a>
-        </li>
 
-        <li>
-            <a href="jeuneparkparkrun/">
-                Jeune Park parkrun
+            <a
+                class="navigation-link"
+                href="https://datawithandrea.com.au"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Data with Andrea
             </a>
-        </li>
+        </nav>
+    </header>
 
-        <li>
-            <a href="westernspringsparkrun/">
-                Western Springs parkrun
-            </a>
-        </li>
-    </ul>
+    <main>
+
+        <section class="hero">
+            <div class="page-width">
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        Interactive event insights
+                    </div>
+
+                    <h1>
+                        Find your
+                        <span>parkrun report.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Search for an event to explore its interactive
+                        statistics, milestones, participation patterns and
+                        stories hidden within the results.
+                    </p>
+
+                    <div class="search-area">
+
+                        <div class="search-shell">
+
+                            <div class="search-field-row">
+                                <svg
+                                    class="search-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                >
+                                    <circle cx="11" cy="11" r="7"></circle>
+                                    <path d="m20 20-3.5-3.5"></path>
+                                </svg>
+
+                                <input
+                                    class="search-input"
+                                    id="eventSearch"
+                                    type="search"
+                                    placeholder="Start typing an event name..."
+                                    autocomplete="off"
+                                    aria-label="Search for a parkrun event"
+                                >
+                            </div>
+
+                            <button
+                                class="search-button"
+                                id="searchButton"
+                                type="button"
+                            >
+                                Search
+                            </button>
+
+                        </div>
+
+                        <div
+                            class="search-results"
+                            id="searchResults"
+                            aria-live="polite"
+                        ></div>
+
+                        <div
+                            class="no-result"
+                            id="noResult"
+                            aria-live="polite"
+                        >
+                            <h2 id="noResultHeading">
+                                We haven’t created that report yet.
+                            </h2>
+
+                            <p>
+                                Request a one-off dashboard for your event,
+                                or register your interest in an ongoing option.
+                            </p>
+
+                            <button
+                                class="request-button open-request-form"
+                                type="button"
+                            >
+                                Request an event dashboard
+                            </button>
+                        </div>
+
+                        <p class="search-note">
+                            Search results appear as you type.
+                        </p>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="how-section">
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+                    <div class="eyebrow">
+                        How it works
+                    </div>
+
+                    <h2>
+                        Search. Explore. Request.
+                    </h2>
+
+                    <p>
+                        Find an available report or request a custom
+                        interactive dashboard for a specific event date.
+                    </p>
+                </div>
+
+                <div class="steps-grid">
+
+                    <article class="step-card reveal">
+                        <div class="step-number">01</div>
+
+                        <h3>Search for your event</h3>
+
+                        <p>
+                            Enter the name of a parkrun event to check whether
+                            an interactive report is currently available.
+                        </p>
+                    </article>
+
+                    <article class="step-card reveal">
+                        <div class="step-number">02</div>
+
+                        <h3>Explore the data</h3>
+
+                        <p>
+                            Open an available report and interact with results,
+                            milestones, age groups, clubs and participant data.
+                        </p>
+                    </article>
+
+                    <article class="step-card reveal">
+                        <div class="step-number">03</div>
+
+                        <h3>Request a dashboard</h3>
+
+                        <p>
+                            If your event is not available, submit a request
+                            for a one-off event report or register future
+                            ongoing interest.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="future-section">
+            <div class="page-width">
+
+                <div class="future-content">
+
+                    <div class="future-copy reveal">
+                        <div class="eyebrow">
+                            Looking ahead
+                        </div>
+
+                        <h2>
+                            Interested in an ongoing event dashboard?
+                        </h2>
+
+                        <p>
+                            Future options may include dashboards that are
+                            refreshed regularly with new event data. Event
+                            teams can register their interest now without
+                            making any commitment.
+                        </p>
+                    </div>
+
+                    <div class="future-panel reveal">
+                        <strong>Register your interest</strong>
+
+                        <p>
+                            Tell us about your event, the type of report you
+                            would like and whether you may be interested in an
+                            ongoing option in the future.
+                        </p>
+
+                        <button
+                            class="request-button open-request-form"
+                            type="button"
+                        >
+                            Open request form
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="page-width">
+            <p>
+                Made with ❤️ by
+                <a
+                    href="https://datawithandrea.com.au"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Data with Andrea
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <div
+        class="modal-overlay"
+        id="requestModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="requestModalTitle"
+    >
+        <div class="modal">
+
+            <div class="modal-header">
+                <div class="modal-heading">
+                    <span>Dashboard request</span>
+
+                    <h2 id="requestModalTitle">
+                        Tell us about your event.
+                    </h2>
+
+                    <p>
+                        Submit a request for a one-off report or register
+                        interest in a future ongoing dashboard.
+                    </p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="closeModal"
+                    type="button"
+                    aria-label="Close request form"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    >
+                        <path d="M6 6l12 12"></path>
+                        <path d="M18 6 6 18"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form
+                class="request-form"
+                id="dashboardRequestForm"
+                action="https://formspree.io/f/mnjkevov"
+                method="POST"
+            >
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="eventName">
+                            Event name <span>*</span>
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="eventName"
+                            name="event_name"
+                            type="text"
+                            required
+                            placeholder="e.g. New Farm parkrun"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventLocation">
+                            Location and country <span>*</span>
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="eventLocation"
+                            name="event_location"
+                            type="text"
+                            required
+                            placeholder="e.g. Brisbane, Australia"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestedDate">
+                            Requested event date
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="requestedDate"
+                            name="requested_event_date"
+                            type="date"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestType">
+                            Request type <span>*</span>
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="requestType"
+                            name="request_type"
+                            required
+                        >
+                            <option value="">
+                                Select an option
+                            </option>
+
+                            <option value="One-off event dashboard">
+                                One-off event dashboard
+                            </option>
+
+                            <option value="Future ongoing dashboard interest">
+                                Future ongoing dashboard interest
+                            </option>
+
+                            <option value="Both">
+                                Both
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requesterName">
+                            Your name <span>*</span>
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="requesterName"
+                            name="requester_name"
+                            type="text"
+                            required
+                            placeholder="Your name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            Email address <span>*</span>
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            type="email"
+                            required
+                            placeholder="name@example.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relationship">
+                            Relationship to the event <span>*</span>
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="relationship"
+                            name="relationship_to_event"
+                            required
+                        >
+                            <option value="">
+                                Select an option
+                            </option>
+
+                            <option value="Event Director">
+                                Event Director
+                            </option>
+
+                            <option value="Run Director">
+                                Run Director
+                            </option>
+
+                            <option value="Core volunteer team">
+                                Core volunteer team
+                            </option>
+
+                            <option value="Volunteer">
+                                Volunteer
+                            </option>
+
+                            <option value="Regular participant">
+                                Regular participant
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="approvalStatus">
+                            Event team approval <span>*</span>
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="approvalStatus"
+                            name="event_team_approval"
+                            required
+                        >
+                            <option value="">
+                                Select an option
+                            </option>
+
+                            <option value="I am the Event Director">
+                                I am the Event Director
+                            </option>
+
+                            <option value="Discussed with Event Director">
+                                I have discussed this with the Event Director
+                            </option>
+
+                            <option value="Not yet discussed">
+                                I have not discussed this with the Event Director
+                            </option>
+
+                            <option value="Not applicable">
+                                Not applicable
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="dashboardIdeas">
+                            What would you like included?
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="dashboardIdeas"
+                            name="dashboard_ideas"
+                            placeholder="Tell us about the results, milestones, statistics or stories you would like explored."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <div class="checkbox-group">
+                            <input
+                                id="futureInterest"
+                                name="future_ongoing_interest"
+                                type="checkbox"
+                                value="Yes"
+                            >
+
+                            <label for="futureInterest">
+                                I may be interested in an automatically updated
+                                dashboard for this event in the future.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="comments">
+                            Additional comments
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="comments"
+                            name="additional_comments"
+                            placeholder="Anything else you would like us to know?"
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <input
+                    type="hidden"
+                    name="_subject"
+                    value="New parkrun dashboard request"
+                >
+
+                <input
+                    type="hidden"
+                    name="source_page"
+                    value="parkrun.datawithandrea.com.au"
+                >
+
+                <div class="form-note">
+                    Submitting this form is an expression of interest only.
+                    It does not guarantee availability, delivery or pricing.
+                </div>
+
+                <button
+                    class="submit-button"
+                    type="submit"
+                >
+                    Submit dashboard request
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M5 12h14"></path>
+                        <path d="m13 6 6 6-6 6"></path>
+                    </svg>
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        const events = [
+            {
+                name: "Southern Path parkrun",
+                description: "Interactive event report",
+                url: "southernpathparkrun/"
+            },
+            {
+                name: "Jeune Park parkrun",
+                description: "Interactive event report",
+                url: "jeuneparkparkrun/"
+            },
+            {
+                name: "Western Springs parkrun",
+                description: "Interactive event report",
+                url: "westernspringsparkrun/"
+            }
+        ];
+
+        const eventSearch =
+            document.getElementById("eventSearch");
+
+        const searchButton =
+            document.getElementById("searchButton");
+
+        const searchResults =
+            document.getElementById("searchResults");
+
+        const noResult =
+            document.getElementById("noResult");
+
+        const noResultHeading =
+            document.getElementById("noResultHeading");
+
+        const requestModal =
+            document.getElementById("requestModal");
+
+        const closeModalButton =
+            document.getElementById("closeModal");
+
+        const eventNameField =
+            document.getElementById("eventName");
+
+        const openRequestButtons =
+            document.querySelectorAll(".open-request-form");
+
+        function escapeHtml(value) {
+            return value
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function normaliseText(value) {
+            return value
+                .toLowerCase()
+                .replace(/\bparkrun\b/g, "")
+                .trim();
+        }
+
+        function performSearch() {
+            const rawSearch = eventSearch.value.trim();
+            const searchTerm = normaliseText(rawSearch);
+
+            searchResults.innerHTML = "";
+            searchResults.classList.remove("visible");
+            noResult.classList.remove("visible");
+
+            if (!searchTerm) {
+                return;
+            }
+
+            const matches = events.filter((event) => {
+                const eventName = normaliseText(event.name);
+
+                return (
+                    eventName.includes(searchTerm) ||
+                    searchTerm.includes(eventName)
+                );
+            });
+
+            if (matches.length > 0) {
+                searchResults.innerHTML = matches
+                    .map((event) => {
+                        return `
+                            <a
+                                class="result-item"
+                                href="${event.url}"
+                            >
+                                <div>
+                                    <span class="result-name">
+                                        ${escapeHtml(event.name)}
+                                    </span>
+
+                                    <span class="result-description">
+                                        ${escapeHtml(event.description)}
+                                    </span>
+                                </div>
+
+                                <span class="result-action">
+                                    Explore report
+
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M5 12h14"></path>
+                                        <path d="m13 6 6 6-6 6"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        `;
+                    })
+                    .join("");
+
+                searchResults.classList.add("visible");
+                return;
+            }
+
+            noResultHeading.textContent =
+                `We haven’t created a report for “${rawSearch}” yet.`;
+
+            noResult.classList.add("visible");
+        }
+
+        function openRequestModal() {
+            const searchedEvent = eventSearch.value.trim();
+
+            if (searchedEvent) {
+                eventNameField.value = searchedEvent;
+            }
+
+            requestModal.classList.add("open");
+            document.body.classList.add("modal-open");
+
+            setTimeout(() => {
+                eventNameField.focus();
+            }, 100);
+        }
+
+        function closeRequestModal() {
+            requestModal.classList.remove("open");
+            document.body.classList.remove("modal-open");
+        }
+
+        eventSearch.addEventListener("input", performSearch);
+
+        eventSearch.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                performSearch();
+            }
+
+            if (event.key === "Escape") {
+                eventSearch.value = "";
+                searchResults.classList.remove("visible");
+                noResult.classList.remove("visible");
+            }
+        });
+
+        searchButton.addEventListener("click", performSearch);
+
+        openRequestButtons.forEach((button) => {
+            button.addEventListener("click", openRequestModal);
+        });
+
+        closeModalButton.addEventListener(
+            "click",
+            closeRequestModal
+        );
+
+        requestModal.addEventListener("click", (event) => {
+            if (event.target === requestModal) {
+                closeRequestModal();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (
+                event.key === "Escape" &&
+                requestModal.classList.contains("open")
+            ) {
+                closeRequestModal();
+            }
+        });
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.12
+            }
+        );
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+    </script>
+
 </body>
 </html>
