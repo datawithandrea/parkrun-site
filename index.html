@@ -257,17 +257,23 @@
             text-align: left;
         }
 
-        .search-shell {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 11px 13px 11px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.97);
-            box-shadow:
-                0 24px 55px rgba(0, 0, 0, 0.22);
-        }
+.search-shell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 13px 11px 20px;
+    border: 1px solid rgba(255,255,255,.24);
+    border-radius: 999px;
+    background: rgba(255,255,255,.97);
+    box-shadow: 0 24px 55px rgba(0,0,0,.22);
+}
+
+.search-field-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:1;
+}
 
         .search-icon {
             width: 22px;
@@ -276,15 +282,15 @@
             color: var(--green);
         }
 
-        .search-input {
-            width: 100%;
-            min-width: 0;
-            border: 0;
-            outline: 0;
-            background: transparent;
-            color: var(--charcoal);
-            font-size: 1rem;
-        }
+.search-input{
+    flex:1;
+    width:100%;
+    border:0;
+    outline:0;
+    background:transparent;
+    font-size:1rem;
+    color:var(--charcoal);
+}
 
         .search-input::placeholder {
             color: #87948f;
@@ -1098,7 +1104,7 @@
                         </div>
 
                         <p class="search-note">
-                            Search results appear as you type.
+                            Start typing at least 3 letters to search for an event.
                         </p>
 
                     </div>
@@ -1601,15 +1607,19 @@
 
         function performSearch() {
             const rawSearch = eventSearch.value.trim();
-            const searchTerm = normaliseText(rawSearch);
+            const  = normaliseText(rawSearch);
 
             searchResults.innerHTML = "";
             searchResults.classList.remove("visible");
             noResult.classList.remove("visible");
 
-            if (!searchTerm) {
-                return;
-            }
+if (searchTerm.length < 3) {
+
+    searchResults.classList.remove("visible");
+    noResult.classList.remove("visible");
+
+    return;
+}
 
             const matches = events.filter((event) => {
                 const eventName = normaliseText(event.name);
