@@ -2,16 +2,23 @@
 <html lang="en">
 <head>
 
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YNXPYC814H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-YNXPYC814H"
+    ></script>
 
-  gtag('config', 'G-YNXPYC814H');
-</script>
-	
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag("js", new Date());
+        gtag("config", "G-YNXPYC814H");
+    </script>
+
     <meta charset="UTF-8">
 
     <meta
@@ -21,7 +28,7 @@
 
     <meta
         name="description"
-        content="Explore the Southern Path parkrun event through an interactive Power BI report."
+        content="Explore Southern Path parkrun through an interactive event report featuring results, milestones, clubs, age groups and participant insights."
     >
 
     <title>Southern Path parkrun | Interactive Event Report</title>
@@ -46,21 +53,31 @@
         :root {
             --green-dark: #173f35;
             --green: #2f765f;
+            --green-mid: #5f8e7b;
             --green-light: #dcece5;
             --green-pale: #f1f7f4;
+
             --lime: #b9d432;
+            --lime-light: #d7e66f;
+
             --charcoal: #1c2824;
             --body-text: #53615c;
+
             --white: #ffffff;
             --off-white: #f8faf9;
+
             --border: rgba(23, 63, 53, 0.12);
+
             --shadow:
                 0 20px 60px rgba(19, 52, 43, 0.12);
+
             --shadow-small:
                 0 12px 32px rgba(19, 52, 43, 0.09);
+
             --radius-large: 30px;
             --radius-medium: 20px;
             --radius-small: 14px;
+
             --page-width: 1280px;
         }
 
@@ -115,7 +132,7 @@
             left: 0;
             width: 100%;
             border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(13, 37, 31, 0.18);
+            background: rgba(13, 37, 31, 0.24);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -149,7 +166,7 @@
 
         .navigation-links a {
             position: relative;
-            color: rgba(255, 255, 255, 0.88);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.87rem;
             font-weight: 700;
             text-decoration: none;
@@ -204,13 +221,14 @@
             align-items: center;
             overflow: hidden;
             isolation: isolate;
+
             background:
                 linear-gradient(
                     90deg,
-                    rgba(10, 35, 28, 0.94) 0%,
-                    rgba(12, 45, 36, 0.83) 37%,
-                    rgba(13, 44, 35, 0.38) 72%,
-                    rgba(13, 44, 35, 0.25) 100%
+                    rgba(10, 39, 32, 0.97) 0%,
+                    rgba(17, 56, 46, 0.88) 38%,
+                    rgba(20, 62, 49, 0.5) 70%,
+                    rgba(20, 62, 49, 0.16) 100%
                 ),
                 url("southern-path-parkrun-hero.jpg")
                 center center / cover no-repeat;
@@ -219,10 +237,10 @@
         .hero::before {
             position: absolute;
             z-index: -1;
-            top: 0;
-            right: -12%;
+            top: -15%;
+            right: -10%;
             width: 56%;
-            height: 100%;
+            height: 120%;
             background:
                 radial-gradient(
                     circle at center,
@@ -246,9 +264,9 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            width: min(700px, 100%);
+            width: min(710px, 100%);
             padding-top: 78px;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
             color: var(--white);
         }
 
@@ -273,7 +291,7 @@
         }
 
         .hero h1 {
-            max-width: 680px;
+            max-width: 700px;
             margin-bottom: 22px;
             font-size: clamp(3.1rem, 7vw, 6.2rem);
             font-weight: 800;
@@ -287,9 +305,9 @@
         }
 
         .hero-description {
-            max-width: 590px;
+            max-width: 610px;
             margin-bottom: 34px;
-            color: rgba(255, 255, 255, 0.88);
+            color: rgba(255, 255, 255, 0.9);
             font-size: clamp(1rem, 2vw, 1.14rem);
             line-height: 1.75;
         }
@@ -325,7 +343,7 @@
         }
 
         .secondary-button {
-            border: 1px solid rgba(255, 255, 255, 0.32);
+            border: 1px solid rgba(255, 255, 255, 0.34);
             background: rgba(255, 255, 255, 0.08);
             color: var(--white);
             backdrop-filter: blur(8px);
@@ -337,9 +355,13 @@
             transform: translateY(-3px);
         }
 
+        .primary-button:hover {
+            background: var(--lime-light);
+        }
+
         .secondary-button:hover {
-            border-color: rgba(255, 255, 255, 0.62);
-            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .button-icon {
@@ -347,7 +369,7 @@
             height: 18px;
         }
 
-        /* Shared section styles */
+        /* Shared sections */
 
         section {
             position: relative;
@@ -623,7 +645,7 @@
                 linear-gradient(
                     180deg,
                     var(--off-white) 0%,
-                    #ffffff 100%
+                    var(--white) 100%
                 );
         }
 
@@ -700,26 +722,26 @@
             border: 0;
         }
 
-.dashboard-tip {
-    display: flex;
-    width: 100%;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 12px;
-    margin: 22px 0 0;
-    padding: 17px 20px;
-    border-left: 4px solid var(--lime);
-    border-radius:
-        0
-        var(--radius-small)
-        var(--radius-small)
-        0;
-    background: var(--green-pale);
-    color: var(--body-text);
-    font-size: 0.86rem;
-    line-height: 1.65;
-    text-align: left;
-}
+        .dashboard-tip {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 12px;
+            margin: 22px 0 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--lime);
+            border-radius:
+                0
+                var(--radius-small)
+                var(--radius-small)
+                0;
+            background: var(--green-pale);
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+            text-align: left;
+        }
 
         .dashboard-tip strong {
             color: var(--green-dark);
@@ -733,7 +755,7 @@
             color: var(--green);
         }
 
-        /* Closing section */
+        /* Closing */
 
         .closing-section {
             position: relative;
@@ -790,10 +812,10 @@
             line-height: 1.8;
         }
 
-		.closing-button {
-    margin-bottom: 28px;
-}
-		
+        .closing-button {
+            margin-bottom: 28px;
+        }
+
         .closing-tagline {
             display: inline-flex;
             align-items: center;
@@ -822,6 +844,13 @@
             text-align: center;
         }
 
+        .site-footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
         .site-footer p {
             font-size: 0.82rem;
         }
@@ -836,7 +865,14 @@
             color: var(--lime);
         }
 
-        /* Scroll-to-top button */
+        .disclaimer {
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.68rem !important;
+            line-height: 1.55;
+        }
+
+        /* Scroll to top */
 
         .scroll-top {
             position: fixed;
@@ -878,7 +914,7 @@
             height: 20px;
         }
 
-        /* Scroll animation */
+        /* Animation */
 
         .reveal {
             opacity: 0;
@@ -915,11 +951,6 @@
             .tutorial-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-
-            .tutorial-card:nth-child(4),
-            .tutorial-card:nth-child(5) {
-                grid-column: auto;
-            }
         }
 
         @media (max-width: 850px) {
@@ -928,7 +959,7 @@
             }
 
             .site-header {
-                background: rgba(13, 37, 31, 0.68);
+                background: rgba(13, 37, 31, 0.72);
             }
 
             .menu-button {
@@ -971,7 +1002,7 @@
 
             .hero {
                 min-height: 660px;
-                background-position: 62% center;
+                background-position: 58% center;
             }
 
             .hero::after {
@@ -980,7 +1011,7 @@
 
             .hero-content {
                 width: 100%;
-                padding-bottom: 72px;
+                padding-bottom: 80px;
             }
 
             .intro-grid {
@@ -1021,22 +1052,23 @@
             }
 
             .hero {
-                min-height: 640px;
+                min-height: 650px;
                 align-items: flex-end;
+
                 background:
                     linear-gradient(
                         180deg,
-                        rgba(10, 35, 28, 0.38) 0%,
-                        rgba(10, 35, 28, 0.62) 34%,
-                        rgba(10, 35, 28, 0.96) 100%
+                        rgba(10, 39, 32, 0.16) 0%,
+                        rgba(10, 39, 32, 0.48) 38%,
+                        rgba(10, 39, 32, 0.97) 100%
                     ),
                     url("southern-path-parkrun-hero.jpg")
-                    63% center / cover no-repeat;
+                    65% center / cover no-repeat;
             }
 
             .hero-content {
                 padding-top: 125px;
-                padding-bottom: 82px;
+                padding-bottom: 86px;
             }
 
             .hero h1 {
@@ -1095,13 +1127,20 @@
             }
 
             .dashboard-frame {
-    width: 100%;
-    min-height: 0;
-    border-radius: 14px;
-    aspect-ratio: 16 / 9;
-}
+                width: 100%;
+                min-height: 0;
+                border-radius: 14px;
+                aspect-ratio: 16 / 9;
+            }
+
+            .dashboard-frame iframe {
+                width: 100%;
+                height: 100%;
+            }
 
             .dashboard-tip {
+                width: 100%;
+                margin-top: 18px;
                 padding: 16px;
                 font-size: 0.82rem;
             }
@@ -1179,6 +1218,7 @@
                     stroke="currentColor"
                     stroke-width="2"
                     stroke-linecap="round"
+                    aria-hidden="true"
                 >
                     <path d="M4 7h16"></path>
                     <path d="M4 12h16"></path>
@@ -1191,7 +1231,7 @@
                 id="navigationLinks"
             >
                 <li>
-                    <a href="../">All event reports</a>
+                    <a href="../">Event Insights</a>
                 </li>
 
                 <li>
@@ -1210,6 +1250,7 @@
         <section class="hero">
             <div class="page-width">
                 <div class="hero-content">
+
                     <div class="eyebrow">
                         Interactive event report
                     </div>
@@ -1226,6 +1267,7 @@
                     </p>
 
                     <div class="hero-actions">
+
                         <a
                             class="primary-button"
                             href="#report"
@@ -1240,6 +1282,7 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
+                                aria-hidden="true"
                             >
                                 <path d="M5 12h14"></path>
                                 <path d="m13 6 6 6-6 6"></path>
@@ -1252,16 +1295,15 @@
                         >
                             Show me how it works
                         </a>
+
                     </div>
                 </div>
             </div>
         </section>
 
-        <section
-            class="intro-section"
-            id="about"
-        >
+        <section class="intro-section">
             <div class="page-width">
+
                 <div class="intro-grid">
 
                     <div class="intro-number reveal">
@@ -1272,6 +1314,7 @@
                     </div>
 
                     <div class="intro-copy reveal">
+
                         <div class="eyebrow">
                             Beyond the finish line
                         </div>
@@ -1295,6 +1338,7 @@
                         </p>
 
                         <div class="intro-note">
+
                             <div class="intro-note-icon">
                                 <svg
                                     viewBox="0 0 24 24"
@@ -1303,6 +1347,7 @@
                                     stroke-width="2"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
+                                    aria-hidden="true"
                                 >
                                     <circle cx="12" cy="12" r="9"></circle>
                                     <path d="M12 11v5"></path>
@@ -1318,7 +1363,9 @@
                                     interactive look at Southern Path parkrun.
                                 </p>
                             </div>
+
                         </div>
+
                     </div>
 
                 </div>
@@ -1332,6 +1379,7 @@
             <div class="page-width">
 
                 <div class="section-heading reveal">
+
                     <div class="eyebrow">
                         Quick tutorial
                     </div>
@@ -1344,6 +1392,7 @@
                         The report is fully interactive. Here are five quick
                         ways to get the most out of it.
                     </p>
+
                 </div>
 
                 <div class="tutorial-grid">
@@ -1382,15 +1431,15 @@
                     </article>
 
                     <article class="tutorial-card reveal">
-   			<div class="step-number">04</div>
+                        <div class="step-number">04</div>
 
-    			<h3>Use the KPI cards</h3>
+                        <h3>Use the KPI cards</h3>
 
-    			<p>
-        		    Select the KPI cards across the top row of the report to move
-        		    between the different report pages.
-    			</p>
-		     </article>
+                        <p>
+                            Select the KPI cards across the top row of the
+                            report to move between the different report pages.
+                        </p>
+                    </article>
 
                     <article class="tutorial-card reveal">
                         <div class="step-number">05</div>
@@ -1398,8 +1447,8 @@
                         <h3>Reset your selections</h3>
 
                         <p>
-                            Use the reset button in the bottom-right corner of
-                            the report to clear selections and start again.
+                            Use the reset button in the bottom-right corner
+                            of the report to clear selections and start again.
                         </p>
                     </article>
 
@@ -1414,6 +1463,7 @@
             <div class="page-width">
 
                 <div class="section-heading reveal">
+
                     <div class="eyebrow">
                         Southern Path parkrun
                     </div>
@@ -1426,12 +1476,15 @@
                         Select charts, categories and table rows to uncover
                         different stories within the event data.
                     </p>
+
                 </div>
 
                 <div class="dashboard-shell reveal">
 
                     <div class="dashboard-toolbar">
+
                         <div class="dashboard-label">
+
                             <span
                                 class="dashboard-status"
                                 aria-hidden="true"
@@ -1441,6 +1494,7 @@
                                 <strong>Interactive Power BI report</strong>
                                 <span>Southern Path parkrun</span>
                             </div>
+
                         </div>
 
                         <div
@@ -1451,6 +1505,7 @@
                             <span></span>
                             <span></span>
                         </div>
+
                     </div>
 
                     <div class="dashboard-frame">
@@ -1464,31 +1519,35 @@
 
                 </div>
 
-<div class="dashboard-tip reveal">
-    <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-    >
-        <path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.8.6 1.3V16h6v-.9c0-.5.2-1 .6-1.3A6 6 0 0 0 12 3Z"></path>
-        <path d="M9 20h6"></path>
-        <path d="M10 16v1"></path>
-        <path d="M14 16v1"></path>
-    </svg>
+                <div class="dashboard-tip reveal">
 
-    <p>
-        <strong>Tip:</strong>
-        For the best experience on mobile, rotate your phone to landscape
-        before exploring the report.
-    </p>
-</div>
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                        <path d="M9 18h6"></path>
+                    </svg>
+
+                    <p>
+                        <strong>Tip:</strong>
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the report.
+                    </p>
+
+                </div>
+
+            </div>
         </section>
 
         <section class="closing-section">
             <div class="page-width">
+
                 <div class="closing-content reveal">
 
                     <div class="eyebrow">
@@ -1506,27 +1565,29 @@
                         the Southern Path parkrun data.
                     </p>
 
-					<a
-    class="secondary-button closing-button"
-    href="../"
->
-    Explore another event
-</a>
+                    <a
+                        class="secondary-button closing-button"
+                        href="../"
+                    >
+                        Explore another event
+                    </a>
 
                     <div class="closing-tagline">
                         Scan. <span>Explore.</span> Nerd out.
                     </div>
 
                 </div>
+
             </div>
         </section>
 
     </main>
 
     <footer class="site-footer">
-        <div class="page-width">
+        <div class="page-width site-footer-content">
+
             <p>
-                Made with ❤️ by
+                Event Insights is made with ❤️ by
                 <a
                     href="https://datawithandrea.com.au"
                     target="_blank"
@@ -1535,6 +1596,12 @@
                     Data with Andrea
                 </a>
             </p>
+
+            <p class="disclaimer">
+                Event Insights is an independent project and is not affiliated
+                with, sponsored by or endorsed by parkrun.
+            </p>
+
         </div>
     </footer>
 
@@ -1551,13 +1618,16 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            aria-hidden="true"
         >
             <path d="m18 15-6-6-6 6"></path>
         </svg>
     </button>
 
     <script>
-        const menuButton = document.getElementById("menuButton");
+        const menuButton =
+            document.getElementById("menuButton");
+
         const navigationLinks =
             document.getElementById("navigationLinks");
 
@@ -1581,10 +1651,12 @@
             .forEach((link) => {
                 link.addEventListener("click", () => {
                     navigationLinks.classList.remove("open");
+
                     menuButton.setAttribute(
                         "aria-expanded",
                         "false"
                     );
+
                     document.body.classList.remove(
                         "menu-open"
                     );
@@ -1594,26 +1666,34 @@
         const revealElements =
             document.querySelectorAll(".reveal");
 
-        const revealObserver = new IntersectionObserver(
-            (entries, observer) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                threshold: 0.12
-            }
-        );
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12
+                }
+            );
 
         revealElements.forEach((element) => {
             revealObserver.observe(element);
         });
 
         const scrollTopButton =
-            document.getElementById("scrollTopButton");
+            document.getElementById(
+                "scrollTopButton"
+            );
 
         window.addEventListener(
             "scroll",
@@ -1628,12 +1708,15 @@
             }
         );
 
-        scrollTopButton.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
     </script>
 
 </body>
