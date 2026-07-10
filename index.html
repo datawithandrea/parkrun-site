@@ -10,10 +10,10 @@
 
     <meta
         name="description"
-        content="Search for an interactive parkrun event report or request a dashboard for your event."
+        content="Search for a local parkrun event and explore interactive event statistics, milestones and participant insights."
     >
 
-    <title>parkrun Reports | Data with Andrea</title>
+    <title>Event Insights | Interactive Local Event Reports</title>
 
     <link
         rel="preconnect"
@@ -46,7 +46,6 @@
             --off-white: #f7faf8;
             --border: rgba(21, 63, 52, 0.14);
             --error: #a33c3c;
-            --error-light: #fff1f1;
             --shadow:
                 0 22px 65px rgba(15, 49, 40, 0.13);
             --shadow-small:
@@ -124,6 +123,9 @@
         }
 
         .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
             color: var(--white);
             font-size: 1rem;
             font-weight: 800;
@@ -131,7 +133,20 @@
             text-decoration: none;
         }
 
-        .brand span {
+        .brand-mark {
+            display: flex;
+            width: 34px;
+            height: 34px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--lime);
+            color: var(--green-dark);
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .brand span:last-child {
             color: var(--lime);
         }
 
@@ -199,7 +214,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            width: min(820px, 100%);
+            width: min(860px, 100%);
             margin: 0 auto;
             padding-top: 105px;
             padding-bottom: 105px;
@@ -241,7 +256,7 @@
         }
 
         .hero-description {
-            max-width: 690px;
+            max-width: 710px;
             margin: 0 auto 38px;
             color: rgba(255, 255, 255, 0.8);
             font-size: clamp(1rem, 2vw, 1.13rem);
@@ -257,23 +272,25 @@
             text-align: left;
         }
 
-.search-shell {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 11px 13px 11px 20px;
-    border: 1px solid rgba(255,255,255,.24);
-    border-radius: 999px;
-    background: rgba(255,255,255,.97);
-    box-shadow: 0 24px 55px rgba(0,0,0,.22);
-}
+        .search-shell {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 13px 11px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow:
+                0 24px 55px rgba(0, 0, 0, 0.22);
+        }
 
-.search-field-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex:1;
-}
+        .search-field-row {
+            display: flex;
+            flex: 1;
+            min-width: 0;
+            align-items: center;
+            gap: 12px;
+        }
 
         .search-icon {
             width: 22px;
@@ -282,15 +299,16 @@
             color: var(--green);
         }
 
-.search-input{
-    flex:1;
-    width:100%;
-    border:0;
-    outline:0;
-    background:transparent;
-    font-size:1rem;
-    color:var(--charcoal);
-}
+        .search-input {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: var(--charcoal);
+            font-size: 1rem;
+        }
 
         .search-input::placeholder {
             color: #87948f;
@@ -300,6 +318,7 @@
             display: inline-flex;
             min-width: 120px;
             min-height: 48px;
+            flex-shrink: 0;
             align-items: center;
             justify-content: center;
             border: 0;
@@ -349,7 +368,8 @@
             border-bottom: 0;
         }
 
-        .result-item:hover {
+        .result-item:hover,
+        .result-item:focus-visible {
             background: var(--green-pale);
         }
 
@@ -438,7 +458,7 @@
 
         .search-note {
             margin-top: 14px;
-            color: rgba(255, 255, 255, 0.56);
+            color: rgba(255, 255, 255, 0.58);
             font-size: 0.76rem;
             text-align: center;
         }
@@ -619,10 +639,17 @@
         /* Footer */
 
         .site-footer {
-            padding: 28px 0;
+            padding: 30px 0;
             background: #0e2b23;
             color: rgba(255, 255, 255, 0.6);
             text-align: center;
+        }
+
+        .site-footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
 
         .site-footer p {
@@ -637,6 +664,13 @@
 
         .site-footer a:hover {
             color: var(--lime);
+        }
+
+        .disclaimer {
+            max-width: 700px;
+            color: rgba(255, 255, 255, 0.42);
+            font-size: 0.68rem;
+            line-height: 1.55;
         }
 
         /* Modal */
@@ -889,8 +923,17 @@
                 min-height: 70px;
             }
 
+            .brand {
+                font-size: 0.9rem;
+            }
+
+            .brand-mark {
+                width: 31px;
+                height: 31px;
+            }
+
             .navigation-link {
-                font-size: 0.78rem;
+                font-size: 0.76rem;
             }
 
             .hero {
@@ -918,9 +961,7 @@
             }
 
             .search-field-row {
-                display: flex;
-                align-items: center;
-                gap: 12px;
+                width: 100%;
                 padding: 3px 7px;
             }
 
@@ -998,12 +1039,20 @@
 <body>
 
     <header class="site-header">
-        <nav class="navigation page-width">
+        <nav
+            class="navigation page-width"
+            aria-label="Main navigation"
+        >
             <a
                 class="brand"
                 href="./"
+                aria-label="Event Insights home"
             >
-                parkrun <span>reports</span>
+                <span class="brand-mark">EI</span>
+
+                <span>
+                    Event <span>Insights</span>
+                </span>
             </a>
 
             <a
@@ -1028,12 +1077,12 @@
                     </div>
 
                     <h1>
-                        Find your
-                        <span>parkrun report.</span>
+                        Explore your local
+                        <span>parkrun.</span>
                     </h1>
 
                     <p class="hero-description">
-                        Search for an event to explore its interactive
+                        Search for your event to explore interactive
                         statistics, milestones, participation patterns and
                         stories hidden within the results.
                     </p>
@@ -1050,6 +1099,7 @@
                                     stroke="currentColor"
                                     stroke-width="2"
                                     stroke-linecap="round"
+                                    aria-hidden="true"
                                 >
                                     <circle cx="11" cy="11" r="7"></circle>
                                     <path d="m20 20-3.5-3.5"></path>
@@ -1061,7 +1111,7 @@
                                     type="search"
                                     placeholder="Start typing an event name..."
                                     autocomplete="off"
-                                    aria-label="Search for a parkrun event"
+                                    aria-label="Search for a local parkrun event"
                                 >
                             </div>
 
@@ -1087,7 +1137,7 @@
                             aria-live="polite"
                         >
                             <h2 id="noResultHeading">
-                                We haven’t created that report yet.
+                                We haven’t created that event report yet.
                             </h2>
 
                             <p>
@@ -1104,7 +1154,7 @@
                         </div>
 
                         <p class="search-note">
-                            Start typing at least 3 letters to search for an event.
+                            Enter at least three letters to search for an event.
                         </p>
 
                     </div>
@@ -1126,7 +1176,7 @@
                     </h2>
 
                     <p>
-                        Find an available report or request a custom
+                        Find an available event report or request a custom
                         interactive dashboard for a specific event date.
                     </p>
                 </div>
@@ -1139,7 +1189,7 @@
                         <h3>Search for your event</h3>
 
                         <p>
-                            Enter the name of a parkrun event to check whether
+                            Enter the name of your local event to check whether
                             an interactive report is currently available.
                         </p>
                     </article>
@@ -1218,9 +1268,10 @@
     </main>
 
     <footer class="site-footer">
-        <div class="page-width">
+        <div class="page-width site-footer-content">
+
             <p>
-                Made with ❤️ by
+                Event Insights is made with ❤️ by
                 <a
                     href="https://datawithandrea.com.au"
                     target="_blank"
@@ -1229,6 +1280,12 @@
                     Data with Andrea
                 </a>
             </p>
+
+            <p class="disclaimer">
+                Event Insights is an independent project and is not affiliated
+                with, sponsored by or endorsed by parkrun.
+            </p>
+
         </div>
     </footer>
 
@@ -1242,8 +1299,9 @@
         <div class="modal">
 
             <div class="modal-header">
+
                 <div class="modal-heading">
-                    <span>Dashboard request</span>
+                    <span>Event dashboard request</span>
 
                     <h2 id="requestModalTitle">
                         Tell us about your event.
@@ -1267,11 +1325,13 @@
                         stroke="currentColor"
                         stroke-width="2"
                         stroke-linecap="round"
+                        aria-hidden="true"
                     >
                         <path d="M6 6l12 12"></path>
                         <path d="M18 6 6 18"></path>
                     </svg>
                 </button>
+
             </div>
 
             <form
@@ -1505,7 +1565,7 @@
                 <input
                     type="hidden"
                     name="_subject"
-                    value="New parkrun dashboard request"
+                    value="New Event Insights dashboard request"
                 >
 
                 <input
@@ -1532,6 +1592,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
+                        aria-hidden="true"
                     >
                         <path d="M5 12h14"></path>
                         <path d="m13 6 6 6-6 6"></path>
@@ -1547,20 +1608,22 @@
         const events = [
             {
                 name: "Southern Path parkrun",
-                description: "Interactive event report",
+                description: "Explore the Southern Path interactive event report",
                 url: "southernpathparkrun/"
             },
             {
                 name: "Jeune Park parkrun",
-                description: "Interactive event report",
+                description: "Explore the Jeune Park interactive event report",
                 url: "jeuneparkparkrun/"
             },
             {
                 name: "Western Springs parkrun",
-                description: "Interactive event report",
+                description: "Explore the Western Springs interactive event report",
                 url: "westernspringsparkrun/"
             }
         ];
+
+        const minimumSearchLength = 3;
 
         const eventSearch =
             document.getElementById("eventSearch");
@@ -1602,24 +1665,26 @@
             return value
                 .toLowerCase()
                 .replace(/\bparkrun\b/g, "")
+                .replace(/[^a-z0-9\s]/g, "")
+                .replace(/\s+/g, " ")
                 .trim();
+        }
+
+        function clearSearchMessages() {
+            searchResults.innerHTML = "";
+            searchResults.classList.remove("visible");
+            noResult.classList.remove("visible");
         }
 
         function performSearch() {
             const rawSearch = eventSearch.value.trim();
-            const  = normaliseText(rawSearch);
+            const searchTerm = normaliseText(rawSearch);
 
-            searchResults.innerHTML = "";
-            searchResults.classList.remove("visible");
-            noResult.classList.remove("visible");
+            clearSearchMessages();
 
-if (searchTerm.length < 3) {
-
-    searchResults.classList.remove("visible");
-    noResult.classList.remove("visible");
-
-    return;
-}
+            if (searchTerm.length < minimumSearchLength) {
+                return;
+            }
 
             const matches = events.filter((event) => {
                 const eventName = normaliseText(event.name);
@@ -1658,6 +1723,7 @@ if (searchTerm.length < 3) {
                                         stroke-width="2"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
+                                        aria-hidden="true"
                                     >
                                         <path d="M5 12h14"></path>
                                         <path d="m13 6 6 6-6 6"></path>
@@ -1681,7 +1747,9 @@ if (searchTerm.length < 3) {
         function openRequestModal() {
             const searchedEvent = eventSearch.value.trim();
 
-            if (searchedEvent) {
+            if (
+                searchedEvent.length >= minimumSearchLength
+            ) {
                 eventNameField.value = searchedEvent;
             }
 
@@ -1698,25 +1766,36 @@ if (searchTerm.length < 3) {
             document.body.classList.remove("modal-open");
         }
 
-        eventSearch.addEventListener("input", performSearch);
+        eventSearch.addEventListener(
+            "input",
+            performSearch
+        );
 
-        eventSearch.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                performSearch();
+        eventSearch.addEventListener(
+            "keydown",
+            (event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    performSearch();
+                }
+
+                if (event.key === "Escape") {
+                    eventSearch.value = "";
+                    clearSearchMessages();
+                }
             }
+        );
 
-            if (event.key === "Escape") {
-                eventSearch.value = "";
-                searchResults.classList.remove("visible");
-                noResult.classList.remove("visible");
-            }
-        });
-
-        searchButton.addEventListener("click", performSearch);
+        searchButton.addEventListener(
+            "click",
+            performSearch
+        );
 
         openRequestButtons.forEach((button) => {
-            button.addEventListener("click", openRequestModal);
+            button.addEventListener(
+                "click",
+                openRequestModal
+            );
         });
 
         closeModalButton.addEventListener(
@@ -1724,20 +1803,26 @@ if (searchTerm.length < 3) {
             closeRequestModal
         );
 
-        requestModal.addEventListener("click", (event) => {
-            if (event.target === requestModal) {
-                closeRequestModal();
+        requestModal.addEventListener(
+            "click",
+            (event) => {
+                if (event.target === requestModal) {
+                    closeRequestModal();
+                }
             }
-        });
+        );
 
-        document.addEventListener("keydown", (event) => {
-            if (
-                event.key === "Escape" &&
-                requestModal.classList.contains("open")
-            ) {
-                closeRequestModal();
+        document.addEventListener(
+            "keydown",
+            (event) => {
+                if (
+                    event.key === "Escape" &&
+                    requestModal.classList.contains("open")
+                ) {
+                    closeRequestModal();
+                }
             }
-        });
+        );
 
         const revealElements =
             document.querySelectorAll(".reveal");
