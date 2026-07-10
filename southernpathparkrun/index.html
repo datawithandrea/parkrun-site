@@ -1,0 +1,406 @@
+import os
+import re
+import sys
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse, urljoin
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/123.0.0.0 Safari/537.36"
+    )
+}
+
+# -----------------------------
+# OUTPUT (fixed filenames)
+# -----------------------------
+OUT_DIR = r"C:\DataWithAndrea\parkrunData\Report Writer\Latest"
+OUT_RESULTS_CSV = os.path.join(OUT_DIR, "parkrun_results.csv")
+OUT_VOLUNTEERS_CSV = os.path.join(OUT_DIR, "parkrun_volunteers.csv")
+OUT_HEADER_CSV = os.path.join(OUT_DIR, "parkrun_eventheader.csv")
+# -----------------------------
+
+def _collapse_ws(s: str) -> str:
+    return " ".join(str(s).split()).strip()
+
+def _title_case_name(s: str) -> str:
+    s = _collapse_ws(s)
+    return " ".join(w.capitalize() for w in s.split())
+
+def _extract_credits(text: str) -> int | None:
+    if not text:
+        return None
+    m = re.search(r"\b(\d+)\s+volunteer\s+credits?\b", text, flags=re.IGNORECASE)
+    return int(m.group(1)) if m else None
+
+def _time_to_seconds(t: str | None) -> int:
+    if not t:
+        return 0
+    t = t.strip()
+    parts = t.split(":")
+    try:
+        if len(parts) == 3:
+            h, m, s = map(int, parts)
+        elif len(parts) == 2:
+            h = 0
+            m, s = map(int, parts)
+        else:
+            return 0
+        return h * 3600 + m * 60 + s
+    except ValueError:
+        return 0
+
+def _parse_parkrun_count(text: str) -> int | None:
+    if not text:
+        return None
+    m = re.search(r"\b(\d+)\s+(?:Finishes?|parkruns?)\b", text, flags=re.IGNORECASE)
+    return int(m.group(1)) if m else None
+
+def _parse_age_grade(text: str) -> float | None:
+    if not text:
+        return None
+
+    m = re.search(r"(\d{1,3}(?:\.\d+)?)%\s*Age\s*Grade\b", text, flags=re.IGNORECASE)
+    if m:
+        try:
+            return float(m.group(1)) / 100.0
+        except ValueError:
+            return None
+
+    m2 = re.search(r"\b(\d{1,3}(?:\.\d+)?)%\b", text)
+    if not m2:
+        return None
+    try:
+        return float(m2.group(1)) / 100.0
+    except ValueError:
+        return None
+
+def _parse_age_group(text: str) -> str | None:
+    if not text:
+        return None
+    m = re.search(r"\b([A-Za-z]{1,2}\d{1,2}-\d{1,2})\b", text)
+    return m.group(1).upper() if m else None
+
+def _parse_gender(text: str) -> str:
+    if not text:
+        return "Unknown"
+    first = text.splitlines()[0].strip()
+    if not first:
+        return "Unknown"
+    m = re.search(r"\b(Male|Female)\b", first, flags=re.IGNORECASE)
+    return m.group(1).capitalize() if m else first
+
+def _parse_time_status_pb(raw: str) -> tuple[str | None, str | None, str | None]:
+    if not raw:
+        return None, None, None
+
+    cleaned = _collapse_ws(raw)
+
+    if "First Timer!" in cleaned:
+        duration = cleaned.split("First Timer!", 1)[0].strip()
+        return duration, "First Timer", duration or None
+
+    if "New PB" in cleaned:
+        duration = cleaned.split("New PB", 1)[0].strip()
+        return duration, "New PB", duration or None
+
+    if re.search(r"\bPB\b", cleaned):
+        before, after = cleaned.split("PB", 1)
+        duration = before.strip()
+        pb_time = after.strip() or None
+        return duration or None, "PB", pb_time
+
+    return cleaned, None, None
+
+def _extract_event_date_from_url(url: str) -> str | None:
+    m = re.search(r"/results/(\d{4}-\d{2}-\d{2})/", url)
+    return m.group(1) if m else None
+
+def _extract_event_metadata(url: str) -> dict:
+    parsed = urlparse(url)
+    parts = [p for p in parsed.path.split("/") if p]
+    slug = parts[0] if parts else None
+    event_date = _extract_event_date_from_url(url)
+    return {"EventUrl": url, "EventSlug": slug, "EventDate": event_date}
+
+def _get_html(url: str) -> BeautifulSoup:
+    r = requests.get(url, headers=HEADERS, timeout=40)
+    r.raise_for_status()
+    return BeautifulSoup(r.text, "html.parser")
+
+def _infer_dated_results_url_from_latest(latestresults_url: str) -> str | None:
+    soup = _get_html(latestresults_url)
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        if re.search(r"/results/\d{4}-\d{2}-\d{2}/", href):
+            return urljoin(latestresults_url, href)
+    return None
+
+# -----------------------------
+# EVENT HEADER SCRAPER
+# -----------------------------
+def scrape_event_header(url: str) -> pd.DataFrame:
+    soup = _get_html(url)
+    meta = _extract_event_metadata(url)
+
+    # Event Name (h1)
+    h1 = soup.find("h1")
+    event_name = _collapse_ws(h1.get_text(" ", strip=True)) if h1 else None
+
+    # Event Date (span class="format-date")
+    date_span = soup.find("span", class_="format-date")
+    event_date_display = _collapse_ws(date_span.get_text(" ", strip=True)) if date_span else None
+
+    # Event Number (span like "#123")
+    event_number = None
+    for span in soup.find_all("span"):
+        txt = _collapse_ws(span.get_text(" ", strip=True))
+        if re.match(r"#\d+", txt):
+            event_number = txt.replace("#", "").strip()
+            break
+
+    return pd.DataFrame([{
+        **meta,
+        "Event Name": event_name,
+        "Event Date Display": event_date_display,
+        "Event Number": event_number
+    }])
+
+# -----------------------------
+# RESULTS SCRAPER
+# -----------------------------
+def fetch_results(results_url: str) -> pd.DataFrame:
+    soup = _get_html(results_url)
+
+    tbody = soup.select_one("table tbody")
+    if not tbody:
+        raise RuntimeError("Could not find results table <table><tbody>. Page layout may have changed.")
+
+    meta = _extract_event_metadata(results_url)
+
+    records = []
+    for tr in tbody.select("tr"):
+        tds = tr.select("td")
+        if len(tds) < 6:
+            continue
+
+        td_texts = [_collapse_ws(td.get_text(" ", strip=True)) for td in tds]
+        row_text = _collapse_ws(" | ".join([t for t in td_texts if t]))
+
+        # Position
+        pos_text = td_texts[0] if len(td_texts) > 0 else ""
+        try:
+            position = int(re.sub(r"\D+", "", pos_text)) if pos_text else None
+        except ValueError:
+            position = None
+
+        # Parkrunner name
+        parkrunner_td = tds[1]
+        a = parkrunner_td.select_one("a")
+        if a and _collapse_ws(a.get_text(" ", strip=True)):
+            parkrunner_name = _collapse_ws(a.get_text(" ", strip=True))
+        else:
+            fallback_name = _collapse_ws(parkrunner_td.get_text(" ", strip=True))
+            fallback_name = re.sub(
+                r"\b\d+\s+(?:Finishes?|parkruns?)\b.*$",
+                "",
+                fallback_name,
+                flags=re.IGNORECASE
+            ).strip()
+            parkrunner_name = fallback_name
+
+        # Parkrun count
+        parkrunner_full_text = _collapse_ws(parkrunner_td.get_text(" ", strip=True))
+        n_runs = _parse_parkrun_count(parkrunner_full_text)
+        if n_runs is None:
+            n_runs = _parse_parkrun_count(row_text)
+
+        # Gender
+        gender_raw = tds[2].get_text("\n", strip=True) if len(tds) > 2 else ""
+        gender = _parse_gender(gender_raw)
+
+        # Age group & grade
+        age_cell_text = td_texts[3] if len(td_texts) > 3 else ""
+        age_group = _parse_age_group(age_cell_text)
+        age_grade = _parse_age_grade(age_cell_text)
+
+        if age_group is None:
+            age_group = _parse_age_group(row_text)
+        if age_grade is None:
+            age_grade = _parse_age_grade(row_text)
+
+        # Club
+        club = td_texts[4] if len(td_texts) > 4 else None
+        club = club if club else None
+
+        # Time
+        time_raw = td_texts[5] if len(td_texts) > 5 else ""
+        duration, status, pb = _parse_time_status_pb(time_raw)
+        seconds = _time_to_seconds(duration)
+
+        records.append(
+            {
+                **meta,
+                "Position": position,
+                "Parkrunner": parkrunner_name,
+                "Number of parkruns": n_runs,
+                "Gender": gender if gender else "Unknown",
+                "Age Group": age_group,
+                "Age Grade": age_grade,
+                "Club": club,
+                "Time": duration,
+                "Status": status,
+                "PB": pb,
+                "Seconds": seconds,
+            }
+        )
+
+    df = pd.DataFrame.from_records(records)
+
+    if not df.empty:
+        df["Position"] = pd.to_numeric(df["Position"], errors="coerce").astype("Int64")
+        df["Number of parkruns"] = pd.to_numeric(df["Number of parkruns"], errors="coerce").astype("Int64")
+        df["Seconds"] = pd.to_numeric(df["Seconds"], errors="coerce").fillna(0).astype("int64")
+        df["Age Grade"] = pd.to_numeric(df["Age Grade"], errors="coerce")
+        df["Gender"] = df["Gender"].fillna("Unknown").replace("", "Unknown")
+
+    return df
+
+# -----------------------------
+# VOLUNTEERS SCRAPER
+# -----------------------------
+def _find_volunteers_table(soup: BeautifulSoup):
+    anchor = soup.find(id="volunteers-table")
+    if anchor:
+        t = anchor.find("table")
+        if t:
+            return t
+        t = anchor.find_next("table")
+        if t:
+            return t
+
+    for table in soup.find_all("table"):
+        header_text = _collapse_ws(table.get_text(" ", strip=True)).lower()
+        if "volunteer roles" in header_text and "parkrunner" in header_text:
+            return table
+
+    return None
+
+def scrape_volunteers(volunteers_url: str) -> pd.DataFrame:
+    soup = _get_html(volunteers_url)
+
+    table = _find_volunteers_table(soup)
+    if table is None:
+        return pd.DataFrame([{
+            "EventUrl": volunteers_url,
+            "Error": "Volunteers table not found in HTML. It may be rendered by JavaScript.",
+        }])
+
+    meta = _extract_event_metadata(volunteers_url)
+
+    tbody = table.find("tbody")
+    rows = tbody.find_all("tr") if tbody else table.find_all("tr")
+
+    records = []
+    for tr in rows:
+        tds = tr.find_all("td")
+        if len(tds) < 2:
+            continue
+
+        parkrunner_cell = tds[0]
+        roles_cell = tds[1]
+        group_cell = tds[2] if len(tds) >= 3 else None
+
+        parkrunner_text = _collapse_ws(parkrunner_cell.get_text(" ", strip=True))
+        roles_text = _collapse_ws(roles_cell.get_text(" ", strip=True))
+        group_text = _collapse_ws(group_cell.get_text(" ", strip=True)) if group_cell else None
+
+        a = parkrunner_cell.find("a")
+        name = _collapse_ws(a.get_text(" ", strip=True)) if a else None
+        if not name:
+            name = re.split(r"\b\d+\s+volunteer\s+credits?\b", parkrunner_text, flags=re.IGNORECASE)[0].strip()
+        name = _title_case_name(name) if name else None
+
+        profile_url = None
+        if a and a.get("href"):
+            profile_url = a["href"]
+            if profile_url.startswith("/"):
+                profile_url = "https://www.parkrun.com.au" + profile_url
+
+        credits = _extract_credits(parkrunner_text)
+
+        roles_parts = [p.strip() for p in re.split(r"\s{2,}|\n|;", roles_cell.get_text("\n", strip=True)) if p.strip()]
+        seen = set()
+        roles_parts_dedup = []
+        for p in roles_parts:
+            if p not in seen:
+                seen.add(p)
+                roles_parts_dedup.append(p)
+        roles_joined = "; ".join(roles_parts_dedup) if roles_parts_dedup else roles_text
+
+        records.append({
+            **meta,
+            "Parkrunner": name,
+            "VolunteerCredits": credits,
+            "VolunteerRoles": roles_joined,
+            "Group": group_text,
+            "ParkrunnerProfileURL": profile_url,
+            "RawParkrunnerCell": parkrunner_text,
+            "RawRolesCell": roles_text
+        })
+
+    df = pd.DataFrame.from_records(records)
+
+    if not df.empty and "Parkrunner" in df.columns:
+        df["Parkrunner"] = df["Parkrunner"].fillna("").apply(_collapse_ws).replace("", None)
+
+    return df
+
+# -----------------------------
+# MAIN
+# -----------------------------
+if __name__ == "__main__":
+    # Pass EITHER:
+    # - latestresults url: https://www.parkrun.co.nz/SouthernPath/results/latestresults/
+    # - OR dated results url: https://www.parkrun.co.nz/SouthernPath/results/2026-07-04/
+    base_url = "https://www.parkrun.co.nz/SouthernPath/results/latestresults/"
+    if len(sys.argv) > 1 and sys.argv[1].strip():
+        base_url = sys.argv[1].strip()
+
+    os.makedirs(OUT_DIR, exist_ok=True)
+
+    # Results URL can be latestresults or dated — both work for results/header.
+    results_url = base_url
+
+    # Volunteers works best with dated results page.
+    dated_results_url = None
+    if "latestresults" in base_url and not _extract_event_date_from_url(base_url):
+        dated_results_url = _infer_dated_results_url_from_latest(base_url)
+    else:
+        dated_results_url = base_url
+
+    if dated_results_url:
+        volunteers_url = dated_results_url.rstrip("/") + "/#volunteers-table"
+    else:
+        volunteers_url = base_url.rstrip("/") + "/#volunteers-table"
+
+    # 1) RESULTS
+    df_results = fetch_results(results_url)
+    df_results.to_csv(OUT_RESULTS_CSV, index=False, encoding="utf-8-sig")
+    print(f"Saved results: {OUT_RESULTS_CSV}")
+    print(df_results.head(10).to_string(index=False))
+
+    # 2) VOLUNTEERS
+    df_vols = scrape_volunteers(volunteers_url)
+    df_vols.to_csv(OUT_VOLUNTEERS_CSV, index=False, encoding="utf-8-sig")
+    print(f"\nSaved volunteers: {OUT_VOLUNTEERS_CSV}")
+    print(df_vols.head(30).to_string(index=False))
+
+    # 3) EVENT HEADER
+    df_header = scrape_event_header(results_url)
+    df_header.to_csv(OUT_HEADER_CSV, index=False, encoding="utf-8-sig")
+    print(f"\nSaved header: {OUT_HEADER_CSV}")
+    print(df_header.to_string(index=False))
