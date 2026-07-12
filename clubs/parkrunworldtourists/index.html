@@ -89,6 +89,8 @@
 
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         body {
@@ -694,22 +696,100 @@
             line-height: 1.75;
         }
 
-        .embed-frame {
+        .dashboard-shell {
             position: relative;
             z-index: 1;
             width: min(100%, 1180px);
             margin: 0 auto;
-            padding: 16px;
+            overflow: hidden;
             border: 1px solid var(--border);
             border-radius: var(--radius-large);
             background: var(--white);
             box-shadow: var(--shadow);
         }
 
+        .dashboard-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 22px;
+            background: var(--stone-light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dashboard-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-status {
+            position: relative;
+            flex-shrink: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2f9e59;
+        }
+
+        .dashboard-status::after {
+            position: absolute;
+            inset: -4px;
+            border: 2px solid rgba(47, 158, 89, 0.35);
+            border-radius: 50%;
+            content: "";
+            animation: dashboard-pulse 2.2s ease-out infinite;
+        }
+
+        @keyframes dashboard-pulse {
+            0% {
+                transform: scale(0.6);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.7);
+                opacity: 0;
+            }
+        }
+
+        .dashboard-label strong {
+            display: block;
+            color: var(--forest-dark);
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .dashboard-label span {
+            display: block;
+            margin-top: 2px;
+            color: var(--text);
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .dashboard-decoration {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dashboard-decoration span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--stone);
+        }
+
+        .dashboard-body {
+            padding: 16px;
+        }
+
         .embed-frame-inner {
             position: relative;
             width: 100%;
             aspect-ratio: 600 / 373.5;
+            min-height: 300px;
             overflow: hidden;
             border-radius: var(--radius-medium);
             background: var(--stone-light);
@@ -748,7 +828,6 @@
         .dashboard-tip p {
             font-size: 0.88rem;
             line-height: 1.6;
-            white-space: nowrap;
         }
 
         .dashboard-tip strong {
@@ -840,10 +919,6 @@
             .tab-copy .interactivity-note {
                 max-width: 100%;
             }
-
-            .dashboard-tip p {
-                white-space: normal;
-            }
         }
 
         @media (max-width: 680px) {
@@ -872,17 +947,21 @@
                 padding: 80px 0;
             }
 
-            .embed-frame {
+            .dashboard-body {
                 padding: 8px;
+            }
+
+            .dashboard-toolbar {
+                padding: 13px 16px;
+            }
+
+            .dashboard-label span {
+                display: none;
             }
 
             .dashboard-tip {
                 flex-direction: column;
                 text-align: center;
-            }
-
-            .dashboard-tip p {
-                white-space: normal;
             }
         }
 
@@ -939,7 +1018,7 @@
                     <div class="hero-copy">
 
                         <div class="eyebrow">
-                            parkrun data storytelling
+                            Interactive Club Insights
                         </div>
 
                         <h1>
@@ -950,8 +1029,9 @@
                         <p class="hero-description">
                             An interactive Power BI dashboard following the
                             members of the parkrun World Tourists club,
-                            tracking where they've run, which countries they've visited, 
-                            and how the community is growing week on week.
+                            tracking where they've run, which countries
+                            they've visited, and how the community is
+                            growing week on week.
                         </p>
 
                         <div class="hero-actions">
@@ -1374,13 +1454,36 @@
 
                 </div>
 
-                <div class="embed-frame reveal">
-                    <div class="embed-frame-inner">
-                        <iframe
-                            title="parkrun World Tourists"
-                            src="https://app.powerbi.com/view?r=eyJrIjoiYWI0NGQwN2MtMDUxMi00MmMxLTkxYTEtZjcxOTE4MTRjZDUzIiwidCI6ImFkNWEwYmM3LWM4YjMtNDMzNC04NzNlLWJkODQ1NzMxMGIzZSJ9"
-                            allowfullscreen
-                        ></iframe>
+                <div class="dashboard-shell reveal">
+                    <div class="dashboard-toolbar">
+                        <div class="dashboard-label">
+                            <span
+                                class="dashboard-status"
+                                aria-hidden="true"
+                            ></span>
+                            <div>
+                                <strong>Interactive Power BI report</strong>
+                                <span>parkrun World Tourists</span>
+                            </div>
+                        </div>
+                        <div
+                            class="dashboard-decoration"
+                            aria-hidden="true"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-body">
+                        <div class="embed-frame-inner">
+                            <iframe
+                                title="parkrun World Tourists"
+                                src="https://app.powerbi.com/view?r=eyJrIjoiYWI0NGQwN2MtMDUxMi00MmMxLTkxYTEtZjcxOTE4MTRjZDUzIiwidCI6ImFkNWEwYmM3LWM4YjMtNDMzNC04NzNlLWJkODQ1NzMxMGIzZSJ9"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
                     </div>
                 </div>
 
