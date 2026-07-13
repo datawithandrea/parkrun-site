@@ -21,10 +21,10 @@
 
     <meta
         name="description"
-        content="Search for a local parkrun event and explore interactive event statistics, milestones and participant insights."
+        content="Search for a parkrun event and explore interactive dashboards, statistics, results and participant insights."
     >
 
-    <title>Event Insights | Interactive Local Event Reports</title>
+    <title>Event Insights | Interactive parkrun Dashboards</title>
 
     <link
         rel="preconnect"
@@ -1147,7 +1147,7 @@
                                     type="search"
                                     placeholder="Start typing an event name..."
                                     autocomplete="off"
-                                    aria-label="Search for a local parkrun event"
+                                    aria-label="Search for a local parkrun dashboard"
                                 >
                             </div>
 
@@ -1173,7 +1173,7 @@
                             aria-live="polite"
                         >
                             <h2 id="noResultHeading">
-                                We haven’t created that event report yet.
+                                We haven’t created that event dashboard yet.
                             </h2>
 
                             <p>
@@ -1213,7 +1213,7 @@
                     </h2>
 
                     <p>
-                        Find an available event report or request a custom
+                        Find an available event dashboard or request a custom
                         interactive dashboard for a specific event date.
                     </p>
 
@@ -1228,7 +1228,7 @@
 
                         <p>
                             Enter the name of your local event to check whether
-                            an interactive report is currently available.
+                            an interactive dashboard is currently available.
                         </p>
                     </article>
 
@@ -1238,7 +1238,7 @@
                         <h3>Explore the data</h3>
 
                         <p>
-                            Open an available report and interact with results,
+                            Open an available dashboard and interact with results,
                             milestones, age groups, clubs and participant data.
                         </p>
                     </article>
@@ -1250,7 +1250,7 @@
 
                         <p>
                             If your event is not available, submit a request
-                            for a one-off event report or register future
+                            for a one-off event dashboard or register future
                             ongoing interest.
                         </p>
                     </article>
@@ -1289,7 +1289,7 @@
                         <strong>Register your interest</strong>
 
                         <p>
-                            Tell us about your event, the type of report you
+                            Tell us about your event, the type of dashboard you
                             would like and whether you may be interested in an
                             ongoing option in the future.
                         </p>
@@ -1352,7 +1352,7 @@
                     </h2>
 
                     <p>
-                        Submit a request for a one-off report or register
+                        Submit a request for a one-off dashboard or register
                         interest in a future ongoing dashboard.
                     </p>
 
@@ -1679,22 +1679,22 @@
         const events = [
             {
                 name: "Southern Path parkrun",
-                description: "Explore the Southern Path interactive event report",
+                description: "Explore the Southern Path interactive event dashboard",
                 url: "southernpathparkrun/"
             },
             {
                 name: "Jeune Park parkrun",
-                description: "Explore the Jeune Park interactive event report",
+                description: "Explore the Jeune Park interactive event dashboard",
                 url: "jeuneparkparkrun/"
             },
             {
                 name: "Western Springs parkrun",
-                description: "Explore the Western Springs interactive event report",
+                description: "Explore the Western Springs interactive event dashboard",
                 url: "westernspringsparkrun/"
             },
             {
                 name: "Cornwall Park parkrun",
-                description: "Explore the Cornwall Park interactive event report",
+                description: "Explore the Cornwall Park interactive event dashboard",
                 url: "cornwallparkparkrun/"
             },
         ];
@@ -1790,7 +1790,7 @@
                                 </div>
 
                                 <span class="result-action">
-                                    Explore report
+                                    Explore dashboard
 
                                     <svg
                                         viewBox="0 0 24 24"
@@ -1815,7 +1815,7 @@
             }
 
             noResultHeading.textContent =
-                `We haven’t created a report for “${rawSearch}” yet.`;
+                `We haven’t created a dashboard for “${rawSearch}” yet.`;
 
             noResult.classList.add("visible");
         }
