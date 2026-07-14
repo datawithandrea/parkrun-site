@@ -21,10 +21,10 @@
 
     <meta
         name="description"
-        content="Search for a parkrun event and explore interactive dashboards, statistics, results and participant insights."
+        content="Western Springs parkrun dashboard with weekly results, stats, milestones, clubs, age groups, volunteers and historical parkrun insights."
     >
 
-    <title>Event Insights | Interactive parkrun Dashboards</title>
+    <title>Western Springs parkrun Dashboard | Stats, Results & Insights | Data With Andrea</title>
 
     <link
         rel="preconnect"
@@ -44,40 +44,37 @@
 
     <style>
         :root {
-            --forest-deep: #102d28;
-            --forest-dark: #173b35;
-            --forest: #245047;
-            --forest-soft: #42675f;
+            --willow-dark: #253a34;
+            --willow: #456257;
+            --willow-mid: #6e8a76;
+            --willow-light: #dfe8df;
+            --willow-pale: #f2f6f1;
 
-            --copper: #c57b57;
-            --copper-dark: #aa6244;
-            --copper-light: #d99a7b;
+            --lake: #6f9fb5;
+            --lake-light: #dcebf1;
 
-            --ivory: #f8f5ef;
-            --linen: #fdfbf8;
-            --stone: #e9e2d8;
-            --stone-light: #f1ece4;
+            --autumn: #d6a245;
+            --autumn-light: #edce88;
 
-            --charcoal: #242a27;
-            --text: #626963;
+            --charcoal: #202b28;
+            --body-text: #59645f;
+
             --white: #ffffff;
+            --off-white: #f8faf8;
 
-            --border: rgba(23, 59, 53, 0.13);
-            --border-light: rgba(255, 255, 255, 0.13);
-
-            --error: #a4473f;
+            --border: rgba(37, 58, 52, 0.13);
 
             --shadow:
-                0 24px 70px rgba(16, 45, 40, 0.14);
+                0 20px 60px rgba(29, 52, 45, 0.13);
 
             --shadow-small:
-                0 14px 38px rgba(16, 45, 40, 0.09);
+                0 12px 32px rgba(29, 52, 45, 0.09);
 
             --radius-large: 30px;
             --radius-medium: 20px;
             --radius-small: 14px;
 
-            --page-width: 1180px;
+            --page-width: 1280px;
         }
 
         * {
@@ -93,13 +90,13 @@
         body {
             min-width: 320px;
             overflow-x: hidden;
-            background: var(--ivory);
+            background: var(--off-white);
             color: var(--charcoal);
             font-family: "Manrope", sans-serif;
             line-height: 1.6;
         }
 
-        body.modal-open {
+        body.menu-open {
             overflow: hidden;
         }
 
@@ -108,15 +105,13 @@
         }
 
         button,
-        input,
-        select,
-        textarea {
-            font: inherit;
-        }
-
-        button,
         a {
             -webkit-tap-highlight-color: transparent;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
         }
 
         .page-width {
@@ -124,7 +119,7 @@
             margin-inline: auto;
         }
 
-        /* Header */
+        /* Navigation */
 
         .site-header {
             position: absolute;
@@ -132,10 +127,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.11);
-            background: rgba(16, 45, 40, 0.22);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(24, 44, 38, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .navigation {
@@ -143,34 +138,111 @@
             min-height: 78px;
             align-items: center;
             justify-content: space-between;
-            gap: 24px;
+            gap: 28px;
         }
 
         .brand {
             color: var(--white);
-            font-size: 1rem;
+            font-size: 0.97rem;
             font-weight: 800;
-            letter-spacing: -0.035em;
+            letter-spacing: -0.02em;
             text-decoration: none;
         }
 
         .brand span {
-            color: var(--copper-light);
+            color: var(--autumn-light);
         }
 
-        .navigation-link {
-            display: inline-flex;
+        .navigation-actions {
+            display: flex;
             align-items: center;
-            color: rgba(255, 255, 255, 0.88);
-            font-size: 0.86rem;
+            gap: 28px;
+        }
+
+        .all-reports-link {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.87rem;
             font-weight: 700;
             text-decoration: none;
-            transition: color 0.2s ease;
+            white-space: nowrap;
         }
 
-        .navigation-link:hover,
-        .navigation-link:focus-visible {
-            color: var(--copper-light);
+        .all-reports-link::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--autumn);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .all-reports-link:hover::after,
+        .all-reports-link:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .navigation-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navigation-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navigation-links a::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--autumn);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .navigation-links a:hover::after,
+        .navigation-links a:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .menu-button {
+            display: none;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .menu-button svg {
+            width: 22px;
+            height: 22px;
         }
 
         /* Hero */
@@ -178,34 +250,36 @@
         .hero {
             position: relative;
             display: flex;
-            min-height: 720px;
+            min-height: 700px;
             align-items: center;
             overflow: hidden;
             isolation: isolate;
 
             background:
-                radial-gradient(
-                    circle at 83% 22%,
-                    rgba(197, 123, 87, 0.13),
-                    transparent 28%
-                ),
                 linear-gradient(
-                    145deg,
-                    #0d2924 0%,
-                    #173b35 55%,
-                    #265248 100%
-                );
+                    90deg,
+                    rgba(24, 45, 39, 0.96) 0%,
+                    rgba(33, 59, 50, 0.84) 36%,
+                    rgba(40, 71, 61, 0.44) 69%,
+                    rgba(40, 71, 61, 0.16) 100%
+                ),
+                url("westernsprings-parkrun-hero.jpg")
+                center center / cover no-repeat;
         }
 
         .hero::before {
             position: absolute;
             z-index: -1;
-            top: -170px;
-            right: -120px;
-            width: 560px;
-            height: 560px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
+            top: -18%;
+            right: -10%;
+            width: 58%;
+            height: 125%;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(214, 162, 69, 0.18),
+                    transparent 64%
+                );
             content: "";
         }
 
@@ -214,20 +288,19 @@
             right: 0;
             bottom: -1px;
             left: 0;
-            height: 105px;
-            background: var(--ivory);
-            clip-path: polygon(0 78%, 100% 10%, 100% 100%, 0 100%);
+            height: 110px;
+            background: var(--off-white);
+            clip-path: polygon(0 78%, 100% 0, 100% 100%, 0 100%);
             content: "";
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            width: min(880px, 100%);
-            margin: 0 auto;
-            padding-top: 112px;
-            padding-bottom: 110px;
-            text-align: center;
+            width: min(720px, 100%);
+            padding-top: 78px;
+            padding-bottom: 90px;
+            color: var(--white);
         }
 
         .eyebrow {
@@ -235,16 +308,15 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 22px;
-            color: var(--copper-light);
-            font-size: 0.77rem;
+            color: var(--autumn-light);
+            font-size: 0.78rem;
             font-weight: 800;
-            letter-spacing: 0.17em;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
         }
 
-        .eyebrow::before,
-        .eyebrow::after {
-            width: 30px;
+        .eyebrow::before {
+            width: 34px;
             height: 2px;
             border-radius: 999px;
             background: currentColor;
@@ -252,275 +324,299 @@
         }
 
         .hero h1 {
-            max-width: 840px;
-            margin: 0 auto 24px;
-            color: var(--white);
-            font-size: clamp(3rem, 7vw, 6.15rem);
+            max-width: 700px;
+            margin-bottom: 22px;
+            font-size: clamp(3rem, 7vw, 6rem);
             font-weight: 800;
             letter-spacing: -0.075em;
-            line-height: 0.98;
+            line-height: 0.96;
         }
 
         .hero h1 span {
             display: block;
-            color: var(--copper-light);
+            color: var(--autumn-light);
         }
 
         .hero-description {
-            max-width: 710px;
-            margin: 0 auto 40px;
-            color: rgba(255, 255, 255, 0.79);
-            font-size: clamp(1rem, 2vw, 1.13rem);
+            max-width: 620px;
+            margin-bottom: 34px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2vw, 1.14rem);
             line-height: 1.75;
         }
 
-        /* Search */
-
-        .search-area {
-            position: relative;
-            z-index: 3;
-            max-width: 780px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .search-shell {
+        .hero-actions {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             gap: 14px;
-            padding: 11px 13px 11px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.34);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow:
-                0 26px 65px rgba(0, 0, 0, 0.24);
         }
 
-        .search-field-row {
-            display: flex;
-            flex: 1;
-            min-width: 0;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .search-icon {
-            width: 22px;
-            min-width: 22px;
-            height: 22px;
-            color: var(--forest);
-        }
-
-        .search-input {
-            flex: 1;
-            width: 100%;
-            min-width: 0;
-            border: 0;
-            outline: 0;
-            background: transparent;
-            color: var(--charcoal);
-            font-size: 1rem;
-        }
-
-        .search-input::placeholder {
-            color: #929a95;
-        }
-
-        .search-button {
+        .primary-button,
+        .secondary-button {
             display: inline-flex;
-            min-width: 124px;
-            min-height: 48px;
-            flex-shrink: 0;
+            min-height: 54px;
             align-items: center;
             justify-content: center;
-            border: 0;
+            gap: 10px;
+            padding: 0 22px;
             border-radius: 999px;
-            background: var(--copper);
-            color: var(--white);
-            font-size: 0.86rem;
+            font-size: 0.89rem;
             font-weight: 800;
-            cursor: pointer;
-            transition:
-                transform 0.22s ease,
-                background 0.22s ease,
-                box-shadow 0.22s ease;
-        }
-
-        .search-button:hover {
-            background: var(--copper-dark);
-            box-shadow: 0 10px 24px rgba(170, 98, 68, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .search-results {
-            display: none;
-            margin-top: 14px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-medium);
-            background: rgba(255, 255, 255, 0.99);
-            box-shadow: var(--shadow);
-        }
-
-        .search-results.visible {
-            display: block;
-        }
-
-        .result-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 18px;
-            padding: 20px 22px;
-            border-bottom: 1px solid var(--border);
             text-decoration: none;
-            transition: background 0.2s ease;
-        }
-
-        .result-item:last-child {
-            border-bottom: 0;
-        }
-
-        .result-item:hover,
-        .result-item:focus-visible {
-            background: var(--stone-light);
-        }
-
-        .result-name {
-            display: block;
-            margin-bottom: 3px;
-            color: var(--forest-dark);
-            font-size: 0.96rem;
-            font-weight: 800;
-        }
-
-        .result-description {
-            color: var(--text);
-            font-size: 0.79rem;
-        }
-
-        .result-action {
-            display: inline-flex;
-            min-width: 110px;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            color: var(--copper-dark);
-            font-size: 0.8rem;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .result-action svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .no-result {
-            display: none;
-            margin-top: 14px;
-            padding: 25px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-medium);
-            background: rgba(255, 255, 255, 0.99);
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-
-        .no-result.visible {
-            display: block;
-        }
-
-        .no-result h2 {
-            margin-bottom: 7px;
-            color: var(--forest-dark);
-            font-size: 1.05rem;
-            font-weight: 800;
-        }
-
-        .no-result p {
-            margin-bottom: 18px;
-            color: var(--text);
-            font-size: 0.86rem;
-        }
-
-        .request-button {
-            display: inline-flex;
-            min-height: 48px;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            padding: 0 21px;
-            border: 0;
-            border-radius: 999px;
-            background: var(--forest-dark);
-            color: var(--white);
-            font-size: 0.84rem;
-            font-weight: 800;
-            cursor: pointer;
             transition:
-                background 0.2s ease,
-                transform 0.2s ease;
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
         }
 
-        .request-button:hover {
-            background: var(--forest);
-            transform: translateY(-2px);
+        .primary-button {
+            background: var(--autumn);
+            color: var(--willow-dark);
         }
 
-        .search-note {
-            margin-top: 15px;
-            color: rgba(255, 255, 255, 0.56);
-            font-size: 0.76rem;
-            text-align: center;
+        .secondary-button {
+            border: 1px solid rgba(255, 255, 255, 0.34);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
-        /* How it works */
+        .primary-button:hover,
+        .secondary-button:hover {
+            transform: translateY(-3px);
+        }
 
-        .how-section {
-            padding: 100px 0 125px;
-            background: var(--ivory);
+        .primary-button:hover {
+            background: var(--autumn-light);
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Shared sections */
+
+        section {
+            position: relative;
         }
 
         .section-heading {
-            max-width: 730px;
-            margin: 0 auto 54px;
+            max-width: 720px;
+            margin: 0 auto 52px;
             text-align: center;
         }
 
         .section-heading .eyebrow {
             margin-bottom: 15px;
-            color: var(--copper);
+            color: var(--willow-mid);
         }
 
         .section-heading h2 {
             margin-bottom: 16px;
-            color: var(--forest-dark);
-            font-size: clamp(2.1rem, 5vw, 3.7rem);
+            color: var(--willow-dark);
+            font-size: clamp(2rem, 5vw, 3.6rem);
             font-weight: 800;
             letter-spacing: -0.055em;
             line-height: 1.08;
         }
 
         .section-heading p {
-            color: var(--text);
+            color: var(--body-text);
             font-size: 1rem;
             line-height: 1.75;
         }
 
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
+        .dashboard-section .section-heading {
+            max-width: 900px;
         }
 
-        .step-card {
+        .dashboard-section .section-heading h2 {
+            white-space: nowrap;
+        }
+
+        /* Intro */
+
+        .intro-section {
+            padding: 90px 0 110px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 0.84fr 1.16fr;
+            align-items: center;
+            gap: clamp(50px, 7vw, 100px);
+        }
+
+        .intro-number {
             position: relative;
+            display: flex;
+            min-height: 360px;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            padding: 35px 29px;
+            border-radius: var(--radius-large);
+            background:
+                radial-gradient(
+                    circle at 30% 25%,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    140deg,
+                    var(--lake),
+                    var(--willow-dark)
+                );
+            box-shadow: var(--shadow);
+            color: var(--white);
+        }
+
+        .intro-number::before,
+        .intro-number::after {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .intro-number::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .intro-number::after {
+            width: 190px;
+            height: 190px;
+        }
+
+        .intro-number-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .intro-number strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--autumn-light);
+            font-size: clamp(5rem, 12vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.08em;
+            line-height: 0.9;
+        }
+
+        .intro-number span {
+            font-size: 0.77rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .intro-copy .eyebrow {
+            margin-bottom: 18px;
+            color: var(--willow-mid);
+        }
+
+        .intro-copy h2 {
+            margin-bottom: 22px;
+            color: var(--willow-dark);
+            font-size: clamp(2.15rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.06em;
+            line-height: 1.05;
+        }
+
+        .intro-copy p {
+            margin-bottom: 18px;
+            color: var(--body-text);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .intro-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 28px;
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-small);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .intro-note-icon {
+            display: flex;
+            width: 42px;
+            min-width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--lake-light);
+            color: var(--willow-dark);
+        }
+
+        .intro-note-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .intro-note strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--willow-dark);
+            font-size: 0.91rem;
+        }
+
+        .intro-note p {
+            margin: 0;
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        /* Tutorial */
+
+        .tutorial-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background: var(--willow-pale);
+        }
+
+        .tutorial-section::before {
+            position: absolute;
+            top: -190px;
+            left: -170px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(69, 98, 87, 0.08);
+            content: "";
+        }
+
+        .tutorial-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .tutorial-card {
+            position: relative;
+            min-height: 255px;
+            overflow: hidden;
+            padding: 28px 22px 24px;
             border: 1px solid var(--border);
             border-radius: var(--radius-medium);
-            background: var(--linen);
+            background: var(--white);
             box-shadow: var(--shadow-small);
             transition:
                 transform 0.3s ease,
@@ -528,163 +624,265 @@
                 border-color 0.3s ease;
         }
 
-        .step-card:hover {
-            border-color: rgba(197, 123, 87, 0.35);
+        .tutorial-card:hover {
+            border-color: rgba(69, 98, 87, 0.3);
             box-shadow: var(--shadow);
-            transform: translateY(-7px);
+            transform: translateY(-8px);
         }
 
-        .step-card::after {
+        .tutorial-card::after {
             position: absolute;
-            right: -55px;
-            bottom: -70px;
-            width: 150px;
-            height: 150px;
+            right: -42px;
+            bottom: -55px;
+            width: 125px;
+            height: 125px;
             border-radius: 50%;
-            background: var(--stone-light);
+            background: var(--willow-pale);
             content: "";
+            transition: transform 0.35s ease;
+        }
+
+        .tutorial-card:hover::after {
+            transform: scale(1.2);
         }
 
         .step-number {
-            position: relative;
-            z-index: 2;
             display: flex;
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             align-items: center;
             justify-content: center;
             margin-bottom: 22px;
             border-radius: 50%;
-            background: var(--forest-dark);
-            color: var(--copper-light);
-            font-size: 0.83rem;
+            background: var(--willow-dark);
+            color: var(--autumn-light);
+            font-size: 0.85rem;
             font-weight: 800;
         }
 
-        .step-card h3 {
+        .tutorial-card h3 {
             position: relative;
             z-index: 2;
-            margin-bottom: 10px;
-            color: var(--forest-dark);
-            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: var(--willow-dark);
+            font-size: 1.02rem;
             font-weight: 800;
+            line-height: 1.35;
         }
 
-        .step-card p {
+        .tutorial-card p {
             position: relative;
             z-index: 2;
-            color: var(--text);
-            font-size: 0.88rem;
-            line-height: 1.7;
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
         }
 
-        /* Future section */
+        /* Dashboard */
 
-        .future-section {
+        .dashboard-section {
+            padding: 110px 0 125px;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--off-white) 0%,
+                    var(--white) 100%
+                );
+        }
+
+        .dashboard-shell {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-large);
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 16px 22px;
+        }
+
+        .dashboard-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-status {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--autumn);
+            box-shadow: 0 0 0 6px rgba(214, 162, 69, 0.2);
+        }
+
+        .dashboard-label strong {
+            display: block;
+            color: var(--willow-dark);
+            font-size: 0.93rem;
+        }
+
+        .dashboard-label span {
+            display: block;
+            margin-top: 2px;
+            color: var(--body-text);
+            font-size: 0.76rem;
+        }
+
+        .dashboard-decoration {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dashboard-decoration span {
+            display: block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--willow-light);
+        }
+
+        .dashboard-frame {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+            overflow: hidden;
+            border-radius: 14px;
+            aspect-ratio: 16 / 9;
+        }
+
+        .dashboard-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .dashboard-tip {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 22px 0 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--autumn);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+            background: var(--willow-pale);
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+            text-align: left;
+        }
+
+        .dashboard-tip p {
+            margin: 0;
+            text-align: left;
+        }
+
+        .dashboard-tip strong {
+            color: var(--willow-dark);
+        }
+
+        .dashboard-tip svg {
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            color: var(--willow);
+        }
+
+        /* Closing */
+
+        .closing-section {
             position: relative;
             overflow: hidden;
             padding: 115px 0;
             background:
                 radial-gradient(
-                    circle at 86% 18%,
-                    rgba(197, 123, 87, 0.13),
-                    transparent 27%
+                    circle at 82% 22%,
+                    rgba(214, 162, 69, 0.17),
+                    transparent 28%
                 ),
-                linear-gradient(
-                    145deg,
-                    #173b35 0%,
-                    #102d28 100%
-                );
+                var(--willow-dark);
             color: var(--white);
         }
 
-        .future-section::before {
+        .closing-section::before {
             position: absolute;
-            bottom: -220px;
-            left: -180px;
-            width: 480px;
-            height: 480px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            bottom: -210px;
+            left: -170px;
+            width: 460px;
+            height: 460px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
             border-radius: 50%;
             content: "";
         }
 
-        .future-content {
+        .closing-content {
             position: relative;
             z-index: 2;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            align-items: center;
-            gap: 76px;
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
         }
 
-        .future-copy .eyebrow {
-            margin-bottom: 17px;
-            color: var(--copper-light);
+        .closing-content .eyebrow {
+            justify-content: center;
+            margin-bottom: 19px;
+            color: var(--autumn-light);
         }
 
-        .future-copy .eyebrow::after {
-            display: none;
-        }
-
-        .future-copy h2 {
-            max-width: 650px;
-            margin-bottom: 20px;
-            font-size: clamp(2.2rem, 5vw, 4rem);
+        .closing-content h2 {
+            margin-bottom: 22px;
+            font-size: clamp(2.3rem, 6vw, 4.6rem);
             font-weight: 800;
-            letter-spacing: -0.06em;
-            line-height: 1.06;
+            letter-spacing: -0.065em;
+            line-height: 1.02;
         }
 
-        .future-copy p {
-            max-width: 670px;
-            color: rgba(255, 255, 255, 0.73);
-            font-size: 1rem;
+        .closing-content p {
+            max-width: 690px;
+            margin: 0 auto 35px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.02rem;
             line-height: 1.8;
         }
 
-        .future-panel {
-            padding: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: var(--radius-medium);
-            background: rgba(255, 255, 255, 0.065);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+        .closing-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--autumn-light);
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
         }
 
-        .future-panel strong {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--copper-light);
-            font-size: 0.84rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        .future-panel p {
-            margin-bottom: 23px;
-            color: rgba(255, 255, 255, 0.74);
-            font-size: 0.88rem;
-            line-height: 1.7;
-        }
-
-        .future-panel .request-button {
-            width: 100%;
-            background: var(--copper);
+        .closing-link:hover,
+        .closing-link:focus-visible {
             color: var(--white);
+            transform: translateY(-2px);
         }
 
-        .future-panel .request-button:hover {
-            background: var(--copper-dark);
+        .closing-link svg {
+            width: 17px;
+            height: 17px;
         }
 
         /* Footer */
 
         .site-footer {
-            padding: 31px 0;
-            background: #0b211d;
-            color: rgba(255, 255, 255, 0.6);
+            padding: 30px 0;
+            background: #1c2f2a;
+            color: rgba(255, 255, 255, 0.62);
             text-align: center;
         }
 
@@ -696,7 +894,7 @@
         }
 
         .site-footer p {
-            font-size: 0.81rem;
+            font-size: 0.82rem;
         }
 
         .site-footer a {
@@ -706,239 +904,66 @@
         }
 
         .site-footer a:hover {
-            color: var(--copper-light);
+            color: var(--autumn-light);
         }
 
         .disclaimer {
-            max-width: 700px;
-            color: rgba(255, 255, 255, 0.38);
-            font-size: 0.68rem;
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.68rem !important;
             line-height: 1.55;
         }
 
-        /* Modal */
+        /* Scroll to top */
 
-        .modal-overlay {
+        .scroll-top {
             position: fixed;
-            z-index: 100;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            background: rgba(7, 24, 21, 0.8);
-            backdrop-filter: blur(9px);
-            -webkit-backdrop-filter: blur(9px);
-        }
-
-        .modal-overlay.open {
+            z-index: 40;
+            right: 22px;
+            bottom: 22px;
             display: flex;
-        }
-
-        .modal {
-            position: relative;
-            width: min(760px, 100%);
-            max-height: min(88vh, 900px);
-            overflow-y: auto;
-            border-radius: var(--radius-large);
-            background: var(--linen);
-            box-shadow: 0 32px 95px rgba(0, 0, 0, 0.38);
-        }
-
-        .modal-header {
-            position: sticky;
-            z-index: 4;
-            top: 0;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 24px;
-            padding: 30px 32px 24px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(253, 251, 248, 0.97);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .modal-heading span {
-            display: block;
-            margin-bottom: 7px;
-            color: var(--copper-dark);
-            font-size: 0.73rem;
-            font-weight: 800;
-            letter-spacing: 0.13em;
-            text-transform: uppercase;
-        }
-
-        .modal-heading h2 {
-            margin-bottom: 7px;
-            color: var(--forest-dark);
-            font-size: clamp(1.6rem, 4vw, 2.3rem);
-            font-weight: 800;
-            letter-spacing: -0.045em;
-            line-height: 1.12;
-        }
-
-        .modal-heading p {
-            color: var(--text);
-            font-size: 0.84rem;
-            line-height: 1.6;
-        }
-
-        .modal-close {
-            display: flex;
-            width: 42px;
-            min-width: 42px;
-            height: 42px;
+            width: 50px;
+            height: 50px;
             align-items: center;
             justify-content: center;
             border: 0;
             border-radius: 50%;
-            background: var(--stone-light);
-            color: var(--forest-dark);
-            cursor: pointer;
-        }
-
-        .modal-close:hover {
-            background: var(--stone);
-        }
-
-        .modal-close svg {
-            width: 19px;
-            height: 19px;
-        }
-
-        .request-form {
-            padding: 30px 32px 36px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            color: var(--forest-dark);
-            font-size: 0.8rem;
-            font-weight: 800;
-        }
-
-        .form-group label span {
-            color: var(--error);
-        }
-
-        .form-control {
-            width: 100%;
-            min-height: 50px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            outline: none;
-            background: var(--ivory);
-            color: var(--charcoal);
-            padding: 0 15px;
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease,
-                background 0.2s ease;
-        }
-
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-            padding-top: 13px;
-        }
-
-        .form-control:focus {
-            border-color: var(--copper);
-            background: var(--white);
-            box-shadow: 0 0 0 4px rgba(197, 123, 87, 0.12);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 11px;
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--stone-light);
-        }
-
-        .checkbox-group input {
-            width: 18px;
-            min-width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            accent-color: var(--copper);
-        }
-
-        .checkbox-group label {
-            color: var(--text);
-            font-size: 0.82rem;
-            font-weight: 600;
-            line-height: 1.55;
-        }
-
-        .form-note {
-            margin-top: 22px;
-            padding: 15px 17px;
-            border-left: 4px solid var(--copper);
-            border-radius: 0 10px 10px 0;
-            background: var(--stone-light);
-            color: var(--text);
-            font-size: 0.77rem;
-            line-height: 1.6;
-        }
-
-        .submit-button {
-            display: inline-flex;
-            width: 100%;
-            min-height: 54px;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            margin-top: 22px;
-            border: 0;
-            border-radius: 999px;
-            background: var(--forest-dark);
+            background: var(--willow-dark);
+            box-shadow: 0 14px 34px rgba(29, 52, 45, 0.3);
             color: var(--white);
-            font-size: 0.87rem;
-            font-weight: 800;
             cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
             transition:
-                background 0.2s ease,
-                transform 0.2s ease;
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                background 0.25s ease;
         }
 
-        .submit-button:hover {
-            background: var(--forest);
-            transform: translateY(-2px);
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
-        .submit-button svg {
-            width: 18px;
-            height: 18px;
+        .scroll-top:hover {
+            background: var(--willow);
         }
 
-        /* Reveal animation */
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Animation */
 
         .reveal {
             opacity: 0;
-            transform: translateY(24px);
+            transform: translateY(28px);
             transition:
-                opacity 0.7s ease,
-                transform 0.7s ease;
+                opacity 0.75s ease,
+                transform 0.75s ease;
         }
 
         .reveal.visible {
@@ -946,38 +971,93 @@
             transform: translateY(0);
         }
 
+        .tutorial-card:nth-child(2) {
+            transition-delay: 0.07s;
+        }
+
+        .tutorial-card:nth-child(3) {
+            transition-delay: 0.14s;
+        }
+
+        .tutorial-card:nth-child(4) {
+            transition-delay: 0.21s;
+        }
+
+        .tutorial-card:nth-child(5) {
+            transition-delay: 0.28s;
+        }
+
         /* Responsive */
 
-        @media (max-width: 900px) {
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .future-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
+        @media (max-width: 1050px) {
+            .tutorial-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        @media (max-width: 680px) {
+        @media (max-width: 850px) {
             .page-width {
-                width: min(calc(100% - 28px), var(--page-width));
+                width: min(calc(100% - 34px), var(--page-width));
             }
 
-            .navigation {
-                min-height: 70px;
+            .site-header {
+                background: rgba(24, 44, 38, 0.72);
             }
 
-            .brand {
-                font-size: 0.91rem;
+            .navigation-actions {
+                margin-left: auto;
+                gap: 14px;
             }
 
-            .navigation-link {
-                font-size: 0.76rem;
+            .all-reports-link {
+                font-size: 0.82rem;
+            }
+
+            .all-reports-link::after {
+                display: none;
+            }
+
+            .menu-button {
+                display: flex;
+            }
+
+            .navigation-links {
+                position: fixed;
+                top: 78px;
+                right: 17px;
+                left: 17px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                background: rgba(28, 47, 42, 0.98);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            }
+
+            .navigation-links.open {
+                display: flex;
+            }
+
+            .navigation-links a {
+                display: block;
+                padding: 14px 15px;
+                border-radius: 11px;
+            }
+
+            .navigation-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .navigation-links a::after {
+                display: none;
             }
 
             .hero {
-                min-height: 690px;
+                min-height: 670px;
+                background-position: 58% center;
             }
 
             .hero::after {
@@ -985,73 +1065,159 @@
             }
 
             .hero-content {
-                padding-top: 112px;
-                padding-bottom: 84px;
-            }
-
-            .hero h1 {
-                font-size: clamp(3rem, 15vw, 4.6rem);
-            }
-
-            .search-shell {
-                align-items: stretch;
-                flex-direction: column;
-                padding: 14px;
-                border-radius: 22px;
-            }
-
-            .search-field-row {
                 width: 100%;
-                padding: 4px 7px;
+                padding-bottom: 80px;
             }
 
-            .search-button {
-                width: 100%;
-            }
-
-            .result-item {
-                align-items: flex-start;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .result-action {
-                min-width: auto;
-            }
-
-            .how-section {
-                padding: 80px 0 95px;
-            }
-
-            .future-section {
-                padding: 90px 0;
-            }
-
-            .modal-overlay {
-                align-items: flex-end;
-                padding: 0;
-            }
-
-            .modal {
-                width: 100%;
-                max-height: 94vh;
-                border-radius: 24px 24px 0 0;
-            }
-
-            .modal-header {
-                padding: 24px 20px 20px;
-            }
-
-            .request-form {
-                padding: 24px 20px 30px;
-            }
-
-            .form-grid {
+            .intro-grid {
                 grid-template-columns: 1fr;
             }
 
-            .form-group.full-width {
+            .intro-number {
+                min-height: 315px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tutorial-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dashboard-section,
+            .tutorial-section {
+                padding: 90px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-width {
+                width: min(calc(100% - 28px), var(--page-width));
+            }
+
+            .navigation {
+                min-height: 70px;
+                gap: 12px;
+            }
+
+            .brand {
+                font-size: 0.9rem;
+            }
+
+            .all-reports-link {
+                font-size: 0.75rem;
+            }
+
+            .navigation-links {
+                top: 70px;
+                right: 14px;
+                left: 14px;
+            }
+
+            .hero {
+                min-height: 660px;
+                align-items: flex-end;
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(24, 45, 39, 0.2) 0%,
+                        rgba(24, 45, 39, 0.46) 35%,
+                        rgba(24, 45, 39, 0.96) 100%
+                    ),
+                    url("westernsprings-parkrun-hero.jpg")
+                    62% center / cover no-repeat;
+            }
+
+            .hero-content {
+                padding-top: 125px;
+                padding-bottom: 86px;
+            }
+
+            .hero h1 {
+                max-width: 470px;
+                font-size: clamp(2.8rem, 14vw, 4.3rem);
+            }
+
+            .hero-description {
+                font-size: 0.98rem;
+                line-height: 1.7;
+            }
+
+            .hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+            .intro-section {
+                padding: 75px 0 85px;
+            }
+
+            .intro-number {
+                min-height: 270px;
+            }
+
+            .intro-copy h2 {
+                font-size: 2.35rem;
+            }
+
+            .section-heading {
+                margin-bottom: 38px;
+            }
+
+            .dashboard-section .section-heading h2 {
+                white-space: normal;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorial-card,
+            .tutorial-card:last-child {
+                min-height: auto;
                 grid-column: auto;
+            }
+
+            .dashboard-shell {
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .dashboard-toolbar {
+                padding: 12px 10px 17px;
+            }
+
+            .dashboard-frame {
+                min-height: 610px;
+                border-radius: 14px;
+                aspect-ratio: auto;
+            }
+
+            .dashboard-tip {
+                padding: 16px;
+                font-size: 0.82rem;
+            }
+
+            .closing-section {
+                padding: 90px 0;
+            }
+
+            .closing-content h2 {
+                font-size: 2.65rem;
+            }
+
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 46px;
+                height: 46px;
             }
         }
 
@@ -1063,6 +1229,7 @@
             *,
             *::before,
             *::after {
+                scroll-behavior: auto !important;
                 transition-duration: 0.01ms !important;
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -1085,24 +1252,58 @@
         >
             <a
                 class="brand"
-                href="./"
-                aria-label="Event Insights home"
+                href="../"
+                aria-label="Return to Event Insights"
             >
                 Event <span>Insights</span>
             </a>
 
-            <a
-                class="navigation-link"
-                href="https://datawithandrea.com.au"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Data with Andrea
-            </a>
+            <div class="navigation-actions">
+                <a
+                    class="all-reports-link"
+                    href="../"
+                >
+                    Browse events
+                </a>
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="navigationLinks"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    >
+                        <path d="M4 7h16"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M4 17h16"></path>
+                    </svg>
+                </button>
+
+                <ul
+                    class="navigation-links"
+                    id="navigationLinks"
+                >
+                    <li>
+                        <a href="#Quick-guide">Quick guide</a>
+                    </li>
+
+                    <li>
+                        <a href="#report">Explore the dashboard</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
 
-    <main>
+    <main id="top">
 
         <section class="hero">
             <div class="page-width">
@@ -1113,85 +1314,113 @@
                     </div>
 
                     <h1>
-                        Explore your local
-                        <span>parkrun.</span>
+                        Western Springs
+                        <span>parkrun</span>
                     </h1>
 
                     <p class="hero-description">
-                        Search for your event to explore interactive
-                        statistics, milestones, participation patterns and
-                        stories hidden within the results.
+                        Explore Western Springs through interactive statistics,
+                        milestones, participation patterns and the individual
+                        stories created around the lake.
                     </p>
 
-                    <div class="search-area">
+                    <div class="hero-actions">
 
-                        <div class="search-shell">
+                        <a
+                            class="primary-button"
+                            href="#report"
+                        >
+                            Explore the dashboard
 
-                            <div class="search-field-row">
+                            <svg
+                                class="button-icon"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="m13 6 6 6-6 6"></path>
+                            </svg>
+                        </a>
+
+                        <a
+                            class="secondary-button"
+                            href="#report-guide"
+                        >
+                            Show me how it works
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="intro-section">
+            <div class="page-width">
+
+                <div class="intro-grid">
+
+                    <div class="intro-number reveal">
+                        <div class="intro-number-inner">
+                            <strong>5K</strong>
+                            <span>One park. Many stories.</span>
+                        </div>
+                    </div>
+
+                    <div class="intro-copy reveal">
+
+                        <div class="eyebrow">
+                            Around the lake
+                        </div>
+
+                        <h2>
+                            Discover more than the finishing times.
+                        </h2>
+
+                        <p>
+                            Beneath the willow trees and alongside the water,
+                            every Western Springs event brings together runners,
+                            walkers, volunteers, milestones and personal
+                            achievements.
+                        </p>
+
+                        <p>
+                            This interactive dashboard turns those results into a
+                            story you can explore. Select age groups, clubs,
+                            milestones, charts and individual rows to uncover
+                            different perspectives within the event.
+                        </p>
+
+                        <div class="intro-note">
+
+                            <div class="intro-note-icon">
                                 <svg
-                                    class="search-icon"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
                                     stroke-width="2"
                                     stroke-linecap="round"
-                                    aria-hidden="true"
+                                    stroke-linejoin="round"
                                 >
-                                    <circle cx="11" cy="11" r="7"></circle>
-                                    <path d="m20 20-3.5-3.5"></path>
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 11v5"></path>
+                                    <path d="M12 8h.01"></path>
                                 </svg>
-
-                                <input
-                                    class="search-input"
-                                    id="eventSearch"
-                                    type="search"
-                                    placeholder="Start typing an event name..."
-                                    autocomplete="off"
-                                    aria-label="Search for a local parkrun dashboard"
-                                >
                             </div>
 
-                            <button
-                                class="search-button"
-                                id="searchButton"
-                                type="button"
-                            >
-                                Search
-                            </button>
+                            <div>
+                                <strong>A one-off event feature</strong>
+
+                                <p>
+                                    This dashboard has been created as a special
+                                    interactive look at Western Springs parkrun.
+                                </p>
+                            </div>
 
                         </div>
-
-                        <div
-                            class="search-results"
-                            id="searchResults"
-                            aria-live="polite"
-                        ></div>
-
-                        <div
-                            class="no-result"
-                            id="noResult"
-                            aria-live="polite"
-                        >
-                            <h2 id="noResultHeading">
-                                We haven’t created that event dashboard yet.
-                            </h2>
-
-                            <p>
-                                Request a one-off dashboard for your event,
-                                or register your interest in an ongoing option.
-                            </p>
-
-                            <button
-                                class="request-button open-request-form"
-                                type="button"
-                            >
-                                Request an event dashboard
-                            </button>
-                        </div>
-
-                        <p class="search-note">
-                            Enter at least three letters to search for an event.
-                        </p>
 
                     </div>
 
@@ -1199,109 +1428,217 @@
             </div>
         </section>
 
-        <section class="how-section">
+        <section
+            class="tutorial-section"
+            id="report-guide"
+        >
             <div class="page-width">
 
                 <div class="section-heading reveal">
 
                     <div class="eyebrow">
-                        How it works
+                        Quick tutorial
                     </div>
 
                     <h2>
-                        Search. Explore. Request.
+                        Click, filter and explore.
                     </h2>
 
                     <p>
-                        Find an available event dashboard or request a custom
-                        interactive dashboard for a specific event date.
+                        The dashboard is fully interactive. Here are five quick ways
+                        to get the most out of it.
                     </p>
 
                 </div>
 
-                <div class="steps-grid">
+                <div class="tutorial-grid">
 
-                    <article class="step-card reveal">
+                    <article class="tutorial-card reveal">
                         <div class="step-number">01</div>
 
-                        <h3>Search for your event</h3>
+                        <h3>Start with a chart</h3>
 
                         <p>
-                            Enter the name of your local event to check whether
-                            an interactive dashboard is currently available.
+                            Click an age group, club, milestone or chart to instantly
+                            filter the page and uncover different stories.
                         </p>
                     </article>
 
-                    <article class="step-card reveal">
+                    <article class="tutorial-card reveal">
                         <div class="step-number">02</div>
 
-                        <h3>Explore the data</h3>
+                        <h3>Navigate the dashboard</h3>
 
                         <p>
-                            Open an available dashboard and interact with results,
-                            milestones, age groups, clubs and participant data.
+                            Use the KPI cards across the top of the page to move
+                            between the different dashboard pages.
                         </p>
                     </article>
 
-                    <article class="step-card reveal">
+                    <article class="tutorial-card reveal">
                         <div class="step-number">03</div>
 
-                        <h3>Request a dashboard</h3>
+                        <h3>Hover for detail</h3>
 
                         <p>
-                            If your event is not available, submit a request
-                            for a one-off event dashboard or register future
-                            ongoing interest.
+                            Hover over charts and data points to reveal additional
+                            information and exact values.
                         </p>
                     </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">04</div>
+
+                        <h3>Go back to the overview</h3>
+
+                        <p>
+                            Click the parkrun logo in the top-left corner of the page
+                            to return to the dashboard home page.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">05</div>
+
+                        <h3>Reset your selections</h3>
+
+                        <p>
+                            Use the reset button in the bottom-right corner of the
+                            page to clear all filters and start exploring again.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="dashboard-section"
+            id="report"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Western Springs parkrun
+                    </div>
+
+                    <h2>
+                        Explore the event dashboard.
+                    </h2>
+
+                    <p>
+                        Select charts, categories and table rows to uncover
+                        different stories within the event data.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-shell reveal">
+
+                    <div class="dashboard-toolbar">
+
+                        <div class="dashboard-label">
+
+                            <span
+                                class="dashboard-status"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div>
+                                <strong>Interactive Power BI dashboard</strong>
+                                <span>Western Springs parkrun</span>
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="dashboard-decoration"
+                            aria-hidden="true"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-frame">
+                        <iframe
+                            title="Western Springs parkrun"
+                            src="https://app.powerbi.com/view?r=eyJrIjoiMTU3OTdmNTMtYjE0OS00YWFjLTlhNmQtMzk1ZDNiYjExODk4IiwidCI6ImFkNWEwYmM3LWM4YjMtNDMzNC04NzNlLWJkODQ1NzMxMGIzZSJ9"
+                            frameborder="0"
+                            allowfullscreen="true"
+                        ></iframe>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-tip reveal">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                        <path d="M9 18h6"></path>
+                    </svg>
+
+                    <p>
+                        <strong>Tip:</strong>
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the dashboard.
+                    </p>
 
                 </div>
 
             </div>
         </section>
 
-        <section class="future-section">
+        <section class="closing-section">
             <div class="page-width">
 
-                <div class="future-content">
+                <div class="closing-content reveal">
 
-                    <div class="future-copy reveal">
-
-                        <div class="eyebrow">
-                            Looking ahead
-                        </div>
-
-                        <h2>
-                            Interested in an ongoing event dashboard?
-                        </h2>
-
-                        <p>
-                            Future options may include dashboards that are
-                            refreshed regularly with new event data. Event
-                            teams can register their interest now without
-                            making any commitment.
-                        </p>
-
+                    <div class="eyebrow">
+                        Thanks for visiting
                     </div>
 
-                    <div class="future-panel reveal">
+                    <h2>
+                        There is a story behind every result.
+                    </h2>
 
-                        <strong>Register your interest</strong>
+                    <p>
+                        Whether you are checking a result, celebrating a
+                        milestone, recognising a familiar name or simply
+                        exploring the event, enjoy discovering the stories
+                        created at Western Springs parkrun.
+                    </p>
 
-                        <p>
-                            Tell us about your event, the type of dashboard you
-                            would like and whether you may be interested in an
-                            ongoing option in the future.
-                        </p>
+                    <a
+                        class="closing-link"
+                        href="../"
+                    >
+                        Browse all event dashboards
 
-                        <button
-                            class="request-button open-request-form"
-                            type="button"
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
                         >
-                            Open request form
-                        </button>
-
-                    </div>
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+                        </svg>
+                    </a>
 
                 </div>
 
@@ -1332,571 +1669,62 @@
         </div>
     </footer>
 
-    <div
-        class="modal-overlay"
-        id="requestModal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="requestModalTitle"
+    <button
+        class="scroll-top"
+        id="scrollTopButton"
+        type="button"
+        aria-label="Scroll back to the top"
     >
-        <div class="modal">
-
-            <div class="modal-header">
-
-                <div class="modal-heading">
-
-                    <span>Event dashboard request</span>
-
-                    <h2 id="requestModalTitle">
-                        Tell us about your event.
-                    </h2>
-
-                    <p>
-                        Submit a request for a one-off dashboard or register
-                        interest in a future ongoing dashboard.
-                    </p>
-
-                </div>
-
-                <button
-                    class="modal-close"
-                    id="closeModal"
-                    type="button"
-                    aria-label="Close request form"
-                >
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        aria-hidden="true"
-                    >
-                        <path d="M6 6l12 12"></path>
-                        <path d="M18 6 6 18"></path>
-                    </svg>
-                </button>
-
-            </div>
-
-            <form
-                class="request-form"
-                id="dashboardRequestForm"
-                action="https://formspree.io/f/mnjkevov"
-                method="POST"
-            >
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="eventName">
-                            Event name <span>*</span>
-                        </label>
-
-                        <input
-                            class="form-control"
-                            id="eventName"
-                            name="event_name"
-                            type="text"
-                            required
-                            placeholder="e.g. New Farm parkrun"
-                        >
-
-                    </div>
-
-                  <div class="form-group">
-
-    <label for="athleteId">
-        Athlete ID <span>*</span>
-    </label>
-
-    <input
-        class="form-control"
-        id="athleteId"
-        name="athlete_id"
-        type="text"
-        required
-        placeholder="e.g. A1234567"
-        pattern="[Aa][0-9]{1,10}"
-        title="Enter a valid athlete ID beginning with A, followed by numbers"
-        autocomplete="off"
-    >
-
-</div>
-                    <div class="form-group">
-
-                        <label for="requestedDate">
-                            Requested event date
-                        </label>
-
-                        <input
-                            class="form-control"
-                            id="requestedDate"
-                            name="requested_event_date"
-                            type="date"
-                        >
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="requestType">
-                            Request type <span>*</span>
-                        </label>
-
-                        <select
-                            class="form-control"
-                            id="requestType"
-                            name="request_type"
-                            required
-                        >
-                            <option value="">
-                                Select an option
-                            </option>
-
-                            <option value="One-off event dashboard">
-                                One-off event dashboard
-                            </option>
-
-                            <option value="Future ongoing dashboard interest">
-                                Future ongoing dashboard interest
-                            </option>
-
-                            <option value="Both">
-                                Both
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="requesterName">
-                            Your name <span>*</span>
-                        </label>
-
-                        <input
-                            class="form-control"
-                            id="requesterName"
-                            name="requester_name"
-                            type="text"
-                            required
-                            placeholder="Your name"
-                        >
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="email">
-                            Email address <span>*</span>
-                        </label>
-
-                        <input
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            type="email"
-                            required
-                            placeholder="name@example.com"
-                        >
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="relationship">
-                            Relationship to the event <span>*</span>
-                        </label>
-
-                        <select
-                            class="form-control"
-                            id="relationship"
-                            name="relationship_to_event"
-                            required
-                        >
-                            <option value="">
-                                Select an option
-                            </option>
-
-                            <option value="Event Director">
-                                Event Director
-                            </option>
-
-                            <option value="Run Director">
-                                Run Director
-                            </option>
-
-                            <option value="Core volunteer team">
-                                Core volunteer team
-                            </option>
-
-                            <option value="Volunteer">
-                                Volunteer
-                            </option>
-
-                            <option value="Regular participant">
-                                Regular participant
-                            </option>
-
-                            <option value="Other">
-                                Other
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="approvalStatus">
-                            Event team approval <span>*</span>
-                        </label>
-
-                        <select
-                            class="form-control"
-                            id="approvalStatus"
-                            name="event_team_approval"
-                            required
-                        >
-                            <option value="">
-                                Select an option
-                            </option>
-
-                            <option value="I am the Event Director">
-                                I am the Event Director
-                            </option>
-
-                            <option value="Discussed with Event Director">
-                                I have discussed this with the Event Director
-                            </option>
-
-                            <option value="Not yet discussed">
-                                I have not discussed this with the Event Director
-                            </option>
-
-                            <option value="Not applicable">
-                                Not applicable
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group full-width">
-
-                        <label for="dashboardIdeas">
-                            What would you like included?
-                        </label>
-
-                        <textarea
-                            class="form-control"
-                            id="dashboardIdeas"
-                            name="dashboard_ideas"
-                            placeholder="Tell us about the results, milestones, statistics or stories you would like explored."
-                        ></textarea>
-
-                    </div>
-
-                    <div class="form-group full-width">
-
-                        <div class="checkbox-group">
-
-                            <input
-                                id="futureInterest"
-                                name="future_ongoing_interest"
-                                type="checkbox"
-                                value="Yes"
-                            >
-
-                            <label for="futureInterest">
-                                I may be interested in an automatically updated
-                                dashboard for this event in the future.
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-group full-width">
-
-                        <label for="comments">
-                            Additional comments
-                        </label>
-
-                        <textarea
-                            class="form-control"
-                            id="comments"
-                            name="additional_comments"
-                            placeholder="Anything else you would like us to know?"
-                        ></textarea>
-
-                    </div>
-
-                </div>
-
-                <input
-                    type="hidden"
-                    name="_subject"
-                    value="New Event Insights dashboard request"
-                >
-
-                <input
-                    type="hidden"
-                    name="source_page"
-                    value="parkrun.datawithandrea.com.au"
-                >
-
-                <div class="form-note">
-                    Submitting this form is an expression of interest only.
-                    It does not guarantee availability, delivery or pricing.
-                </div>
-
-                <button
-                    class="submit-button"
-                    type="submit"
-                >
-                    Submit dashboard request
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                    >
-                        <path d="M5 12h14"></path>
-                        <path d="m13 6 6 6-6 6"></path>
-                    </svg>
-                </button>
-
-            </form>
-
-        </div>
-    </div>
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
 
     <script>
-        const events = [
-            {
-                name: "Southern Path parkrun",
-                description: "Explore the Southern Path interactive event dashboard",
-                url: "southernpathparkrun/"
-            },
-            {
-                name: "Jeune Park parkrun",
-                description: "Explore the Jeune Park interactive event dashboard",
-                url: "jeuneparkparkrun/"
-            },
-            {
-                name: "Western Springs parkrun",
-                description: "Explore the Western Springs interactive event dashboard",
-                url: "westernspringsparkrun/"
-            },
-            {
-                name: "Cornwall Park parkrun",
-                description: "Explore the Cornwall Park interactive event dashboard",
-                url: "cornwallparkparkrun/"
-            },
-        ];
+        const menuButton =
+            document.getElementById("menuButton");
 
-        const minimumSearchLength = 3;
+        const navigationLinks =
+            document.getElementById("navigationLinks");
 
-        const eventSearch =
-            document.getElementById("eventSearch");
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navigationLinks.classList.toggle("open");
 
-        const searchButton =
-            document.getElementById("searchButton");
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
 
-        const searchResults =
-            document.getElementById("searchResults");
-
-        const noResult =
-            document.getElementById("noResult");
-
-        const noResultHeading =
-            document.getElementById("noResultHeading");
-
-        const requestModal =
-            document.getElementById("requestModal");
-
-        const closeModalButton =
-            document.getElementById("closeModal");
-
-        const eventNameField =
-            document.getElementById("eventName");
-
-        const openRequestButtons =
-            document.querySelectorAll(".open-request-form");
-
-        function escapeHtml(value) {
-            return value
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-        }
-
-        function normaliseText(value) {
-            return value
-                .toLowerCase()
-                .replace(/\bparkrun\b/g, "")
-                .replace(/[^a-z0-9\s]/g, "")
-                .replace(/\s+/g, " ")
-                .trim();
-        }
-
-        function clearSearchMessages() {
-            searchResults.innerHTML = "";
-            searchResults.classList.remove("visible");
-            noResult.classList.remove("visible");
-        }
-
-        function performSearch() {
-            const rawSearch = eventSearch.value.trim();
-            const searchTerm = normaliseText(rawSearch);
-
-            clearSearchMessages();
-
-            if (searchTerm.length < minimumSearchLength) {
-                return;
-            }
-
-            const matches = events.filter((event) => {
-                const eventName = normaliseText(event.name);
-
-                return (
-                    eventName.includes(searchTerm) ||
-                    searchTerm.includes(eventName)
-                );
-            });
-
-            if (matches.length > 0) {
-                searchResults.innerHTML = matches
-                    .map((event) => {
-                        return `
-                            <a
-                                class="result-item"
-                                href="${event.url}"
-                            >
-                                <div>
-                                    <span class="result-name">
-                                        ${escapeHtml(event.name)}
-                                    </span>
-
-                                    <span class="result-description">
-                                        ${escapeHtml(event.description)}
-                                    </span>
-                                </div>
-
-                                <span class="result-action">
-                                    Explore dashboard
-
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M5 12h14"></path>
-                                        <path d="m13 6 6 6-6 6"></path>
-                                    </svg>
-                                </span>
-                            </a>
-                        `;
-                    })
-                    .join("");
-
-                searchResults.classList.add("visible");
-                return;
-            }
-
-            noResultHeading.textContent =
-                `We haven’t created a dashboard for “${rawSearch}” yet.`;
-
-            noResult.classList.add("visible");
-        }
-
-        function openRequestModal() {
-            const searchedEvent = eventSearch.value.trim();
-
-            if (searchedEvent.length >= minimumSearchLength) {
-                eventNameField.value = searchedEvent;
-            }
-
-            requestModal.classList.add("open");
-            document.body.classList.add("modal-open");
-
-            setTimeout(() => {
-                eventNameField.focus();
-            }, 100);
-        }
-
-        function closeRequestModal() {
-            requestModal.classList.remove("open");
-            document.body.classList.remove("modal-open");
-        }
-
-        eventSearch.addEventListener(
-            "input",
-            performSearch
-        );
-
-        eventSearch.addEventListener(
-            "keydown",
-            (event) => {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    performSearch();
-                }
-
-                if (event.key === "Escape") {
-                    eventSearch.value = "";
-                    clearSearchMessages();
-                }
-            }
-        );
-
-        searchButton.addEventListener(
-            "click",
-            performSearch
-        );
-
-        openRequestButtons.forEach((button) => {
-            button.addEventListener(
-                "click",
-                openRequestModal
+            document.body.classList.toggle(
+                "menu-open",
+                isOpen
             );
         });
 
-        closeModalButton.addEventListener(
-            "click",
-            closeRequestModal
-        );
+        navigationLinks
+            .querySelectorAll("a")
+            .forEach((link) => {
+                link.addEventListener("click", () => {
+                    navigationLinks.classList.remove("open");
 
-        requestModal.addEventListener(
-            "click",
-            (event) => {
-                if (event.target === requestModal) {
-                    closeRequestModal();
-                }
-            }
-        );
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
 
-        document.addEventListener(
-            "keydown",
-            (event) => {
-                if (
-                    event.key === "Escape" &&
-                    requestModal.classList.contains("open")
-                ) {
-                    closeRequestModal();
-                }
-            }
-        );
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+                });
+            });
 
         const revealElements =
             document.querySelectorAll(".reveal");
@@ -1924,6 +1752,34 @@
         revealElements.forEach((element) => {
             revealObserver.observe(element);
         });
+
+        const scrollTopButton =
+            document.getElementById(
+                "scrollTopButton"
+            );
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                scrollTopButton.classList.toggle(
+                    "visible",
+                    window.scrollY > 600
+                );
+            },
+            {
+                passive: true
+            }
+        );
+
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
     </script>
 
 </body>
