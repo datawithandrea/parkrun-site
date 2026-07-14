@@ -3,21 +3,14 @@
 <head>
 
     <!-- Google tag (gtag.js) -->
-    <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-YNXPYC814H"
-    ></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YNXPYC814H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag("js", new Date());
-        gtag("config", "G-YNXPYC814H");
-    </script>
+  gtag('config', 'G-YNXPYC814H');
+</script>
 
     <meta charset="UTF-8">
 
@@ -28,10 +21,10 @@
 
     <meta
         name="description"
-        content="Explore Southern Path parkrun through an interactive event report featuring results, milestones, clubs, age groups and participant insights."
+        content="Southern Path parkrun dashboard with weekly results, stats, milestones, clubs, age groups, volunteers and historical parkrun insights."
     >
 
-    <title>Southern Path parkrun | Interactive Event Report</title>
+    <title>Southern Path parkrun Dashboard | Stats, Results & Insights | Data With Andrea</title>
 
     <link
         rel="preconnect"
@@ -157,6 +150,43 @@
             color: var(--lime);
         }
 
+        .navigation-actions {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .all-reports-link {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .all-reports-link::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--lime);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .all-reports-link:hover::after,
+        .all-reports-link:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
         .navigation-links {
             display: flex;
             align-items: center;
@@ -217,7 +247,7 @@
         .hero {
             position: relative;
             display: flex;
-            min-height: 690px;
+            min-height: 700px;
             align-items: center;
             overflow: hidden;
             isolation: isolate;
@@ -237,10 +267,10 @@
         .hero::before {
             position: absolute;
             z-index: -1;
-            top: -15%;
+            top: -18%;
             right: -10%;
-            width: 56%;
-            height: 120%;
+            width: 58%;
+            height: 125%;
             background:
                 radial-gradient(
                     circle at center,
@@ -264,7 +294,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            width: min(710px, 100%);
+            width: min(720px, 100%);
             padding-top: 78px;
             padding-bottom: 90px;
             color: var(--white);
@@ -293,7 +323,7 @@
         .hero h1 {
             max-width: 700px;
             margin-bottom: 22px;
-            font-size: clamp(3.1rem, 7vw, 6.2rem);
+            font-size: clamp(3rem, 7vw, 6rem);
             font-weight: 800;
             letter-spacing: -0.075em;
             line-height: 0.96;
@@ -305,7 +335,7 @@
         }
 
         .hero-description {
-            max-width: 610px;
+            max-width: 620px;
             margin-bottom: 34px;
             color: rgba(255, 255, 255, 0.9);
             font-size: clamp(1rem, 2vw, 1.14rem);
@@ -399,6 +429,14 @@
             color: var(--body-text);
             font-size: 1rem;
             line-height: 1.75;
+        }
+
+        .dashboard-section .section-heading {
+            max-width: 900px;
+        }
+
+        .dashboard-section .section-heading h2 {
+            white-space: nowrap;
         }
 
         /* Intro */
@@ -743,6 +781,11 @@
             text-align: left;
         }
 
+        .dashboard-tip p {
+            margin: 0;
+            text-align: left;
+        }
+
         .dashboard-tip strong {
             color: var(--green-dark);
         }
@@ -812,6 +855,29 @@
             line-height: 1.8;
         }
 
+        .closing-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--lime);
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .closing-link:hover,
+        .closing-link:focus-visible {
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .closing-link svg {
+            width: 17px;
+            height: 17px;
+        }
 
         /* Footer */
 
@@ -940,6 +1006,19 @@
                 background: rgba(13, 37, 31, 0.72);
             }
 
+            .navigation-actions {
+                margin-left: auto;
+                gap: 14px;
+            }
+
+            .all-reports-link {
+                font-size: 0.82rem;
+            }
+
+            .all-reports-link::after {
+                display: none;
+            }
+
             .menu-button {
                 display: flex;
             }
@@ -979,7 +1058,7 @@
             }
 
             .hero {
-                min-height: 660px;
+                min-height: 670px;
                 background-position: 58% center;
             }
 
@@ -1023,6 +1102,10 @@
                 min-height: 70px;
             }
 
+            .all-reports-link {
+                font-size: 0.75rem;
+            }
+
             .navigation-links {
                 top: 70px;
                 right: 14px;
@@ -1030,7 +1113,7 @@
             }
 
             .hero {
-                min-height: 650px;
+                min-height: 660px;
                 align-items: flex-end;
 
                 background:
@@ -1041,7 +1124,7 @@
                         rgba(10, 39, 32, 0.97) 100%
                     ),
                     url("southern-path-parkrun-hero.jpg")
-                    65% center / cover no-repeat;
+                    62% center / cover no-repeat;
             }
 
             .hero-content {
@@ -1050,8 +1133,8 @@
             }
 
             .hero h1 {
-                max-width: 430px;
-                font-size: clamp(3rem, 15vw, 4.5rem);
+                max-width: 470px;
+                font-size: clamp(2.8rem, 14vw, 4.3rem);
             }
 
             .hero-description {
@@ -1083,6 +1166,10 @@
 
             .section-heading {
                 margin-bottom: 38px;
+            }
+
+            .dashboard-section .section-heading h2 {
+                white-space: normal;
             }
 
             .tutorial-grid {
@@ -1181,44 +1268,49 @@
     Event <span>Insights</span>
 </a>
 
-            <button
-                class="menu-button"
-                id="menuButton"
-                type="button"
-                aria-label="Open navigation menu"
-                aria-expanded="false"
-                aria-controls="navigationLinks"
-            >
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    aria-hidden="true"
+            <div class="navigation-actions">
+                <a
+                    class="all-reports-link"
+                    href="../"
                 >
-                    <path d="M4 7h16"></path>
-                    <path d="M4 12h16"></path>
-                    <path d="M4 17h16"></path>
-                </svg>
-            </button>
+                    Browse events
+                </a>
 
-            <ul
-    class="navigation-links"
-    id="navigationLinks"
->
-    <li>
-        <a href="../">All event reports</a>
-    </li>
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="navigationLinks"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 7h16"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M4 17h16"></path>
+                    </svg>
+                </button>
 
-    <li>
-        <a href="#how-to">Quick guide</a>
-    </li>
+                <ul
+                    class="navigation-links"
+                    id="navigationLinks"
+                >
+                    <li>
+                        <a href="#how-to">Quick guide</a>
+                    </li>
 
-    <li>
-        <a href="#report">Explore the report</a>
-    </li>
-</ul>
+                    <li>
+                        <a href="#report">Explore the dashboard</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -1229,7 +1321,7 @@
                 <div class="hero-content">
 
                     <div class="eyebrow">
-                        Interactive event report
+                        Interactive event insights
                     </div>
 
                     <h1>
@@ -1249,7 +1341,7 @@
                             class="primary-button"
                             href="#report"
                         >
-                            Explore the report
+                            Explore the dashboard
 
                             <svg
                                 class="button-icon"
@@ -1302,13 +1394,13 @@
 
                         <p>
                             Every parkrun result tells part of a much bigger
-                            story. This interactive report brings together the
+                            story. This interactive dashboard brings together the
                             numbers, achievements and patterns from Southern
                             Path parkrun in one easy-to-explore place.
                         </p>
 
                         <p>
-                            Use the report to discover age groups, clubs,
+                            Use the dashboard to discover age groups, clubs,
                             milestones, participation trends and individual
                             results. Select almost anything you see to explore
                             the event from a different angle.
@@ -1336,7 +1428,7 @@
                                 <strong>A one-off event feature</strong>
 
                                 <p>
-                                    This report has been created as a special
+                                    This dashboard has been created as a special
                                     interactive look at Southern Path parkrun.
                                 </p>
                             </div>
@@ -1366,7 +1458,7 @@
                     </h2>
 
                     <p>
-                        The report is fully interactive. Here are five quick
+                        The dashboard is fully interactive. Here are five quick
                         ways to get the most out of it.
                     </p>
 
@@ -1381,18 +1473,18 @@
 
         <p>
             Click an age group, club, milestone or chart to instantly
-            filter the report and uncover different stories.
+            filter the page and uncover different stories.
         </p>
     </article>
 
     <article class="tutorial-card reveal">
         <div class="step-number">02</div>
 
-        <h3>Navigate the report</h3>
+        <h3>Navigate the dashboard</h3>
 
         <p>
-            Use the KPI cards across the top of the report to move
-            between the different report pages.
+            Use the KPI cards across the top of the page to move
+            between the different dashboard pages.
         </p>
     </article>
 
@@ -1413,7 +1505,7 @@
         <h3>Go back to the overview</h3>
 
         <p>
-            Click the parkrun logo in the top-left corner of the report
+            Click the parkrun logo in the top-left corner of the page
             to return to the dashboard home page.
         </p>
     </article>
@@ -1424,7 +1516,7 @@
         <h3>Reset your selections</h3>
 
         <p>
-            Use the reset button in the bottom-right corner of the report
+            Use the reset button in the bottom-right corner of the page
             to clear all filters and start exploring again.
         </p>
     </article>
@@ -1446,7 +1538,7 @@
                     </div>
 
                     <h2>
-                        Explore the event report.
+                        Explore the event dashboard.
                     </h2>
 
                     <p>
@@ -1468,7 +1560,7 @@
                             ></span>
 
                             <div>
-                                <strong>Interactive Power BI report</strong>
+                                <strong>Interactive Power BI dashboard</strong>
                                 <span>Southern Path parkrun</span>
                             </div>
 
@@ -1513,8 +1605,8 @@
 
                     <p>
                         <strong>Tip:</strong>
-                           For a larger view on mobile, rotate your phone to landscape or use
-    the full-screen icon in the bottom-right corner of the report.
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the dashboard.
                     </p>
 
                 </div>
@@ -1537,12 +1629,32 @@
 
                     <p>
                         Whether you are checking a result, celebrating a
-                        milestone, comparing performances or simply exploring
-                        the event, enjoy discovering the stories hidden within
-                        the Southern Path parkrun data.
+                        milestone, recognising a familiar name or simply
+                        exploring the event, enjoy discovering the stories
+                        created at Southern Path parkrun.
                     </p>
 
-                   </div>
+                    <a
+                        class="closing-link"
+                        href="../"
+                    >
+                        Browse all event dashboards
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+                        </svg>
+                    </a>
+
+                </div>
 
             </div>
         </section>
