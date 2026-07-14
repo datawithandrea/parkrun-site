@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://datawithandrea.com.au/sitemap.xml
+Sitemap: https://parkrun.datawithandrea.com.au/sitemap.xml
