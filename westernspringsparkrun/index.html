@@ -519,6 +519,40 @@
             text-transform: uppercase;
         }
 
+        /* MILESTONE BADGE - START (temporary, remove after 500th event week) */
+        .milestone-badge {
+            position: absolute;
+            z-index: 3;
+            top: 0;
+            right: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 14px 20px;
+            background: linear-gradient(120deg, var(--autumn-light), var(--autumn));
+            color: var(--willow-dark);
+            font-size: 0.86rem;
+            font-weight: 800;
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        .milestone-badge svg {
+            width: 19px;
+            min-width: 19px;
+            height: 19px;
+        }
+
+        @media (max-width: 850px) {
+            .milestone-badge {
+                padding: 12px 16px;
+                font-size: 0.78rem;
+            }
+        }
+        /* MILESTONE BADGE - END */
+
         .intro-copy .eyebrow {
             margin-bottom: 18px;
             color: var(--willow-mid);
@@ -749,9 +783,9 @@
         .dashboard-frame {
             position: relative;
             width: 100%;
+            min-height: 400px;
             overflow: hidden;
-            border-radius: 20px;
-            background: #eef3f0;
+            border-radius: 14px;
             aspect-ratio: 16 / 9;
         }
 
@@ -1368,6 +1402,26 @@
                             <strong>5K</strong>
                             <span>One park. Many stories.</span>
                         </div>
+
+                        <!-- MILESTONE BADGE - START (temporary, remove after 500th event week) -->
+                        <div class="milestone-badge">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M8 21h8"></path>
+                                <path d="M12 17v4"></path>
+                                <path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"></path>
+                                <path d="M7 6H5a2 2 0 0 1 0-4h2"></path>
+                                <path d="M17 6h2a2 2 0 0 0 0-4h-2"></path>
+                            </svg>
+                            Congrats on the 500th Milestone Event!
+                        </div>
+                        <!-- MILESTONE BADGE - END -->
                     </div>
 
                     <div class="intro-copy reveal">
