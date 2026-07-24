@@ -1,1 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YNXPYC814H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YNXPYC814H');
+</script>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Bargara parkrun dashboard with weekly results, stats, milestones, clubs, age groups, volunteers and historical parkrun insights."
+    >
+
+    <title>Bargara parkrun Dashboard | Stats, Results & Insights</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --dusk-dark: #16262f;
+            --dusk: #274654;
+            --dusk-mid: #628296;
+            --dusk-light: #dfeaee;
+            --dusk-pale: #f2f7f8;
+
+            --coral: #e2814f;
+            --coral-light: #f0ae82;
+
+            --sand: #c9a876;
+            --sand-light: #ecdfc4;
+
+            --charcoal: #262320;
+            --body-text: #62675f;
+
+            --white: #ffffff;
+            --off-white: #faf8f4;
+
+            --border: rgba(22, 38, 47, 0.13);
+
+            --shadow:
+                0 20px 60px rgba(16, 30, 37, 0.14);
+
+            --shadow-small:
+                0 12px 32px rgba(16, 30, 37, 0.1);
+
+            --radius-large: 30px;
+            --radius-medium: 20px;
+            --radius-small: 14px;
+
+            --page-width: 1280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            overflow-x: hidden;
+            background: var(--off-white);
+            color: var(--charcoal);
+            font-family: "Manrope", sans-serif;
+            line-height: 1.6;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .page-width {
+            width: min(calc(100% - 48px), var(--page-width));
+            margin-inline: auto;
+        }
+
+        /* Navigation */
+
+        .site-header {
+            position: absolute;
+            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(22, 38, 47, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .navigation {
+            display: flex;
+            min-height: 78px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .brand {
+            color: var(--white);
+            font-size: 0.97rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: var(--coral-light);
+        }
+
+        .navigation-actions {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .all-reports-link {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .all-reports-link::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--coral);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .all-reports-link:hover::after,
+        .all-reports-link:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .navigation-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navigation-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navigation-links a::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--coral);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .navigation-links a:hover::after,
+        .navigation-links a:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .menu-button {
+            display: none;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .menu-button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Hero */
+
+        .hero {
+            position: relative;
+            display: flex;
+            min-height: 700px;
+            align-items: center;
+            overflow: hidden;
+            isolation: isolate;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(22, 38, 47, 0.92) 0%,
+                    rgba(30, 50, 60, 0.72) 34%,
+                    rgba(40, 63, 74, 0.32) 68%,
+                    rgba(40, 63, 74, 0.1) 100%
+                ),
+                url("bargara-parkrun-hero.jpg")
+                44% 68% / cover no-repeat;
+        }
+
+        .hero::before {
+            position: absolute;
+            z-index: -1;
+            top: -18%;
+            right: -10%;
+            width: 58%;
+            height: 125%;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(226, 129, 79, 0.18),
+                    transparent 64%
+                );
+            content: "";
+        }
+
+        .hero::after {
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            height: 110px;
+            background: var(--off-white);
+            clip-path: polygon(0 78%, 100% 0, 100% 100%, 0 100%);
+            content: "";
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: min(720px, 100%);
+            padding-top: 78px;
+            padding-bottom: 90px;
+            color: var(--white);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            color: var(--coral-light);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 34px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: "";
+        }
+
+        .hero h1 {
+            max-width: 700px;
+            margin-bottom: 22px;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.075em;
+            line-height: 0.96;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: var(--coral-light);
+        }
+
+        .hero-description {
+            max-width: 620px;
+            margin-bottom: 34px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2vw, 1.14rem);
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-size: 0.89rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .primary-button {
+            background: var(--coral);
+            color: var(--dusk-dark);
+        }
+
+        .secondary-button {
+            border: 1px solid rgba(255, 255, 255, 0.34);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .primary-button:hover {
+            background: var(--coral-light);
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Shared sections */
+
+        section {
+            position: relative;
+        }
+
+        .section-heading {
+            max-width: 720px;
+            margin: 0 auto 52px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 15px;
+            color: var(--dusk-mid);
+        }
+
+        .section-heading h2 {
+            margin-bottom: 16px;
+            color: var(--dusk-dark);
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1.08;
+        }
+
+        .section-heading p {
+            color: var(--body-text);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .dashboard-section .section-heading {
+            max-width: 900px;
+        }
+
+        .dashboard-section .section-heading h2 {
+            white-space: nowrap;
+        }
+
+        /* Intro */
+
+        .intro-section {
+            padding: 90px 0 110px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 0.84fr 1.16fr;
+            align-items: center;
+            gap: clamp(50px, 7vw, 100px);
+        }
+
+        .intro-number {
+            position: relative;
+            display: flex;
+            min-height: 360px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--radius-large);
+            background:
+                radial-gradient(
+                    circle at 30% 25%,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    140deg,
+                    var(--dusk-mid),
+                    var(--dusk-dark)
+                );
+            box-shadow: var(--shadow);
+            color: var(--white);
+        }
+
+        .intro-number::before,
+        .intro-number::after {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .intro-number::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .intro-number::after {
+            width: 190px;
+            height: 190px;
+        }
+
+        .intro-number-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .intro-number strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--coral-light);
+            font-size: clamp(5rem, 12vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.08em;
+            line-height: 0.9;
+        }
+
+        .intro-number span {
+            font-size: 0.77rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .intro-copy .eyebrow {
+            margin-bottom: 18px;
+            color: var(--dusk-mid);
+        }
+
+        .intro-copy h2 {
+            margin-bottom: 22px;
+            color: var(--dusk-dark);
+            font-size: clamp(2.15rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.06em;
+            line-height: 1.05;
+        }
+
+        .intro-copy p {
+            margin-bottom: 18px;
+            color: var(--body-text);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .intro-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 28px;
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-small);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .intro-note-icon {
+            display: flex;
+            width: 42px;
+            min-width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--dusk-light);
+            color: var(--dusk-dark);
+        }
+
+        .intro-note-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .intro-note strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--dusk-dark);
+            font-size: 0.91rem;
+        }
+
+        .intro-note p {
+            margin: 0;
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        /* Tutorial */
+
+        .tutorial-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background: var(--dusk-pale);
+        }
+
+        .tutorial-section::before {
+            position: absolute;
+            top: -190px;
+            left: -170px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(39, 70, 84, 0.08);
+            content: "";
+        }
+
+        .tutorial-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .tutorial-card {
+            position: relative;
+            min-height: 255px;
+            overflow: hidden;
+            padding: 28px 22px 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            border-color: rgba(39, 70, 84, 0.3);
+            box-shadow: var(--shadow);
+            transform: translateY(-8px);
+        }
+
+        .tutorial-card::after {
+            position: absolute;
+            right: -42px;
+            bottom: -55px;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: var(--dusk-pale);
+            content: "";
+            transition: transform 0.35s ease;
+        }
+
+        .tutorial-card:hover::after {
+            transform: scale(1.2);
+        }
+
+        .step-number {
+            display: flex;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            border-radius: 50%;
+            background: var(--dusk-dark);
+            color: var(--coral-light);
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .tutorial-card h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 12px;
+            color: var(--dusk-dark);
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tutorial-card p {
+            position: relative;
+            z-index: 2;
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* Dashboard */
+
+        .dashboard-section {
+            padding: 110px 0 125px;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--off-white) 0%,
+                    var(--white) 100%
+                );
+        }
+
+        .dashboard-shell {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-large);
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 16px 22px;
+        }
+
+        .dashboard-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-status {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--coral);
+            box-shadow: 0 0 0 6px rgba(226, 129, 79, 0.2);
+        }
+
+        .dashboard-label strong {
+            display: block;
+            color: var(--dusk-dark);
+            font-size: 0.93rem;
+        }
+
+        .dashboard-label span {
+            display: block;
+            margin-top: 2px;
+            color: var(--body-text);
+            font-size: 0.76rem;
+        }
+
+        .dashboard-decoration {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dashboard-decoration span {
+            display: block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--dusk-light);
+        }
+
+        .dashboard-frame {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #eef3f4;
+            aspect-ratio: 16 / 9;
+        }
+
+        .dashboard-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .dashboard-frame-pending {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-pending {
+            width: min(420px, 84%);
+            text-align: center;
+        }
+
+        .dashboard-pending-icon {
+            display: flex;
+            width: 54px;
+            height: 54px;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: var(--dusk-light);
+            color: var(--dusk-dark);
+        }
+
+        .dashboard-pending-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .dashboard-pending strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dusk-dark);
+            font-size: 1.02rem;
+        }
+
+        .dashboard-pending p {
+            color: var(--body-text);
+            font-size: 0.87rem;
+            line-height: 1.65;
+        }
+
+        .dashboard-tip {
+            display: none;
+            width: 100%;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 22px 0 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--coral);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+            background: var(--dusk-pale);
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+            text-align: left;
+        }
+
+        .dashboard-tip p {
+            margin: 0;
+            text-align: left;
+        }
+
+        .dashboard-tip strong {
+            color: var(--dusk-dark);
+        }
+
+        .dashboard-tip svg {
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            color: var(--dusk-mid);
+        }
+
+        /* Closing */
+
+        .closing-section {
+            position: relative;
+            overflow: hidden;
+            padding: 115px 0;
+            background:
+                radial-gradient(
+                    circle at 82% 22%,
+                    rgba(226, 129, 79, 0.17),
+                    transparent 28%
+                ),
+                var(--dusk-dark);
+            color: var(--white);
+        }
+
+        .closing-section::before {
+            position: absolute;
+            bottom: -210px;
+            left: -170px;
+            width: 460px;
+            height: 460px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .closing-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .closing-content .eyebrow {
+            justify-content: center;
+            margin-bottom: 19px;
+            color: var(--coral-light);
+        }
+
+        .closing-content h2 {
+            margin-bottom: 22px;
+            font-size: clamp(2.3rem, 6vw, 4.6rem);
+            font-weight: 800;
+            letter-spacing: -0.065em;
+            line-height: 1.02;
+        }
+
+        .closing-content p {
+            max-width: 690px;
+            margin: 0 auto 35px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .closing-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--coral-light);
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .closing-link:hover,
+        .closing-link:focus-visible {
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .closing-link svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* Footer */
+
+        .site-footer {
+            padding: 30px 0;
+            background: #101c22;
+            color: rgba(255, 255, 255, 0.62);
+            text-align: center;
+        }
+
+        .site-footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-footer p {
+            font-size: 0.82rem;
+        }
+
+        .site-footer a {
+            color: var(--white);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: var(--coral-light);
+        }
+
+        .disclaimer {
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.68rem !important;
+            line-height: 1.55;
+        }
+
+        /* Scroll to top */
+
+        .scroll-top {
+            position: fixed;
+            z-index: 40;
+            right: 22px;
+            bottom: 22px;
+            display: flex;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: var(--dusk-dark);
+            box-shadow: 0 14px 34px rgba(16, 30, 37, 0.3);
+            color: var(--white);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: var(--dusk);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Animation */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition:
+                opacity 0.75s ease,
+                transform 0.75s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tutorial-card:nth-child(2) {
+            transition-delay: 0.07s;
+        }
+
+        .tutorial-card:nth-child(3) {
+            transition-delay: 0.14s;
+        }
+
+        .tutorial-card:nth-child(4) {
+            transition-delay: 0.21s;
+        }
+
+        .tutorial-card:nth-child(5) {
+            transition-delay: 0.28s;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1050px) {
+            .tutorial-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .page-width {
+                width: min(calc(100% - 34px), var(--page-width));
+            }
+
+            .site-header {
+                background: rgba(22, 38, 47, 0.72);
+            }
+
+            .navigation-actions {
+                margin-left: auto;
+                gap: 14px;
+            }
+
+            .all-reports-link {
+                font-size: 0.82rem;
+            }
+
+            .all-reports-link::after {
+                display: none;
+            }
+
+            .menu-button {
+                display: flex;
+            }
+
+            .navigation-links {
+                position: fixed;
+                top: 78px;
+                right: 17px;
+                left: 17px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                background: rgba(20, 33, 41, 0.98);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            }
+
+            .navigation-links.open {
+                display: flex;
+            }
+
+            .navigation-links a {
+                display: block;
+                padding: 14px 15px;
+                border-radius: 11px;
+            }
+
+            .navigation-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .navigation-links a::after {
+                display: none;
+            }
+
+            .hero {
+                min-height: 670px;
+                background-position: 40% 66%;
+            }
+
+            .hero::after {
+                height: 72px;
+            }
+
+            .hero-content {
+                width: 100%;
+                padding-bottom: 80px;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-number {
+                min-height: 315px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tutorial-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dashboard-section,
+            .tutorial-section {
+                padding: 90px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-width {
+                width: min(calc(100% - 28px), var(--page-width));
+            }
+
+            .navigation {
+                min-height: 70px;
+                gap: 12px;
+            }
+
+            .brand {
+                font-size: 0.9rem;
+            }
+
+            .all-reports-link {
+                font-size: 0.75rem;
+            }
+
+            .navigation-links {
+                top: 70px;
+                right: 14px;
+                left: 14px;
+            }
+
+            .hero {
+                min-height: 660px;
+                align-items: flex-end;
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(22, 38, 47, 0.16) 0%,
+                        rgba(22, 38, 47, 0.42) 34%,
+                        rgba(22, 38, 47, 0.95) 100%
+                    ),
+                    url("bargara-parkrun-hero.jpg")
+                    38% 62% / cover no-repeat;
+            }
+
+            .hero-content {
+                padding-top: 125px;
+                padding-bottom: 86px;
+            }
+
+            .hero h1 {
+                max-width: 470px;
+                font-size: clamp(2.8rem, 14vw, 4.3rem);
+            }
+
+            .hero-description {
+                font-size: 0.98rem;
+                line-height: 1.7;
+            }
+
+            .hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+            .intro-section {
+                padding: 75px 0 85px;
+            }
+
+            .intro-number {
+                min-height: 270px;
+            }
+
+            .intro-copy h2 {
+                font-size: 2.35rem;
+            }
+
+            .section-heading {
+                margin-bottom: 38px;
+            }
+
+            .dashboard-section .section-heading h2 {
+                white-space: normal;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorial-card,
+            .tutorial-card:last-child {
+                min-height: auto;
+                grid-column: auto;
+            }
+
+            .dashboard-shell {
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .dashboard-toolbar {
+                padding: 12px 10px 17px;
+            }
+
+            .dashboard-frame {
+                width: 100%;
+                min-height: 400px;
+                border-radius: 14px;
+            }
+
+            .dashboard-tip {
+                display: flex;
+                padding: 16px;
+                font-size: 0.82rem;
+            }
+
+            .closing-section {
+                padding: 90px 0;
+            }
+
+            .closing-content h2 {
+                font-size: 2.65rem;
+            }
+
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 46px;
+                height: 46px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <nav
+            class="navigation page-width"
+            aria-label="Main navigation"
+        >
+            <a
+                class="brand"
+                href="../"
+                aria-label="Return to Event Insights"
+            >
+                Event <span>Insights</span>
+            </a>
+
+            <div class="navigation-actions">
+                <a
+                    class="all-reports-link"
+                    href="../"
+                >
+                    Browse events
+                </a>
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="navigationLinks"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    >
+                        <path d="M4 7h16"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M4 17h16"></path>
+                    </svg>
+                </button>
+
+                <ul
+                    class="navigation-links"
+                    id="navigationLinks"
+                >
+                    <li>
+                        <a href="#how-to">Quick guide</a>
+                    </li>
+
+                    <li>
+                        <a href="#report">Explore the dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+
+        <section class="hero">
+            <div class="page-width">
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        Interactive event insights
+                    </div>
+
+                    <h1>
+                        Bargara
+                        <span>parkrun</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Explore Bargara parkrun through interactive
+                        statistics, milestones, participation patterns and
+                        the individual stories created along the coast.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a
+                            class="primary-button"
+                            href="#report"
+                        >
+                            Explore the dashboard
+
+                            <svg
+                                class="button-icon"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="m13 6 6 6-6 6"></path>
+                            </svg>
+                        </a>
+
+                        <a
+                            class="secondary-button"
+                            href="#how-to"
+                        >
+                            Show me how it works
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="intro-section">
+            <div class="page-width">
+
+                <div class="intro-grid">
+
+                    <div class="intro-number reveal">
+                        <div class="intro-number-inner">
+                            <strong>5K</strong>
+                            <span>One beach. Many stories.</span>
+                        </div>
+                    </div>
+
+                    <div class="intro-copy reveal">
+
+                        <div class="eyebrow">
+                            Along the coast
+                        </div>
+
+                        <h2>
+                            Discover more than the finishing times.
+                        </h2>
+
+                        <p>
+                            From the early-morning sunrise over the water to
+                            the last person crossing the finish line, every
+                            Bargara parkrun brings together runners, walkers,
+                            volunteers, milestones and personal achievements.
+                        </p>
+
+                        <p>
+                            This interactive dashboard turns those results into a
+                            story you can explore. Select age groups, clubs,
+                            milestones, charts and individual rows to uncover
+                            different perspectives within the event.
+                        </p>
+
+                        <div class="intro-note">
+
+                            <div class="intro-note-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 11v5"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <strong>A one-off event feature</strong>
+
+                                <p>
+                                    This dashboard has been created as a
+                                    special interactive look at Bargara
+                                    parkrun.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="tutorial-section"
+            id="how-to"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Quick tutorial
+                    </div>
+
+                    <h2>
+                        Click, filter and explore.
+                    </h2>
+
+                    <p>
+                        The dashboard is fully interactive. Here are five quick ways
+                        to get the most out of it.
+                    </p>
+
+                </div>
+
+                <div class="tutorial-grid">
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">01</div>
+
+                        <h3>Start with a chart</h3>
+
+                        <p>
+                            Click an age group, club, milestone or chart to instantly
+                            filter the page and uncover different stories.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">02</div>
+
+                        <h3>Navigate the dashboard</h3>
+
+                        <p>
+                            Use the KPI cards across the top of the page to move
+                            between the different dashboard pages.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">03</div>
+
+                        <h3>Hover for detail</h3>
+
+                        <p>
+                            Hover over charts and data points to reveal additional
+                            information and exact values.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">04</div>
+
+                        <h3>Go back to the overview</h3>
+
+                        <p>
+                            Click the parkrun logo in the top-left corner of the page
+                            to return to the dashboard home page.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">05</div>
+
+                        <h3>Reset your selections</h3>
+
+                        <p>
+                            Use the reset button in the bottom-right corner of the
+                            page to clear all filters and start exploring again.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="dashboard-section"
+            id="report"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Bargara parkrun
+                    </div>
+
+                    <h2>
+                        Explore the event dashboard.
+                    </h2>
+
+                    <p>
+                        Select charts, categories and table rows to uncover
+                        different stories within the event data.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-shell reveal">
+
+                    <div class="dashboard-toolbar">
+
+                        <div class="dashboard-label">
+
+                            <span
+                                class="dashboard-status"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div>
+                                <strong>Interactive Power BI dashboard</strong>
+                                <span>Bargara parkrun</span>
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="dashboard-decoration"
+                            aria-hidden="true"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-frame dashboard-frame-pending">
+                        <!--
+                            TODO: once the Power BI report is published,
+                            delete this placeholder block and replace it
+                            with the iframe embed, e.g.
+
+                            <iframe
+                                title="Bargara parkrun"
+                                src="https://app.powerbi.com/view?r=..."
+                                frameborder="0"
+                                allowfullscreen="true"
+                            ></iframe>
+                        -->
+                        <div class="dashboard-pending">
+                            <div class="dashboard-pending-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 7v5l3 3"></path>
+                                </svg>
+                            </div>
+
+                            <strong>Dashboard coming soon</strong>
+
+                            <p>
+                                The interactive Power BI report for Bargara
+                                parkrun is being prepared. Once published,
+                                the live dashboard will appear here.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-tip reveal">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                        <path d="M9 18h6"></path>
+                    </svg>
+
+                    <p>
+                        <strong>Tip:</strong>
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="closing-section">
+            <div class="page-width">
+
+                <div class="closing-content reveal">
+
+                    <div class="eyebrow">
+                        Thanks for visiting
+                    </div>
+
+                    <h2>
+                        There is a story behind every result.
+                    </h2>
+
+                    <p>
+                        Whether you are checking a result, celebrating a
+                        milestone, recognising a familiar name or simply
+                        exploring the event, enjoy discovering the stories
+                        created at Bargara parkrun.
+                    </p>
+
+                    <a
+                        class="closing-link"
+                        href="../"
+                    >
+                        Browse all event dashboards
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+                        </svg>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="page-width site-footer-content">
+
+            <p>
+                Event Insights is made with ❤️ by
+                <a
+                    href="https://datawithandrea.com.au"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Data with Andrea
+                </a>
+            </p>
+
+            <p class="disclaimer">
+                Event Insights is an independent project and is not affiliated
+                with, sponsored by or endorsed by parkrun.
+            </p>
+
+        </div>
+    </footer>
+
+    <button
+        class="scroll-top"
+        id="scrollTopButton"
+        type="button"
+        aria-label="Scroll back to the top"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
+
+    <script>
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const navigationLinks =
+            document.getElementById("navigationLinks");
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navigationLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            document.body.classList.toggle(
+                "menu-open",
+                isOpen
+            );
+        });
+
+        navigationLinks
+            .querySelectorAll("a")
+            .forEach((link) => {
+                link.addEventListener("click", () => {
+                    navigationLinks.classList.remove("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+                });
+            });
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12
+                }
+            );
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+
+        const scrollTopButton =
+            document.getElementById(
+                "scrollTopButton"
+            );
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                scrollTopButton.classList.toggle(
+                    "visible",
+                    window.scrollY > 600
+                );
+            },
+            {
+                passive: true
+            }
+        );
+
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+    </script>
+
+</body>
+</html>
