@@ -850,7 +850,7 @@
         }
 
         .dashboard-tip {
-            display: flex;
+            display: none;
             width: 100%;
             align-items: flex-start;
             gap: 12px;
@@ -1175,6 +1175,10 @@
             .tutorial-section {
                 padding: 90px 0;
             }
+
+            .dashboard-tip {
+                display: flex;
+            }
         }
 
         @media (max-width: 600px) {
@@ -1357,6 +1361,19 @@
             </a>
 
             <div class="navigation-actions">
+                <ul
+                    class="navigation-links"
+                    id="navigationLinks"
+                >
+                    <li>
+                        <a href="#how-to">Quick guide</a>
+                    </li>
+
+                    <li>
+                        <a href="#report">Explore the dashboard</a>
+                    </li>
+                </ul>
+
                 <a
                     class="all-reports-link"
                     href="../"
@@ -1385,19 +1402,6 @@
                         <path d="M4 17h16"></path>
                     </svg>
                 </button>
-
-                <ul
-                    class="navigation-links"
-                    id="navigationLinks"
-                >
-                    <li>
-                        <a href="#how-to">Quick guide</a>
-                    </li>
-
-                    <li>
-                        <a href="#report">Explore the dashboard</a>
-                    </li>
-                </ul>
             </div>
         </nav>
     </header>
