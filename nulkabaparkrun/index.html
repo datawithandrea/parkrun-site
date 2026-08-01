@@ -21,7 +21,7 @@
 
     <meta
         name="description"
-        content="Nulkaba parkrun dashboard with weekly results, stats, milestones, clubs, age groups, volunteers and historical parkrun insights. Coming soon."
+        content="Nulkaba parkrun dashboard with weekly results, stats, milestones, clubs, age groups, volunteers and historical parkrun insights."
     >
 
     <title>Nulkaba parkrun Dashboard | Stats, Results & Insights</title>
@@ -718,16 +718,6 @@
             border-radius: 50%;
             background: var(--dawn);
             box-shadow: 0 0 0 6px rgba(217, 154, 62, 0.2);
-            animation: status-pulse 2.2s ease-in-out infinite;
-        }
-
-        @keyframes status-pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.45;
-            }
         }
 
         .dashboard-label strong {
@@ -771,82 +761,6 @@
             width: 100%;
             height: 100%;
             border: 0;
-        }
-
-        .coming-soon {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 18px;
-            padding: 40px;
-            text-align: center;
-            background:
-                radial-gradient(
-                    circle at 30% 20%,
-                    rgba(217, 154, 62, 0.14),
-                    transparent 46%
-                ),
-                linear-gradient(
-                    150deg,
-                    var(--gum-pale) 0%,
-                    #eef1e8 100%
-                );
-            border: 1.5px dashed rgba(31, 42, 28, 0.2);
-            border-radius: 20px;
-        }
-
-        .coming-soon-icon {
-            display: flex;
-            width: 64px;
-            height: 64px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--white);
-            box-shadow: var(--shadow-small);
-            color: var(--dawn);
-        }
-
-        .coming-soon-icon svg {
-            width: 30px;
-            height: 30px;
-        }
-
-        .coming-soon h3 {
-            color: var(--gum-dark);
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-        }
-
-        .coming-soon p {
-            max-width: 460px;
-            color: var(--body-text);
-            font-size: 0.92rem;
-            line-height: 1.7;
-        }
-
-        .coming-soon-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 999px;
-            background: rgba(217, 154, 62, 0.14);
-            color: var(--gum-dark);
-            font-size: 0.74rem;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .coming-soon-badge svg {
-            width: 14px;
-            height: 14px;
-            color: var(--dawn);
         }
 
         .dashboard-tip {
@@ -1337,10 +1251,6 @@
                 opacity: 1;
                 transform: none;
             }
-
-            .dashboard-status {
-                animation: none;
-            }
         }
     </style>
 </head>
@@ -1658,7 +1568,7 @@
 
                             <div>
                                 <strong>Interactive Power BI dashboard</strong>
-                                <span>Nulkaba parkrun &middot; coming soon</span>
+                                <span>Nulkaba parkrun</span>
                             </div>
 
                         </div>
@@ -1675,54 +1585,12 @@
                     </div>
 
                     <div class="dashboard-frame">
-
-                        <div class="coming-soon">
-
-                            <div class="coming-soon-badge">
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    aria-hidden="true"
-                                >
-                                    <circle cx="12" cy="12" r="9"></circle>
-                                    <path d="M12 7v5l3 3"></path>
-                                </svg>
-                                Coming soon
-                            </div>
-
-                            <div class="coming-soon-icon">
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    aria-hidden="true"
-                                >
-                                    <path d="M3 3v18h18"></path>
-                                    <path d="M7 15l4-6 4 3 4-8"></path>
-                                </svg>
-                            </div>
-
-                            <h3>
-                                The Nulkaba parkrun dashboard is on its way.
-                            </h3>
-
-                            <p>
-                                We're putting the finishing touches on this
-                                interactive Power BI dashboard. Once it's
-                                live, it will be refreshed weekly with the
-                                latest results, milestones, clubs, age groups
-                                and volunteer insights from Nulkaba parkrun.
-                            </p>
-
-                        </div>
-
+                        <iframe
+                            title="Nulkaba parkrun"
+                            src="https://app.powerbi.com/view?r=eyJrIjoiZTkwZDI3NzgtNTk0OC00YzU0LWEwODMtY2ZjNTdjZDVkN2YzIiwidCI6ImFkNWEwYmM3LWM4YjMtNDMzNC04NzNlLWJkODQ1NzMxMGIzZSJ9"
+                            frameborder="0"
+                            allowfullscreen="true"
+                        ></iframe>
                     </div>
 
                 </div>
@@ -1744,9 +1612,8 @@
 
                     <p>
                         <strong>Tip:</strong>
-                        Check back soon — once the dashboard goes live, rotate
-                        your phone to landscape for the best experience on
-                        mobile.
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the dashboard.
                     </p>
 
                 </div>
