@@ -167,14 +167,12 @@
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
             color: var(--white);
             font-size: 1rem;
             font-weight: 800;
             letter-spacing: -0.035em;
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .brand span {
@@ -636,6 +634,131 @@
             height: 16px;
         }
 
+        /* This week's insights section */
+
+        .insights-section {
+            padding: 10px 0 100px;
+            background: var(--ivory);
+        }
+
+        .insights-section .section-heading p {
+            min-height: 1.3em;
+        }
+
+        .stat-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            max-width: 720px;
+            margin: 0 auto 34px;
+        }
+
+        .stat-card {
+            padding: 22px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--linen);
+            box-shadow: var(--shadow-small);
+            text-align: center;
+        }
+
+        .stat-card strong {
+            display: block;
+            color: var(--forest-dark);
+            font-size: clamp(1.6rem, 5vw, 2.1rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .stat-card span {
+            display: block;
+            margin-top: 4px;
+            color: var(--text);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .stories {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .story-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 24px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--tourist);
+            border-radius: var(--radius-medium);
+            background: var(--linen);
+            box-shadow: var(--shadow-small);
+        }
+
+        .story-icon {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--stone-light);
+            color: var(--tourist-dark);
+        }
+
+        .story-icon svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .story-card p {
+            color: var(--forest-dark);
+            font-size: 0.96rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .story-label {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--tourist-dark);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .insights-status {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-medium);
+            color: var(--text);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .insights-note {
+            max-width: 720px;
+            margin: 26px auto 0;
+            color: var(--text);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .insights-note a {
+            color: var(--tourist-dark);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
         /* How it works / tabs section */
 
         .tabs-section {
@@ -914,7 +1037,7 @@
         }
 
         .dashboard-tip {
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             gap: 16px;
@@ -1030,6 +1153,12 @@
             }
         }
 
+        @media (max-width: 850px) {
+            .dashboard-tip {
+                display: flex;
+            }
+        }
+
         @media (max-width: 680px) {
             .page-width {
                 width: min(calc(100% - 28px), var(--page-width));
@@ -1041,6 +1170,18 @@
 
             .hero {
                 min-height: 600px;
+            }
+
+            .stat-strip {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 15px 8px;
+            }
+
+            .story-card {
+                padding: 16px 18px;
             }
 
             .definition-panel {
@@ -1119,9 +1260,9 @@
 
             <a
                 class="navigation-link"
-                href="https://datawithandrea.com.au"
+                href="../../"
             >
-                Data with Andrea
+                Event Insights
             </a>
         </nav>
     </header>
@@ -1352,6 +1493,49 @@
                     </div>
 
                 </div>
+
+            </div>
+        </section>
+
+        <section
+            class="insights-section"
+            id="insights"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        This week's stories
+                    </div>
+
+                    <h2>
+                        The tourists, in a few sentences.
+                    </h2>
+
+                    <p id="insightsSubheading">
+                        Loading this week's stats&hellip;
+                    </p>
+
+                </div>
+
+                <div
+                    class="stat-strip reveal"
+                    id="statStrip"
+                    aria-live="polite"
+                ></div>
+
+                <div
+                    class="stories"
+                    id="storyList"
+                    aria-live="polite"
+                ></div>
+
+                <p class="insights-note reveal">
+                    Prefer charts? The full interactive dashboard is
+                    further down the page, or
+                    <a href="#dashboard">jump straight there</a>.
+                </p>
 
             </div>
         </section>
@@ -1739,6 +1923,110 @@
         revealElements.forEach((element) => {
             revealObserver.observe(element);
         });
+
+        // ---- This week's stories (insights.json) ----
+
+        const STORY_ICONS = {
+            milestone: '<path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 6H5a2 2 0 0 1 0-4h2"/><path d="M17 6h2a2 2 0 0 0 0-4h-2"/>',
+            new_country: '<circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>',
+            pb: '<path d="M6 3L18 12L12 13.5L14.5 19.5L11.5 21L9 15L5 18.5L6 3Z"/>',
+            distance: '<path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/>'
+        };
+
+        const STORY_LABELS = {
+            milestone: "Milestone",
+            new_country: "New country",
+            pb: "Personal best",
+            distance: "Furthest travelled"
+        };
+
+        function iconFor(type) {
+            return STORY_ICONS[type] || STORY_ICONS.milestone;
+        }
+
+        function labelFor(type) {
+            return STORY_LABELS[type] || "Story";
+        }
+
+        function formatWeekEnding(isoDate) {
+            try {
+                const d = new Date(isoDate + "T00:00:00");
+                return d.toLocaleDateString(undefined, {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+            } catch (e) {
+                return isoDate;
+            }
+        }
+
+        async function loadInsights() {
+            const statStrip = document.getElementById("statStrip");
+            const storyList = document.getElementById("storyList");
+            const subheading = document.getElementById("insightsSubheading");
+
+            try {
+                const response = await fetch("insights.json", { cache: "no-store" });
+
+                if (!response.ok) {
+                    throw new Error("insights.json not found");
+                }
+
+                const data = await response.json();
+
+                subheading.textContent =
+                    "Results from " + formatWeekEnding(data.week_ending) + ".";
+
+                const stats = [
+                    { value: data.headline.tourist_count, label: "Tourists" },
+                    { value: data.headline.country_count, label: "Countries" },
+                    { value: data.headline.event_count, label: "Events" }
+                ];
+
+                statStrip.innerHTML = stats
+                    .map(
+                        (s) => `
+                        <div class="stat-card">
+                            <strong>${s.value}</strong>
+                            <span>${s.label}</span>
+                        </div>
+                    `
+                    )
+                    .join("");
+
+                if (!data.stories || data.stories.length === 0) {
+                    storyList.innerHTML =
+                        '<div class="insights-status">No standout stories flagged this week — check back next Saturday.</div>';
+                    return;
+                }
+
+                storyList.innerHTML = data.stories
+                    .map(
+                        (story) => `
+                        <article class="story-card">
+                            <span class="story-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    ${iconFor(story.type)}
+                                </svg>
+                            </span>
+                            <p>
+                                <span class="story-label">${labelFor(story.type)}</span>
+                                ${story.text}
+                            </p>
+                        </article>
+                    `
+                    )
+                    .join("");
+            } catch (error) {
+                subheading.textContent = "";
+                statStrip.innerHTML = "";
+                storyList.innerHTML =
+                    '<div class="insights-status">This week\'s insights aren\'t available yet — check back soon.</div>';
+            }
+        }
+
+        loadInsights();
     </script>
 
 </body>
