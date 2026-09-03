@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVP0HPPM1N"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-TVP0HPPM1N');
 </script>
-
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
-
     <meta
         name="description"
         content="An interactive Power BI dashboard tracking the parkrun World Tourists club, for members who have completed parkrun in four or more countries."
     >
-
     <title>parkrun World Tourists Dashboard | Data With Andrea</title>
-
     <!-- TODO: confirm this is the actual published URL for this page -->
     <link
         rel="canonical"
         href="https://datawithandrea.com.au/worldtourists/"
     >
-
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Data with Andrea">
     <meta property="og:title" content="parkrun World Tourists Dashboard | Data With Andrea">
@@ -43,7 +35,6 @@
     <meta property="og:url" content="https://datawithandrea.com.au/worldtourists/">
     <!-- TODO: this image does not exist yet — see notes -->
     <meta property="og:image" content="https://datawithandrea.com.au/worldtourists/world-tourists-social-preview.jpg">
-
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="parkrun World Tourists Dashboard | Data With Andrea">
     <meta
@@ -52,75 +43,59 @@
     >
     <!-- TODO: this image does not exist yet — see notes -->
     <meta name="twitter:image" content="https://datawithandrea.com.au/worldtourists/world-tourists-social-preview.jpg">
-
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
     >
-
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin
     >
-
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
-
     <style>
         :root {
             --forest-deep: #131f2b;
             --forest-dark: #1c2e40;
             --forest: #24384e;
             --forest-soft: #3d5470;
-
             --copper: #c9a15a;
             --copper-dark: #ab853f;
             --copper-light: #e0c48a;
-
             --tourist: #d9a066;
             --tourist-dark: #b97e42;
             --tourist-light: #ecc79a;
-
             --ivory: #f7f5f0;
             --linen: #fdfcf9;
             --stone: #e6e1d6;
             --stone-light: #f1ede3;
-
             --charcoal: #202a33;
             --text: #626b73;
             --white: #ffffff;
-
             --border: rgba(28, 46, 64, 0.13);
             --border-light: rgba(255, 255, 255, 0.13);
-
             --shadow:
                 0 24px 70px rgba(20, 32, 45, 0.14);
-
             --shadow-small:
                 0 14px 38px rgba(20, 32, 45, 0.09);
-
             --radius-large: 30px;
             --radius-medium: 20px;
             --radius-small: 14px;
-
             --page-width: 1180px;
         }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
         }
-
         body {
             min-width: 320px;
             overflow-x: hidden;
@@ -129,23 +104,18 @@
             font-family: "Manrope", sans-serif;
             line-height: 1.6;
         }
-
         a {
             color: inherit;
         }
-
         img {
             max-width: 100%;
             display: block;
         }
-
         .page-width {
             width: min(calc(100% - 48px), var(--page-width));
             margin-inline: auto;
         }
-
         /* Header */
-
         .site-header {
             position: absolute;
             z-index: 20;
@@ -157,7 +127,6 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
         }
-
         .navigation {
             display: flex;
             min-height: 78px;
@@ -165,7 +134,6 @@
             justify-content: space-between;
             gap: 24px;
         }
-
         .brand {
             color: var(--white);
             font-size: 1rem;
@@ -174,11 +142,9 @@
             text-decoration: none;
             white-space: nowrap;
         }
-
         .brand span {
             color: var(--tourist-light);
         }
-
         .navigation-link {
             display: inline-flex;
             align-items: center;
@@ -188,14 +154,11 @@
             text-decoration: none;
             transition: color 0.2s ease;
         }
-
         .navigation-link:hover,
         .navigation-link:focus-visible {
             color: var(--tourist-light);
         }
-
         /* Hero */
-
         .hero {
             position: relative;
             display: flex;
@@ -203,7 +166,6 @@
             align-items: center;
             overflow: hidden;
             isolation: isolate;
-
             background:
                 radial-gradient(
                     circle at 85% 20%,
@@ -217,7 +179,6 @@
                     #2c435c 100%
                 );
         }
-
         .hero::before {
             position: absolute;
             z-index: -1;
@@ -229,7 +190,6 @@
             border-radius: 50%;
             content: "";
         }
-
         .hero::after {
             position: absolute;
             right: 0;
@@ -240,7 +200,6 @@
             clip-path: polygon(0 78%, 100% 10%, 100% 100%, 0 100%);
             content: "";
         }
-
         .hero-grid {
             position: relative;
             z-index: 2;
@@ -251,7 +210,6 @@
             padding-top: 116px;
             padding-bottom: 108px;
         }
-
         .eyebrow {
             display: inline-flex;
             align-items: center;
@@ -263,7 +221,6 @@
             letter-spacing: 0.17em;
             text-transform: uppercase;
         }
-
         .eyebrow::before {
             width: 30px;
             height: 2px;
@@ -271,7 +228,6 @@
             background: currentColor;
             content: "";
         }
-
         .hero h1 {
             max-width: 560px;
             margin: 0 0 22px;
@@ -281,11 +237,9 @@
             letter-spacing: -0.055em;
             line-height: 1.06;
         }
-
         .hero h1 span {
             color: var(--tourist-light);
         }
-
         .hero-description {
             max-width: 520px;
             margin: 0 0 36px;
@@ -293,14 +247,12 @@
             font-size: 1.03rem;
             line-height: 1.75;
         }
-
         .hero-actions {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 16px;
         }
-
         .primary-button,
         .secondary-button {
             display: inline-flex;
@@ -318,36 +270,30 @@
                 box-shadow 0.22s ease,
                 border-color 0.22s ease;
         }
-
         .primary-button {
             border: 0;
             background: var(--tourist);
             color: var(--forest-deep);
         }
-
         .primary-button:hover {
             background: var(--tourist-dark);
             box-shadow: 0 10px 24px rgba(185, 126, 66, 0.28);
             color: var(--white);
             transform: translateY(-2px);
         }
-
         .secondary-button {
             border: 1px solid rgba(255, 255, 255, 0.34);
             color: var(--white);
         }
-
         .secondary-button:hover {
             border-color: rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
         }
-
         .hero-visual {
             position: relative;
             max-width: 380px;
             margin-left: auto;
         }
-
         .hero-visual::before {
             position: absolute;
             top: -16px;
@@ -358,7 +304,6 @@
             border-radius: var(--radius-large);
             content: "";
         }
-
         .hero-visual::after {
             position: absolute;
             z-index: -1;
@@ -371,11 +316,9 @@
             filter: blur(50px);
             content: "";
         }
-
         .hero-visual .mock-card {
             transform: rotate(-2.5deg);
         }
-
         .hero-badge {
             position: absolute;
             z-index: 4;
@@ -390,7 +333,6 @@
             box-shadow: var(--shadow-small);
             transform: rotate(3deg);
         }
-
         .hero-badge .hero-badge-icon {
             display: flex;
             align-items: center;
@@ -400,14 +342,12 @@
             border-radius: 50%;
             background: var(--tourist);
         }
-
         .hero-badge span {
             color: var(--forest-dark);
             font-size: 0.74rem;
             font-weight: 800;
             letter-spacing: 0.02em;
         }
-
         .mock-card {
             position: relative;
             overflow: hidden;
@@ -415,7 +355,6 @@
             background: linear-gradient(160deg, var(--linen), var(--stone-light));
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
         }
-
         .mock-topbar {
             display: flex;
             align-items: center;
@@ -424,14 +363,12 @@
             padding: 0 18px;
             background: var(--tourist);
         }
-
         .mock-topbar .mock-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.55);
         }
-
         .mock-topbar .mock-title {
             margin-left: 6px;
             color: rgba(35, 25, 15, 0.7);
@@ -439,12 +376,10 @@
             font-weight: 800;
             letter-spacing: 0.03em;
         }
-
         .mock-body {
             position: relative;
             padding: 26px 24px 28px;
         }
-
         .mock-chip {
             position: absolute;
             top: 18px;
@@ -459,20 +394,16 @@
             letter-spacing: 0.04em;
             text-transform: uppercase;
         }
-
         /* Section heading */
-
         .section-heading {
             max-width: 730px;
             margin: 0 auto 54px;
             text-align: center;
         }
-
         .section-heading .eyebrow {
             justify-content: center;
             color: var(--tourist-dark);
         }
-
         .section-heading .eyebrow::after {
             width: 30px;
             height: 2px;
@@ -480,7 +411,6 @@
             background: currentColor;
             content: "";
         }
-
         .section-heading h2 {
             margin-bottom: 16px;
             color: var(--forest-dark);
@@ -489,20 +419,16 @@
             letter-spacing: -0.055em;
             line-height: 1.1;
         }
-
         .section-heading p {
             color: var(--text);
             font-size: 1rem;
             line-height: 1.75;
         }
-
         /* Definition / blurb section */
-
         .definition-section {
             padding: 100px 0 60px;
             background: var(--ivory);
         }
-
         .definition-panel {
             position: relative;
             overflow: hidden;
@@ -515,7 +441,6 @@
             background: var(--linen);
             box-shadow: var(--shadow-small);
         }
-
         .definition-stamp {
             position: absolute;
             top: 26px;
@@ -530,29 +455,24 @@
             transform: rotate(-14deg);
             opacity: 0.5;
         }
-
         .definition-panel .eyebrow {
             color: var(--tourist-dark);
         }
-
         .definition-panel .eyebrow::after {
             display: none;
         }
-
         .definition-panel p {
             color: var(--forest-dark);
             font-size: 1.05rem;
             font-weight: 600;
             line-height: 1.8;
         }
-
         .definition-panel p + p {
             margin-top: 16px;
             color: var(--text);
             font-size: 0.92rem;
             font-weight: 500;
         }
-
         .group-reminder {
             display: flex;
             align-items: flex-start;
@@ -566,7 +486,6 @@
             background: var(--stone-light);
             box-shadow: var(--shadow-small);
         }
-
         .group-reminder-icon {
             display: flex;
             flex-shrink: 0;
@@ -579,42 +498,35 @@
             box-shadow: var(--shadow-small);
             color: var(--tourist-dark);
         }
-
         .group-reminder-icon svg {
             width: 22px;
             height: 22px;
         }
-
         .group-reminder-body strong {
             display: block;
             margin-bottom: 8px;
             color: var(--forest-dark);
             font-size: 1rem;
         }
-
         .group-reminder-body p {
             margin-bottom: 16px;
             color: var(--text);
             font-size: 0.9rem;
             line-height: 1.7;
         }
-
         .group-reminder-body p strong {
             display: inline;
             margin-bottom: 0;
             color: var(--tourist-dark);
         }
-
         .group-reminder-body p a {
             color: var(--tourist-dark);
             font-weight: 700;
             text-decoration: underline;
         }
-
         .group-reminder-body p a:hover {
             color: var(--forest-dark);
         }
-
         .group-reminder-link {
             display: inline-flex;
             align-items: center;
@@ -624,27 +536,21 @@
             font-weight: 800;
             text-decoration: none;
         }
-
         .group-reminder-link:hover {
             color: var(--forest-dark);
         }
-
         .group-reminder-link svg {
             width: 16px;
             height: 16px;
         }
-
         /* This week's insights section */
-
         .insights-section {
             padding: 10px 0 100px;
             background: var(--ivory);
         }
-
         .insights-section .section-heading p {
             min-height: 1.3em;
         }
-
         .stat-strip {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -652,7 +558,6 @@
             max-width: 880px;
             margin: 0 auto 34px;
         }
-
         .stat-card {
             padding: 22px 12px;
             border: 1px solid var(--border);
@@ -661,7 +566,6 @@
             box-shadow: var(--shadow-small);
             text-align: center;
         }
-
         .stat-card strong {
             display: block;
             color: var(--forest-dark);
@@ -669,7 +573,6 @@
             font-weight: 800;
             letter-spacing: -0.03em;
         }
-
         .stat-card span {
             display: block;
             margin-top: 4px;
@@ -679,7 +582,6 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-
         .stories {
             display: flex;
             flex-direction: column;
@@ -687,13 +589,11 @@
             max-width: 880px;
             margin: 0 auto;
         }
-
         .insights-paragraph {
             color: var(--forest-dark);
             font-size: 0.96rem;
             line-height: 1.75;
         }
-
         .story-card {
             display: flex;
             align-items: flex-start;
@@ -705,7 +605,6 @@
             background: var(--linen);
             box-shadow: var(--shadow-small);
         }
-
         .story-icon {
             display: flex;
             flex-shrink: 0;
@@ -717,23 +616,19 @@
             background: var(--stone-light);
             color: var(--tourist-dark);
         }
-
         .story-icon svg {
             width: 19px;
             height: 19px;
         }
-
         .story-card p {
             color: var(--forest-dark);
             font-size: 0.96rem;
             font-weight: 600;
             line-height: 1.6;
         }
-
         .regional-summary {
             flex: 1;
         }
-
         .regional-summary ul {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -745,11 +640,9 @@
             font-weight: 600;
             line-height: 1.55;
         }
-
         .regional-summary li::marker {
             color: var(--tourist-dark);
         }
-
         .story-label {
             display: block;
             margin-bottom: 4px;
@@ -759,7 +652,6 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
-
         .insights-status {
             max-width: 880px;
             margin: 0 auto;
@@ -770,7 +662,6 @@
             font-size: 0.9rem;
             text-align: center;
         }
-
         .insights-note {
             max-width: 880px;
             margin: 26px auto 0;
@@ -778,20 +669,16 @@
             font-size: 0.85rem;
             text-align: center;
         }
-
         .insights-note a {
             color: var(--tourist-dark);
             font-weight: 700;
             text-decoration: underline;
         }
-
         /* How it works / tabs section */
-
         .tabs-section {
             padding: 90px 0 120px;
             background: var(--linen);
         }
-
         .tabs-list {
             display: flex;
             flex-direction: column;
@@ -799,7 +686,6 @@
             max-width: 940px;
             margin: 0 auto;
         }
-
         .tab-row {
             display: grid;
             grid-template-columns: 360px 1fr;
@@ -807,12 +693,10 @@
             justify-content: center;
             gap: 56px;
         }
-
         .tab-visual {
             position: relative;
             width: 360px;
         }
-
         .tab-visual::before {
             position: absolute;
             z-index: 0;
@@ -824,7 +708,6 @@
             border-radius: var(--radius-medium);
             content: "";
         }
-
         .tab-visual .mock-card {
             position: relative;
             z-index: 1;
@@ -832,11 +715,9 @@
             border-radius: var(--radius-medium);
             box-shadow: var(--shadow);
         }
-
         .tab-visual .mock-topbar {
             border-radius: var(--radius-medium) var(--radius-medium) 0 0;
         }
-
         .tab-copy .tab-number {
             display: inline-flex;
             align-items: center;
@@ -850,7 +731,6 @@
             font-size: 0.8rem;
             font-weight: 800;
         }
-
         .tab-copy h3 {
             margin-bottom: 12px;
             color: var(--forest-dark);
@@ -858,7 +738,6 @@
             font-weight: 800;
             letter-spacing: -0.03em;
         }
-
         .tab-copy p {
             max-width: 480px;
             margin-bottom: 14px;
@@ -866,7 +745,6 @@
             font-size: 0.95rem;
             line-height: 1.8;
         }
-
         .tab-copy .interactivity-note {
             display: flex;
             gap: 14px;
@@ -879,7 +757,6 @@
             font-size: 0.85rem;
             line-height: 1.6;
         }
-
         .interactivity-note .note-icon {
             display: flex;
             flex-shrink: 0;
@@ -891,13 +768,10 @@
             background: var(--white);
             box-shadow: var(--shadow-small);
         }
-
         .interactivity-note strong {
             color: var(--tourist-dark);
         }
-
         /* Dashboard embed section */
-
         .embed-section {
             position: relative;
             overflow: hidden;
@@ -905,7 +779,6 @@
             background: var(--linen);
             color: var(--charcoal);
         }
-
         .embed-section::before {
             position: absolute;
             z-index: 0;
@@ -917,7 +790,6 @@
             background: var(--stone-light);
             content: "";
         }
-
         .embed-heading {
             position: relative;
             z-index: 1;
@@ -925,12 +797,10 @@
             margin: 0 auto 46px;
             text-align: center;
         }
-
         .embed-heading .eyebrow {
             justify-content: center;
             color: var(--tourist-dark);
         }
-
         .embed-heading .eyebrow::after {
             width: 30px;
             height: 2px;
@@ -938,7 +808,6 @@
             background: currentColor;
             content: "";
         }
-
         .embed-heading h2 {
             margin-bottom: 14px;
             color: var(--forest-dark);
@@ -947,13 +816,11 @@
             letter-spacing: -0.05em;
             line-height: 1.12;
         }
-
         .embed-heading p {
             color: var(--text);
             font-size: 0.98rem;
             line-height: 1.75;
         }
-
         .dashboard-shell {
             position: relative;
             z-index: 1;
@@ -965,7 +832,6 @@
             background: var(--white);
             box-shadow: var(--shadow);
         }
-
         .dashboard-toolbar {
             display: flex;
             align-items: center;
@@ -975,13 +841,11 @@
             background: var(--stone-light);
             border-bottom: 1px solid var(--border);
         }
-
         .dashboard-label {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .dashboard-status {
             position: relative;
             flex-shrink: 0;
@@ -990,7 +854,6 @@
             border-radius: 50%;
             background: #2f9e59;
         }
-
         .dashboard-status::after {
             position: absolute;
             inset: -4px;
@@ -999,7 +862,6 @@
             content: "";
             animation: dashboard-pulse 2.2s ease-out infinite;
         }
-
         @keyframes dashboard-pulse {
             0% {
                 transform: scale(0.6);
@@ -1010,7 +872,6 @@
                 opacity: 0;
             }
         }
-
         .dashboard-label strong {
             display: block;
             color: var(--forest-dark);
@@ -1018,7 +879,6 @@
             font-weight: 800;
             letter-spacing: -0.01em;
         }
-
         .dashboard-label span {
             display: block;
             margin-top: 2px;
@@ -1026,23 +886,19 @@
             font-size: 0.72rem;
             font-weight: 600;
         }
-
         .dashboard-decoration {
             display: flex;
             gap: 6px;
         }
-
         .dashboard-decoration span {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background: var(--stone);
         }
-
         .dashboard-body {
             padding: 16px;
         }
-
         .embed-frame-inner {
             position: relative;
             width: 100%;
@@ -1052,7 +908,6 @@
             border-radius: var(--radius-medium);
             background: var(--stone-light);
         }
-
         .embed-frame-inner iframe {
             position: absolute;
             top: 0;
@@ -1061,7 +916,6 @@
             height: 100%;
             border: 0;
         }
-
         .dashboard-tip {
             display: none;
             align-items: center;
@@ -1075,53 +929,43 @@
             border: 1px solid var(--border);
             color: var(--forest-dark);
         }
-
         .dashboard-tip svg {
             flex-shrink: 0;
             width: 26px;
             height: 26px;
             color: var(--tourist-dark);
         }
-
         .dashboard-tip p {
             font-size: 0.88rem;
             line-height: 1.6;
         }
-
         .dashboard-tip strong {
             color: var(--forest-dark);
         }
-
         .site-footer {
             padding: 31px 0;
             background: #0d1620;
             color: rgba(255, 255, 255, 0.6);
             text-align: center;
         }
-
         .site-footer-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
         }
-
         .site-footer p {
             font-size: 0.81rem;
         }
-
         .site-footer a {
             color: var(--white);
             font-weight: 700;
             text-decoration: none;
         }
-
         .site-footer a:hover {
             color: var(--tourist-light);
         }
-
         /* Reveal animation */
-
         .reveal {
             opacity: 0;
             transform: translateY(24px);
@@ -1129,155 +973,132 @@
                 opacity 0.7s ease,
                 transform 0.7s ease;
         }
-
         .reveal.visible {
             opacity: 1;
             transform: none;
         }
-
         /* Responsive */
-
         @media (max-width: 900px) {
             .hero-grid {
                 grid-template-columns: 1fr;
                 padding-top: 130px;
             }
-
             .hero h1,
             .hero-description {
                 max-width: 100%;
             }
-
             .hero-visual {
                 max-width: 320px;
                 margin: 0 auto;
             }
-
             .hero-visual .mock-card {
                 transform: none;
             }
-
             .hero-badge {
                 left: 0;
                 transform: none;
             }
-
             .tab-row {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-
             .tab-visual {
                 width: 100%;
                 max-width: 280px;
                 margin: 0 auto;
             }
-
             .tab-copy p,
             .tab-copy .interactivity-note {
                 max-width: 100%;
             }
         }
-
         @media (max-width: 850px) {
             .dashboard-tip {
                 display: flex;
             }
         }
-
         @media (max-width: 680px) {
             .page-width {
                 width: min(calc(100% - 28px), var(--page-width));
             }
-
             .navigation {
                 min-height: 70px;
             }
-
             .hero {
                 min-height: 600px;
             }
-
             .stat-strip {
                 gap: 8px;
             }
-
             .stat-card {
                 padding: 15px 8px;
             }
-
             .story-card {
                 padding: 16px 18px;
             }
-
             /* Keep the dashboard previews compact on phones. */
             .tabs-list {
                 gap: 42px;
             }
-
             .tab-row {
                 gap: 20px;
+                display: block;
             }
-
+            .tab-row::after {
+                display: block;
+                clear: both;
+                content: "";
+            }
             .tab-visual {
+                float: right;
                 width: 50%;
                 max-width: 140px;
+                width: 104px;
+                max-width: none;
+                margin: 0 0 12px 18px;
             }
-
             .tab-visual::before {
                 top: -8px;
                 left: -8px;
             }
-
             .tab-visual .mock-topbar {
                 height: 28px;
                 padding: 0 12px;
             }
-
             .tab-visual .mock-body {
                 padding: 14px 12px 16px;
             }
-
             .tab-visual .mock-topbar .mock-title {
                 font-size: 0.56rem;
             }
-
             .regional-summary ul {
                 grid-template-columns: 1fr;
                 gap: 5px;
                 font-size: 0.86rem;
             }
-
             .definition-panel {
                 padding: 32px 26px;
             }
-
             .definition-section,
             .tabs-section {
                 padding: 75px 0;
             }
-
             .embed-section {
                 padding: 80px 0;
             }
-
             .dashboard-body {
                 padding: 8px;
             }
-
             .dashboard-toolbar {
                 padding: 13px 16px;
             }
-
             .dashboard-label span {
                 display: none;
             }
-
             .dashboard-tip {
                 flex-direction: column;
                 text-align: center;
             }
-
             .group-reminder {
                 flex-direction: column;
                 align-items: center;
@@ -1285,12 +1106,10 @@
                 text-align: center;
             }
         }
-
         @media (prefers-reduced-motion: reduce) {
             html {
                 scroll-behavior: auto;
             }
-
             *,
             *::before,
             *::after {
@@ -1298,7 +1117,6 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
             }
-
             .reveal {
                 opacity: 1;
                 transform: none;
@@ -1306,9 +1124,7 @@
         }
     </style>
 </head>
-
 <body>
-
     <header class="site-header">
         <nav
             class="navigation page-width"
@@ -1317,7 +1133,6 @@
             <span class="brand">
                 parkrun <span>World Tourists</span>
             </span>
-
             <a
                 class="navigation-link"
                 href="../../"
@@ -1326,24 +1141,18 @@
             </a>
         </nav>
     </header>
-
     <main>
-
         <section class="hero">
             <div class="page-width">
                 <div class="hero-grid">
-
                     <div class="hero-copy">
-
                         <div class="eyebrow">
                             Interactive Club Insights
                         </div>
-
                         <h1>
                             Tracking the parkrun
                             <span>World Tourists.</span>
                         </h1>
-
                         <p class="hero-description">
                             An interactive Power BI dashboard following the
                             members of the parkrun World Tourists club,
@@ -1351,7 +1160,6 @@
                             they've visited, and how the community is
                             growing week on week.
                         </p>
-
                         <div class="hero-actions">
                             <a
                                 class="primary-button"
@@ -1359,7 +1167,6 @@
                             >
                                 Explore the dashboard
                             </a>
-
                             <a
                                 class="secondary-button"
                                 href="#tourist"
@@ -1367,9 +1174,7 @@
                                 What's a World Tourist?
                             </a>
                         </div>
-
                     </div>
-
                     <div class="hero-visual reveal">
                         <div class="mock-card">
                             <div class="mock-topbar">
@@ -1378,9 +1183,7 @@
                                 <span class="mock-dot"></span>
                                 <span class="mock-title">parkrun World Tourists</span>
                             </div>
-
                             <div class="mock-chip">Updates weekly</div>
-
                             <div class="mock-body">
                                 <svg
                                     viewBox="0 0 420 300"
@@ -1392,21 +1195,18 @@
                                     <ellipse cx="150" cy="140" rx="96" ry="34" style="fill: none; stroke: rgba(28,46,64,0.14); stroke-width: 1.2;" />
                                     <ellipse cx="150" cy="140" rx="96" ry="70" style="fill: none; stroke: rgba(28,46,64,0.1); stroke-width: 1.2;" />
                                     <path d="M150 44 V236" style="stroke: rgba(28,46,64,0.14); stroke-width: 1.2;" />
-
                                     <circle cx="112" cy="98" r="7" style="fill: var(--tourist);" />
                                     <circle cx="188" cy="122" r="10" style="fill: var(--forest-dark);" />
                                     <circle cx="96" cy="168" r="5" style="fill: var(--tourist-dark);" />
                                     <circle cx="176" cy="180" r="6" style="fill: var(--forest);" />
                                     <circle cx="140" cy="86" r="4" style="fill: var(--tourist-light);" />
                                     <circle cx="204" cy="160" r="4" style="fill: var(--tourist);" />
-
                                     <g style="opacity: 0.9;">
                                         <rect x="270" y="188" width="22" height="48" rx="5" style="fill: var(--stone);" />
                                         <rect x="300" y="160" width="22" height="76" rx="5" style="fill: var(--tourist-light);" />
                                         <rect x="330" y="128" width="22" height="108" rx="5" style="fill: var(--tourist);" />
                                         <rect x="360" y="96" width="22" height="140" rx="5" style="fill: var(--forest-dark);" />
                                     </g>
-
                                     <path
                                         d="M270 176 L300 148 L330 118 L360 84"
                                         style="fill: none; stroke: var(--tourist-dark); stroke-width: 3; stroke-linecap: round;"
@@ -1415,7 +1215,6 @@
                                 </svg>
                             </div>
                         </div>
-
                         <div class="hero-badge">
                             <span class="hero-badge-icon">
                                 <svg
@@ -1438,38 +1237,29 @@
                             <span>5km · every Saturday</span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
-
         <section
             class="definition-section"
             id="tourist"
         >
             <div class="page-width">
-
                 <div class="section-heading reveal">
-
                     <div class="eyebrow">
                         What is a World Tourist?
                     </div>
-
                     <h2>
                         Tourists across the globe.
                     </h2>
-
                     <p>
                         parkrun runs free, weekly 5km events in more than
                         20 countries across five continents. This club is
                         for the ones who've chased that stamp collection
                         furthest.
                     </p>
-
                 </div>
-
                 <div class="definition-panel reveal">
-
                     <div class="definition-stamp">
                         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="3" y="4" width="18" height="16" rx="2" stroke="#b97e42" stroke-width="1.3" />
@@ -1478,29 +1268,23 @@
                             <path d="M14.5 9H18.5M14.5 12H18.5M14.5 15H16.5" stroke="#b97e42" stroke-width="1" stroke-linecap="round" />
                         </svg>
                     </div>
-
                     <div class="eyebrow">
                         The definition
                     </div>
-
                     <p>
                         This group is for like-minded parkrun tourists who
                         have completed at least one parkrun in each of
                         FOUR (4) parkrun countries, as listed on
                         parkrun.com/countries.
                     </p>
-
                     <p>
                         England, Wales, Scotland and Northern Ireland all
                         count as part of the UK for this definition, so
                         they aren't treated as four separate countries on
                         their own.
                     </p>
-
                 </div>
-
                 <div class="group-reminder reveal">
-
                     <div class="group-reminder-icon">
                         <svg
                             viewBox="0 0 24 24"
@@ -1514,10 +1298,8 @@
                             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                         </svg>
                     </div>
-
                     <div class="group-reminder-body">
                         <strong>Want to be counted in this dashboard?</strong>
-
                         <p>
                             If you want to be included in this dashboard,
                             <a
@@ -1529,7 +1311,6 @@
                             up to 5 clubs): <strong>parkrun World
                             Tourist</strong>.
                         </p>
-
                         <a
                             class="group-reminder-link"
                             href="https://www.parkrun.com/signin/"
@@ -1537,7 +1318,6 @@
                             rel="noopener noreferrer"
                         >
                             Sign in and add your group
-
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -1551,34 +1331,25 @@
                             </svg>
                         </a>
                     </div>
-
                 </div>
-
             </div>
         </section>
-
         <section
             class="insights-section"
             id="insights"
         >
             <div class="page-width">
-
                 <div class="section-heading reveal">
-
                     <div class="eyebrow">
                         This week's stories
                     </div>
-
                     <h2>
                         The tourists, in a few sentences.
                     </h2>
-
                     <p id="insightsSubheading">
                         This week, the parkrun World Tourists made the name feel very literal.
                     </p>
-
                 </div>
-
                 <div
                     class="stat-strip reveal"
                     id="statStrip"
@@ -1588,18 +1359,15 @@
                         <strong>926</strong>
                         <span>Tourists</span>
                     </div>
-
                     <div class="stat-card">
                         <strong>22</strong>
                         <span>Countries</span>
                     </div>
-
                     <div class="stat-card">
                         <strong>564</strong>
                         <span>Events</span>
                     </div>
                 </div>
-
                 <div
                     class="stories"
                     id="storyList"
@@ -1612,7 +1380,6 @@
                         finish line at 564 different events, while another
                         254 volunteered.
                     </p>
-
                     <article class="story-card">
                         <span class="story-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1630,7 +1397,6 @@
                             </ul>
                         </div>
                     </article>
-
                     <p class="insights-paragraph">
                         But the loveliest number might be 393: that's how
                         many parkruns had just one World Tourist result on
@@ -1643,48 +1409,37 @@
                         Community Woodland (12) and the gloriously named
                         Y Promenâd, Llandrillo-yn-Rhos (11).
                     </p>
-
                     <p class="insights-paragraph">
                         So where did everyone go? Which countries were
                         most widely explored, and which events attracted
                         a little World Tourist crowd? Dive into the
                         dashboard below to follow the flags, explore the
-                        map and find the stories behind every pin.
+                        map and find the stories behind every bubble.
                     </p>
                 </div>
-
                 <p class="insights-note reveal">
                     Prefer charts? The full interactive dashboard is
                     further down the page, or
                     <a href="#dashboard">jump straight there</a>.
                 </p>
-
             </div>
         </section>
-
         <section class="tabs-section">
             <div class="page-width">
-
                 <div class="section-heading reveal">
-
                     <div class="eyebrow">
                         How it works
                     </div>
-
                     <h2>
                         A quick tour of the dashboard
                     </h2>
-
                     <p>
                         The dashboard is split across three tabs, each
                         built to be explored rather than just read. Click
                         around and the data responds.
                     </p>
-
                 </div>
-
                 <div class="tabs-list">
-
                     <article class="tab-row reveal">
                         <div class="tab-visual">
                             <div class="mock-card">
@@ -1694,7 +1449,6 @@
                                     <span class="mock-dot"></span>
                                     <span class="mock-title">Global Overview</span>
                                 </div>
-
                                 <div class="mock-body">
                                     <svg
                                         viewBox="0 0 420 260"
@@ -1702,11 +1456,9 @@
                                         style="width: 100%; height: auto; display: block;"
                                     >
                                         <rect x="0" y="0" width="420" height="260" rx="14" style="fill: var(--stone-light);" />
-
                                         <path d="M20 90 Q100 40 180 85 T340 70" style="fill: none; stroke: rgba(28,46,64,0.14); stroke-width: 1.4;" />
                                         <path d="M10 160 Q120 130 220 165 T400 150" style="fill: none; stroke: rgba(28,46,64,0.1); stroke-width: 1.2;" />
                                         <path d="M30 210 Q140 190 240 215 T410 205" style="fill: none; stroke: rgba(28,46,64,0.08); stroke-width: 1.2;" />
-
                                         <circle cx="88" cy="82" r="10" style="fill: var(--tourist);" />
                                         <circle cx="150" cy="118" r="6" style="fill: var(--forest-dark);" />
                                         <circle cx="210" cy="70" r="8" style="fill: var(--tourist-dark);" />
@@ -1714,14 +1466,12 @@
                                         <circle cx="320" cy="95" r="6" style="fill: var(--tourist-light);" />
                                         <circle cx="120" cy="175" r="5" style="fill: var(--tourist);" />
                                         <circle cx="350" cy="170" r="9" style="fill: var(--tourist-dark);" />
-
                                         <circle cx="270" cy="140" r="24" style="fill: none; stroke: var(--tourist); stroke-width: 1.5; opacity: 0.6;" />
                                         <circle cx="270" cy="140" r="34" style="fill: none; stroke: var(--tourist); stroke-width: 1; opacity: 0.35;" />
                                     </svg>
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-copy">
                             <div class="tab-number">01</div>
                             <h3>Global Overview</h3>
@@ -1746,7 +1496,6 @@
                             </div>
                         </div>
                     </article>
-
                     <article class="tab-row reveal">
                         <div class="tab-visual">
                             <div class="mock-card">
@@ -1754,9 +1503,8 @@
                                     <span class="mock-dot"></span>
                                     <span class="mock-dot"></span>
                                     <span class="mock-dot"></span>
-                                    <span class="mock-title">Member</span>
+                                    <span class="mock-title">Members</span>
                                 </div>
-
                                 <div class="mock-body">
                                     <svg
                                         viewBox="0 0 420 260"
@@ -1764,7 +1512,6 @@
                                         style="width: 100%; height: auto; display: block;"
                                     >
                                         <rect x="0" y="0" width="420" height="260" rx="14" style="fill: var(--stone-light);" />
-
                                         <rect x="18" y="20" width="26" height="18" rx="3" style="fill: var(--tourist);" />
                                         <rect x="52" y="20" width="26" height="18" rx="3" style="fill: var(--forest-dark);" />
                                         <rect x="86" y="20" width="26" height="18" rx="3" style="fill: var(--tourist-dark);" />
@@ -1773,38 +1520,32 @@
                                         <rect x="188" y="20" width="26" height="18" rx="3" style="fill: var(--stone);" />
                                         <rect x="222" y="20" width="26" height="18" rx="3" style="fill: var(--tourist);" />
                                         <rect x="256" y="20" width="26" height="18" rx="3" style="fill: var(--forest-dark);" />
-
                                         <g style="opacity: 0.9;">
                                             <rect x="18" y="66" width="384" height="26" rx="6" style="fill: var(--white);" />
                                             <rect x="30" y="75" width="14" height="8" rx="2" style="fill: var(--tourist);" />
                                             <rect x="54" y="75" width="120" height="8" rx="4" style="fill: var(--border);" />
                                             <rect x="320" y="75" width="50" height="8" rx="4" style="fill: var(--border);" />
-
                                             <rect x="18" y="100" width="384" height="26" rx="6" style="fill: var(--white);" />
                                             <rect x="30" y="109" width="14" height="8" rx="2" style="fill: var(--forest-dark);" />
                                             <rect x="54" y="109" width="150" height="8" rx="4" style="fill: var(--border);" />
                                             <rect x="320" y="109" width="50" height="8" rx="4" style="fill: var(--border);" />
-
                                             <rect x="18" y="134" width="384" height="26" rx="6" style="fill: var(--white);" />
                                             <rect x="30" y="143" width="14" height="8" rx="2" style="fill: var(--tourist-dark);" />
                                             <rect x="54" y="143" width="100" height="8" rx="4" style="fill: var(--border);" />
                                             <rect x="320" y="143" width="50" height="8" rx="4" style="fill: var(--border);" />
-
                                             <rect x="18" y="168" width="384" height="26" rx="6" style="fill: var(--white);" />
                                             <rect x="30" y="177" width="14" height="8" rx="2" style="fill: var(--forest);" />
                                             <rect x="54" y="177" width="135" height="8" rx="4" style="fill: var(--border);" />
                                             <rect x="320" y="177" width="50" height="8" rx="4" style="fill: var(--border);" />
-
                                             <rect x="18" y="202" width="384" height="26" rx="6" style="fill: var(--white); opacity: 0.6;" />
                                         </g>
                                     </svg>
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-copy">
                             <div class="tab-number">02</div>
-                            <h3>Member</h3>
+                            <h3>Members</h3>
                             <p>
                                 A full breakdown of every parkrunner's
                                 result for the week: country, event, time
@@ -1826,7 +1567,6 @@
                             </div>
                         </div>
                     </article>
-
                     <article class="tab-row reveal">
                         <div class="tab-visual">
                             <div class="mock-card">
@@ -1836,7 +1576,6 @@
                                     <span class="mock-dot"></span>
                                     <span class="mock-title">Weekly Trends</span>
                                 </div>
-
                                 <div class="mock-body">
                                     <svg
                                         viewBox="0 0 420 260"
@@ -1844,7 +1583,6 @@
                                         style="width: 100%; height: auto; display: block;"
                                     >
                                         <rect x="0" y="0" width="420" height="260" rx="14" style="fill: var(--stone-light);" />
-
                                         <g>
                                             <rect x="26" y="150" width="20" height="70" rx="4" style="fill: var(--stone);" />
                                             <rect x="58" y="130" width="20" height="90" rx="4" style="fill: var(--tourist-light);" />
@@ -1859,14 +1597,11 @@
                                             <rect x="346" y="60" width="20" height="160" rx="4" style="fill: var(--forest-dark);" />
                                             <rect x="378" y="50" width="20" height="170" rx="4" style="fill: var(--forest-dark);" />
                                         </g>
-
                                         <path
                                             d="M36 190 L68 172 L100 190 L132 158 L164 148 L196 130 L228 190 L260 122 L292 108 L324 190 L356 92 L388 78"
                                             style="fill: none; stroke: var(--forest); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75;"
                                         />
-
                                         <circle cx="388" cy="78" r="5" style="fill: var(--forest);" />
-
                                         <path
                                             d="M40 40 L50 30 L60 40 M50 30 V52"
                                             style="fill: none; stroke: var(--tourist-dark); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;"
@@ -1875,7 +1610,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-copy">
                             <div class="tab-number">03</div>
                             <h3>Weekly Trends</h3>
@@ -1902,36 +1636,27 @@
                             </div>
                         </div>
                     </article>
-
                 </div>
-
             </div>
         </section>
-
         <section
             class="embed-section"
             id="dashboard"
         >
             <div class="page-width">
-
                 <div class="embed-heading reveal">
-
                     <div class="eyebrow">
                         Live dashboard
                     </div>
-
                     <h2>
                         Explore it for yourself
                     </h2>
-
                     <p>
                         This is the live, interactive dashboard. Hover the
                         map, click a flag, drag the date range. It updates
                         weekly with the latest World Tourist activity.
                     </p>
-
                 </div>
-
                 <div class="dashboard-shell reveal">
                     <div class="dashboard-toolbar">
                         <div class="dashboard-label">
@@ -1953,7 +1678,6 @@
                             <span></span>
                         </div>
                     </div>
-
                     <div class="dashboard-body">
                         <div class="embed-frame-inner">
                             <iframe
@@ -1964,7 +1688,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="dashboard-tip reveal">
                     <svg
                         viewBox="0 0 24 24"
@@ -1983,19 +1706,14 @@
                         to landscape before exploring the dashboard.
                     </p>
                 </div>
-
             </div>
         </section>
-
     </main>
-
     <footer class="site-footer">
         <div class="page-width site-footer-content">
-
             <p>
                 Data with Andrea is made with ❤️ in Brisbane, Australia
             </p>
-
             <p>
                 <a href="https://datawithandrea.com.au">
                     Data with Andrea
@@ -2009,19 +1727,15 @@
                     Event Insights
                 </a>
             </p>
-
             <p style="opacity: 0.6; font-size: 0.72rem;">
                 This dashboard is an independent project and is not
                 affiliated with, sponsored by or endorsed by parkrun.
             </p>
-
         </div>
     </footer>
-
     <script>
         const revealElements =
             document.querySelectorAll(".reveal");
-
         const revealObserver =
             new IntersectionObserver(
                 (entries, observer) => {
@@ -2030,7 +1744,6 @@
                             entry.target.classList.add(
                                 "visible"
                             );
-
                             observer.unobserve(
                                 entry.target
                             );
@@ -2041,11 +1754,9 @@
                     threshold: 0.12
                 }
             );
-
         revealElements.forEach((element) => {
             revealObserver.observe(element);
         });
-
         // ---- This week's stories (insights.json) ----
         //
         // The section above already contains this week's insights as
@@ -2056,29 +1767,24 @@
         // which is the current state, since insights.json isn't being
         // served yet — the static content already in the page is left
         // exactly as it is.
-
         const STORY_ICONS = {
             milestone: '<path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 6H5a2 2 0 0 1 0-4h2"/><path d="M17 6h2a2 2 0 0 0 0-4h-2"/>',
             new_country: '<circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>',
             pb: '<path d="M6 3L18 12L12 13.5L14.5 19.5L11.5 21L9 15L5 18.5L6 3Z"/>',
             distance: '<path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/>'
         };
-
         const STORY_LABELS = {
             milestone: "Milestone",
             new_country: "New country",
             pb: "Personal best",
             distance: "Furthest travelled"
         };
-
         function iconFor(type) {
             return STORY_ICONS[type] || STORY_ICONS.milestone;
         }
-
         function labelFor(type) {
             return STORY_LABELS[type] || "Story";
         }
-
         function formatWeekEnding(isoDate) {
             try {
                 const d = new Date(isoDate + "T00:00:00");
@@ -2091,30 +1797,23 @@
                 return isoDate;
             }
         }
-
         async function loadInsights() {
             const statStrip = document.getElementById("statStrip");
             const storyList = document.getElementById("storyList");
             const subheading = document.getElementById("insightsSubheading");
-
             try {
                 const response = await fetch("insights.json", { cache: "no-store" });
-
                 if (!response.ok) {
                     throw new Error("insights.json not found");
                 }
-
                 const data = await response.json();
-
                 subheading.textContent =
                     "Results from " + formatWeekEnding(data.week_ending) + ".";
-
                 const stats = [
                     { value: data.headline.tourist_count, label: "Tourists" },
                     { value: data.headline.country_count, label: "Countries" },
                     { value: data.headline.event_count, label: "Events" }
                 ];
-
                 statStrip.innerHTML = stats
                     .map(
                         (s) => `
@@ -2125,13 +1824,11 @@
                     `
                     )
                     .join("");
-
                 if (!data.stories || data.stories.length === 0) {
                     storyList.innerHTML =
                         '<div class="insights-status">No standout stories flagged this week — check back next Saturday.</div>';
                     return;
                 }
-
                 storyList.innerHTML = data.stories
                     .map(
                         (story) => `
@@ -2155,9 +1852,7 @@
                 // than overwriting it with a "check back soon" message.
             }
         }
-
         loadInsights();
     </script>
-
 </body>
 </html>
