@@ -730,6 +730,26 @@
             line-height: 1.6;
         }
 
+        .regional-summary {
+            flex: 1;
+        }
+
+        .regional-summary ul {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 24px;
+            margin: 0;
+            padding-left: 1.1em;
+            color: var(--forest-dark);
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.55;
+        }
+
+        .regional-summary li::marker {
+            color: var(--tourist-dark);
+        }
+
         .story-label {
             display: block;
             margin-bottom: 4px;
@@ -1190,6 +1210,44 @@
                 padding: 16px 18px;
             }
 
+            /* Keep the dashboard previews compact on phones. */
+            .tabs-list {
+                gap: 42px;
+            }
+
+            .tab-row {
+                gap: 20px;
+            }
+
+            .tab-visual {
+                width: 50%;
+                max-width: 140px;
+            }
+
+            .tab-visual::before {
+                top: -8px;
+                left: -8px;
+            }
+
+            .tab-visual .mock-topbar {
+                height: 28px;
+                padding: 0 12px;
+            }
+
+            .tab-visual .mock-body {
+                padding: 14px 12px 16px;
+            }
+
+            .tab-visual .mock-topbar .mock-title {
+                font-size: 0.56rem;
+            }
+
+            .regional-summary ul {
+                grid-template-columns: 1fr;
+                gap: 5px;
+                font-size: 0.86rem;
+            }
+
             .definition-panel {
                 padding: 32px 26px;
             }
@@ -1550,14 +1608,9 @@
                     <p class="insights-paragraph">
                         Across 22 countries and five continents, 926 club
                         members took part in their local parkrun
-                        communities this week. 851 of them crossed a
+                        communities this week. 852 of them crossed a
                         finish line at 564 different events, while another
-                        254 volunteer shifts, pulled off by 254 generous
-                        humans.
-                    </p>
-
-                    <p class="insights-paragraph">
-                        The map tells a properly global story:
+                        258 volunteer shifts.
                     </p>
 
                     <article class="story-card">
@@ -1566,78 +1619,23 @@
                                 <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>
                             </svg>
                         </span>
-                        <p>
-                            <span class="story-label">Europe</span>
-                            Did the heavy lifting: 595 results across
-                            385 events, spread across ten countries. The
-                            UK led the charge with 480 results at 303
-                            venues, trailed by Ireland (29), Germany (22),
-                            the Netherlands (18) and Poland (17), with
-                            Norway, Sweden, Austria, Denmark and Italy all
-                            keeping the flag flying too.
-                        </p>
-                    </article>
-
-                    <article class="story-card">
-                        <span class="story-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>
-                            </svg>
-                        </span>
-                        <p>
-                            <span class="story-label">Oceania</span>
-                            Kept things sunny with 164 results across
-                            113 events: 143 in Australia, plus 21 across
-                            the ditch in New Zealand.
-                        </p>
-                    </article>
-
-                    <article class="story-card">
-                        <span class="story-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>
-                            </svg>
-                        </span>
-                        <p>
-                            <span class="story-label">Africa</span>
-                            Punched well above its weight: 58 results
-                            spread across 38 South African venues.
-                        </p>
-                    </article>
-
-                    <article class="story-card">
-                        <span class="story-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>
-                            </svg>
-                        </span>
-                        <p>
-                            <span class="story-label">North America</span>
-                            Clocked in with 27 results at 21 events: 21
-                            stateside, and six more up in Canada.
-                        </p>
-                    </article>
-
-                    <article class="story-card">
-                        <span class="story-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8"/><path d="M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18"/><path d="M12.5 3a17 17 0 0 1 0 18"/>
-                            </svg>
-                        </span>
-                        <p>
-                            <span class="story-label">Asia</span>
-                            The smallest chapter, but still spanning
-                            three countries and seven events: six results
-                            in Japan, plus one each in Malaysia and
-                            Singapore.
-                        </p>
+                        <div class="regional-summary">
+                            <span class="story-label">Around the world</span>
+                            <ul>
+                                <li><strong>Europe:</strong> 595 results</li>
+                                <li><strong>Oceania:</strong> 164 results</li>
+                                <li><strong>Africa:</strong> 58 results</li>
+                                <li><strong>North America:</strong> 27 results</li>
+                                <li><strong>Asia:</strong> 8 results</li>
+                            </ul>
+                        </div>
                     </article>
 
                     <p class="insights-paragraph">
                         But the loveliest number might be 393: that's how
                         many parkruns had just one World Tourist result on
                         the finish list. A single tourist at a new event
-                        still counts as a tiny expedition, one person,
+                        still counts as a tiny expedition — one person,
                         one barcode, one very determined dot on the map.
                         At the other end of the spectrum, Queensway
                         parkrun turned into the week's unofficial
@@ -1756,7 +1754,7 @@
                                     <span class="mock-dot"></span>
                                     <span class="mock-dot"></span>
                                     <span class="mock-dot"></span>
-                                    <span class="mock-title">Member Explorer</span>
+                                    <span class="mock-title">Member</span>
                                 </div>
 
                                 <div class="mock-body">
@@ -1806,7 +1804,7 @@
 
                         <div class="tab-copy">
                             <div class="tab-number">02</div>
-                            <h3>Member Explorer</h3>
+                            <h3>Member</h3>
                             <p>
                                 A full breakdown of every parkrunner's
                                 result for the week: country, event, time
