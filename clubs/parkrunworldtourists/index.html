@@ -153,10 +153,38 @@
             font-weight: 700;
             text-decoration: none;
             transition: color 0.2s ease;
+            white-space: nowrap;
         }
         .navigation-link:hover,
         .navigation-link:focus-visible {
             color: var(--tourist-light);
+        }
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+        }
+        @media (max-width: 720px) {
+            .header-links {
+                gap: 16px;
+            }
+            .navigation-link {
+                font-size: 0.78rem;
+            }
+        }
+        @media (max-width: 560px) {
+            .navigation {
+                flex-wrap: wrap;
+                min-height: auto;
+                padding-top: 14px;
+                padding-bottom: 14px;
+                gap: 10px;
+            }
+            .header-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 10px;
+            }
         }
         /* Hero */
         .hero {
@@ -1133,12 +1161,26 @@
             <span class="brand">
                 parkrun <span>World Tourists</span>
             </span>
-            <a
-                class="navigation-link"
-                href="../../"
-            >
-                Event Insights
-            </a>
+            <div class="header-links">
+                <a
+                    class="navigation-link"
+                    href="#insights"
+                >
+                    This week's stories
+                </a>
+                <a
+                    class="navigation-link"
+                    href="#how-it-works"
+                >
+                    Quick guide
+                </a>
+                <a
+                    class="navigation-link"
+                    href="#dashboard"
+                >
+                    Explore the dashboard
+                </a>
+            </div>
         </nav>
     </header>
     <main>
@@ -1443,7 +1485,10 @@
                 </p>
             </div>
         </section>
-        <section class="tabs-section">
+        <section
+            class="tabs-section"
+            id="how-it-works"
+        >
             <div class="page-width">
                 <div class="section-heading reveal">
                     <div class="eyebrow">
