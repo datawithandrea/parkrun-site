@@ -104,6 +104,9 @@
             font-family: "Manrope", sans-serif;
             line-height: 1.6;
         }
+        body.menu-open {
+            overflow: hidden;
+        }
         a {
             color: inherit;
         }
@@ -159,31 +162,82 @@
         .navigation-link:focus-visible {
             color: var(--tourist-light);
         }
-        .header-links {
+        .navigation-links {
             display: flex;
             align-items: center;
             gap: 26px;
+            list-style: none;
+        }
+        .navigation-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.86rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 0.2s ease;
+        }
+        .navigation-links a:hover,
+        .navigation-links a:focus-visible {
+            color: var(--tourist-light);
+        }
+        .menu-button {
+            display: none;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+        }
+        .menu-button svg {
+            width: 20px;
+            height: 20px;
         }
         @media (max-width: 720px) {
-            .header-links {
-                gap: 16px;
+            .menu-button {
+                display: flex;
             }
-            .navigation-link {
-                font-size: 0.78rem;
+            .navigation-links {
+                position: fixed;
+                z-index: 30;
+                top: 78px;
+                right: 17px;
+                left: 17px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                background: rgba(19, 31, 43, 0.98);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            }
+            .navigation-links.open {
+                display: flex;
+            }
+            .navigation-links a {
+                display: block;
+                padding: 14px 15px;
+                border-radius: 11px;
+            }
+            .navigation-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
             }
         }
         @media (max-width: 560px) {
             .navigation {
-                flex-wrap: wrap;
-                min-height: auto;
-                padding-top: 14px;
-                padding-bottom: 14px;
-                gap: 10px;
+                min-height: 70px;
             }
-            .header-links {
-                width: 100%;
-                justify-content: space-between;
-                gap: 10px;
+            .navigation-links {
+                top: 70px;
+                right: 14px;
+                left: 14px;
             }
         }
         /* Hero */
@@ -946,26 +1000,30 @@
         }
         .dashboard-tip {
             display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
             width: min(100%, 1180px);
-            margin: 28px auto 0;
-            padding: 18px 24px;
-            border-radius: var(--radius-medium);
+            align-items: flex-start;
+            gap: 12px;
+            margin: 22px auto 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--tourist);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
             background: var(--stone-light);
-            border: 1px solid var(--border);
-            color: var(--forest-dark);
+            color: var(--text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+            text-align: left;
         }
         .dashboard-tip svg {
             flex-shrink: 0;
-            width: 26px;
-            height: 26px;
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            margin-top: 2px;
             color: var(--tourist-dark);
         }
         .dashboard-tip p {
-            font-size: 0.88rem;
-            line-height: 1.6;
+            margin: 0;
+            text-align: left;
         }
         .dashboard-tip strong {
             color: var(--forest-dark);
@@ -992,6 +1050,51 @@
         }
         .site-footer a:hover {
             color: var(--tourist-light);
+        }
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            z-index: 40;
+            right: 22px;
+            bottom: 22px;
+            display: flex;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: var(--forest-dark);
+            box-shadow: 0 14px 34px rgba(20, 32, 45, 0.3);
+            color: var(--white);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .scroll-top:hover {
+            background: var(--forest);
+        }
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+        @media (max-width: 600px) {
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 46px;
+                height: 46px;
+            }
         }
         /* Reveal animation */
         .reveal {
@@ -1161,26 +1264,41 @@
             <span class="brand">
                 parkrun <span>World Tourists</span>
             </span>
-            <div class="header-links">
-                <a
-                    class="navigation-link"
-                    href="#insights"
+            <ul
+                class="navigation-links"
+                id="navigationLinks"
+            >
+                <li>
+                    <a href="#insights">This week's stories</a>
+                </li>
+                <li>
+                    <a href="#how-it-works">Quick guide</a>
+                </li>
+                <li>
+                    <a href="#dashboard">Explore the dashboard</a>
+                </li>
+            </ul>
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="navigationLinks"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true"
                 >
-                    This week's stories
-                </a>
-                <a
-                    class="navigation-link"
-                    href="#how-it-works"
-                >
-                    Quick guide
-                </a>
-                <a
-                    class="navigation-link"
-                    href="#dashboard"
-                >
-                    Explore the dashboard
-                </a>
-            </div>
+                    <path d="M4 7h16"></path>
+                    <path d="M4 12h16"></path>
+                    <path d="M4 17h16"></path>
+                </svg>
+            </button>
         </nav>
     </header>
     <main>
@@ -1407,7 +1525,7 @@
                         <span>Countries</span>
                     </div>
                     <div class="stat-card">
-                        <strong>565</strong>
+                        <strong>563</strong>
                         <span>Events</span>
                     </div>
                 </div>
@@ -1421,7 +1539,7 @@
                         members took part in their local parkrun
                         communities this week, with 5 new members joining
                         the club. 858 of them crossed a finish line at
-                        565 different events, while another 197
+                        563 different events, while another 197
                         volunteered. Namibia and Eswatini were the only
                         two parkrun countries without a World Tourist
                         finisher this week.
@@ -1458,7 +1576,7 @@
                         </p>
                     </article>
                     <p class="insights-paragraph">
-                        Of the 565 events visited, 388 saw just a single
+                        Of the 563 events visited, 388 saw just a single
                         World Tourist come through the finish funnel: one
                         person, one barcode, one determined dot on the
                         map. At the busier end, Queensway parkrun led the
@@ -1797,7 +1915,92 @@
             </p>
         </div>
     </footer>
+
+    <button
+        class="scroll-top"
+        id="scrollTopButton"
+        type="button"
+        aria-label="Scroll back to the top"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
+
     <script>
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const navigationLinks =
+            document.getElementById("navigationLinks");
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navigationLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            document.body.classList.toggle(
+                "menu-open",
+                isOpen
+            );
+        });
+
+        navigationLinks
+            .querySelectorAll("a")
+            .forEach((link) => {
+                link.addEventListener("click", () => {
+                    navigationLinks.classList.remove("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+                });
+            });
+
+        const scrollTopButton =
+            document.getElementById(
+                "scrollTopButton"
+            );
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                scrollTopButton.classList.toggle(
+                    "visible",
+                    window.scrollY > 600
+                );
+            },
+            {
+                passive: true
+            }
+        );
+
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+
         const revealElements =
             document.querySelectorAll(".reveal");
         const revealObserver =
