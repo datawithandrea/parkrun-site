@@ -1507,8 +1507,7 @@
                         The tourists, in a few sentences.
                     </h2>
                     <p id="insightsSubheading">
-                        This week, one World Tourist shaved almost a
-                        minute off a course he'd already run last week.
+                        This week, the parkrun World Tourists spread across every corner of the map, from Bushy to Balijbos.
                     </p>
                 </div>
                 <div
@@ -1517,7 +1516,7 @@
                     aria-live="polite"
                 >
                     <div class="stat-card">
-                        <strong>931</strong>
+                        <strong>913</strong>
                         <span>Tourists</span>
                     </div>
                     <div class="stat-card">
@@ -1525,7 +1524,7 @@
                         <span>Countries</span>
                     </div>
                     <div class="stat-card">
-                        <strong>565</strong>
+                        <strong>567</strong>
                         <span>Events</span>
                     </div>
                 </div>
@@ -1535,14 +1534,12 @@
                     aria-live="polite"
                 >
                     <p class="insights-paragraph">
-                        Across 20 countries and five continents, 931 club
+                        Across 20 countries and five continents, 913 club
                         members took part in their local parkrun
-                        communities this week, with 5 new members joining
-                        the club. 858 of them crossed a finish line at
-                        565 different events, while another 197
-                        volunteered. Namibia and Eswatini were the only
-                        two parkrun countries without a World Tourist
-                        finisher this week.
+                        communities this week, with 2 new members joining
+                        the club. 851 of them crossed a finish line at
+                        567 different events. Volunteer numbers for this
+                        week aren't in yet, check back soon for that count.
                     </p>
                     <article class="story-card">
                         <span class="story-icon">
@@ -1553,11 +1550,11 @@
                         <div class="regional-summary">
                             <span class="story-label">Around the world</span>
                             <ul>
-                                <li><strong>Europe:</strong> 608 results</li>
-                                <li><strong>Oceania:</strong> 153 results</li>
-                                <li><strong>Africa:</strong> 62 results</li>
-                                <li><strong>North America:</strong> 26 results</li>
-                                <li><strong>Asia:</strong> 9 results</li>
+                                <li><strong>Europe:</strong> 586 results</li>
+                                <li><strong>Oceania:</strong> 158 results</li>
+                                <li><strong>Africa:</strong> 65 results</li>
+                                <li><strong>North America:</strong> 30 results</li>
+                                <li><strong>Asia:</strong> 8 results</li>
                             </ul>
                         </div>
                     </article>
@@ -1569,26 +1566,21 @@
                         </span>
                         <p>
                             <span class="story-label">Personal best</span>
-                            Fumiaki Fujita ran 16:56 at Dreiländergarten
-                            parkrun in Germany, almost a minute faster
-                            than the 17:54 he posted at the very same
-                            event just last week.
+                            Chaoran Sun posted the week's quickest World
+                            Tourist finish, running 18:19 at Bushy
+                            parkrun in the UK, with Yoeri Meulemans close
+                            behind on 18:25 at Zuiderpark, Rotterdam.
                         </p>
                     </article>
                     <p class="insights-paragraph">
-                        Of the 565 events visited, 388 saw just a single
+                        Of the 567 events visited, 393 saw just a single
                         World Tourist come through the finish funnel: one
                         person, one barcode, one determined dot on the
-                        map. At the busier end, Queensway parkrun led the
-                        way with 9 tourists, with Victoria Embankment
-                        (Nottingham) and Jubilee parkrun tied close
-                        behind on 7 apiece &mdash; a full changing of the
-                        guard from last week's leaderboard.
-                    </p>
-                    <p class="insights-paragraph">
-                        Also worth a mention: Malaysia rejoined the
-                        country list this week after sitting out last
-                        time, while Namibia dropped off in its place.
+                        map. At the busier end, Jeskyns Community
+                        Woodland and Queensway parkrun tied for the
+                        week's top spot with 10 tourists apiece, with
+                        Amager Strandpark and Victoria Park, Newbury
+                        close behind on 7 each.
                     </p>
                     <p class="insights-paragraph">
                         So where did everyone go this week? Dive into the
@@ -2003,6 +1995,7 @@
 
         const revealElements =
             document.querySelectorAll(".reveal");
+
         const revealObserver =
             new IntersectionObserver(
                 (entries, observer) => {
@@ -2011,6 +2004,7 @@
                             entry.target.classList.add(
                                 "visible"
                             );
+
                             observer.unobserve(
                                 entry.target
                             );
@@ -2021,9 +2015,11 @@
                     threshold: 0.12
                 }
             );
+
         revealElements.forEach((element) => {
             revealObserver.observe(element);
         });
+
         // ---- This week's stories (insights.json) ----
         //
         // The section above already contains this week's insights as
