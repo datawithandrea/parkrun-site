@@ -84,4 +84,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
 </url>
+  <url>
+    <loc>https://parkrun.datawithandrea.com.au/yellowwoodsfarmparkrun/</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
