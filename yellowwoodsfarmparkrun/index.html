@@ -254,17 +254,39 @@
             align-items: center;
             overflow: hidden;
             isolation: isolate;
+            background: var(--paddock-dark);
+        }
 
+        /* The photo is mirrored so the runners sit on the right, clear of
+           the headline. Remove "transform: scaleX(-1)" to use the original
+           orientation. */
+
+        .hero-media {
+            position: absolute;
+            z-index: -2;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .hero-photo {
+            position: absolute;
+            inset: 0;
+            background: url("yellowwoodsfarm-parkrun-hero.jpg") center 20% / cover no-repeat;
+            transform: scaleX(-1);
+        }
+
+        .hero-media::after {
+            position: absolute;
+            inset: 0;
             background:
                 linear-gradient(
                     90deg,
                     rgba(14, 24, 13, 0.94) 0%,
                     rgba(20, 34, 18, 0.8) 36%,
-                    rgba(28, 46, 25, 0.36) 69%,
-                    rgba(28, 46, 25, 0.08) 100%
-                ),
-                url("yellowwoodsfarm-parkrun-hero.jpg")
-                center 62% / cover no-repeat;
+                    rgba(28, 46, 25, 0.3) 69%,
+                    rgba(28, 46, 25, 0.06) 100%
+                );
+            content: "";
         }
 
         .hero::before {
@@ -297,7 +319,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            width: min(720px, 100%);
+            width: min(960px, 100%);
             padding-top: 78px;
             padding-bottom: 90px;
             color: var(--white);
@@ -324,9 +346,9 @@
         }
 
         .hero h1 {
-            max-width: 700px;
             margin-bottom: 22px;
-            font-size: clamp(3rem, 7vw, 6rem);
+            font-size: clamp(2.4rem, 5vw, 5rem);
+            white-space: nowrap;
             font-weight: 800;
             letter-spacing: -0.075em;
             line-height: 0.96;
@@ -1109,7 +1131,10 @@
 
             .hero {
                 min-height: 670px;
-                background-position: 58% 62%;
+            }
+
+            .hero-photo {
+                background-position: 75% center;
             }
 
             .hero::after {
@@ -1174,16 +1199,26 @@
             .hero {
                 min-height: 660px;
                 align-items: flex-end;
+            }
 
+            /* On phones the text covers most of the hero, so the photo sits
+               in the top part only and fades into the dark green below it. */
+
+            .hero-photo {
+                inset: 0 0 auto 0;
+                height: 60%;
+                background-position: 55% center;
+            }
+
+            .hero-media::after {
                 background:
                     linear-gradient(
                         180deg,
-                        rgba(14, 24, 13, 0.2) 0%,
-                        rgba(14, 24, 13, 0.46) 35%,
-                        rgba(14, 24, 13, 0.96) 100%
-                    ),
-                    url("yellowwoodsfarm-parkrun-hero.jpg")
-                    40% 60% / cover no-repeat;
+                        rgba(29, 46, 27, 0.2) 0%,
+                        rgba(29, 46, 27, 0.3) 22%,
+                        rgba(29, 46, 27, 0.92) 46%,
+                        rgba(29, 46, 27, 1) 62%
+                    );
             }
 
             .hero-content {
@@ -1192,8 +1227,7 @@
             }
 
             .hero h1 {
-                max-width: 470px;
-                font-size: clamp(2.6rem, 13vw, 4rem);
+                font-size: clamp(1.6rem, 8.6vw, 3.4rem);
             }
 
             .hero-description {
@@ -1367,6 +1401,14 @@
     <main id="top">
 
         <section class="hero">
+
+            <div
+                class="hero-media"
+                aria-hidden="true"
+            >
+                <div class="hero-photo"></div>
+            </div>
+
             <div class="page-width">
                 <div class="hero-content">
 
