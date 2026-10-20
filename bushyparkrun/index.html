@@ -23,26 +23,26 @@
 
     <style>
         :root {
-            --park-dark: #16322a;
-            --park: #2f6048;
-            --park-mid: #7a9a84;
-            --park-light: #e1ebe2;
-            --park-pale: #f2f7f3;
+            --park-dark: #0e3d26;
+            --park: #23804d;
+            --park-mid: #5fa273;
+            --park-light: #d9eedd;
+            --park-pale: #eef8f0;
 
-            --amber: #e0a23c;
-            --amber-light: #f0c880;
+            --amber: #a8d44a;
+            --amber-light: #cfe98a;
 
-            --sky: #5b92c4;
-            --sky-light: #e0ecf5;
+            --sky: #3fa066;
+            --sky-light: #d9eedd;
 
-            --charcoal: #202a25;
+            --charcoal: #1c2a22;
             --body-text: #58655d;
             --white: #ffffff;
-            --off-white: #f8faf7;
+            --off-white: #f7faf6;
             --border: rgba(22, 50, 42, 0.13);
 
-            --shadow: 0 20px 60px rgba(17, 38, 31, 0.13);
-            --shadow-small: 0 12px 32px rgba(17, 38, 31, 0.09);
+            --shadow: 0 20px 60px rgba(8, 50, 30, 0.13);
+            --shadow-small: 0 12px 32px rgba(8, 50, 30, 0.09);
 
             --radius-large: 30px;
             --radius-medium: 20px;
@@ -81,7 +81,7 @@
             left: 0;
             width: 100%;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(14, 32, 26, 0.3);
+            background: rgba(8, 50, 30, 0.3);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -168,13 +168,13 @@
             background:
                 linear-gradient(
                     90deg,
-                    rgba(12, 28, 22, 0.88) 0%,
-                    rgba(16, 38, 30, 0.62) 38%,
-                    rgba(20, 46, 36, 0.22) 70%,
-                    rgba(20, 46, 36, 0.04) 100%
+                    rgba(7, 52, 30, 0.9) 0%,
+                    rgba(10, 70, 40, 0.68) 38%,
+                    rgba(14, 90, 52, 0.4) 70%,
+                    rgba(14, 90, 52, 0.22) 100%
                 ),
                 url("bushy-parkrun-hero.jpg")
-                center 78% / cover no-repeat;
+                center 100% / cover no-repeat;
         }
 
         .hero::before {
@@ -184,7 +184,7 @@
             right: -10%;
             width: 58%;
             height: 125%;
-            background: radial-gradient(circle at center, rgba(224, 162, 60, 0.16), transparent 64%);
+            background: radial-gradient(circle at center, rgba(168, 212, 74, 0.16), transparent 64%);
             content: "";
         }
 
@@ -414,7 +414,7 @@
             width: 420px;
             height: 420px;
             border-radius: 50%;
-            background: rgba(47, 96, 72, 0.08);
+            background: rgba(35, 128, 77, 0.08);
             content: "";
         }
 
@@ -439,7 +439,7 @@
         }
 
         .tutorial-card:hover {
-            border-color: rgba(47, 96, 72, 0.3);
+            border-color: rgba(35, 128, 77, 0.3);
             box-shadow: var(--shadow);
             transform: translateY(-8px);
         }
@@ -520,7 +520,7 @@
             height: 11px;
             border-radius: 50%;
             background: var(--amber);
-            box-shadow: 0 0 0 6px rgba(224, 162, 60, 0.2);
+            box-shadow: 0 0 0 6px rgba(168, 212, 74, 0.2);
         }
 
         .dashboard-label strong { display: block; color: var(--park-dark); font-size: 0.93rem; }
@@ -541,7 +541,7 @@
             width: 100%;
             overflow: hidden;
             border-radius: 20px;
-            background: #eef1ec;
+            background: #e8f0e8;
             aspect-ratio: 16 / 9;
         }
 
@@ -580,7 +580,7 @@
             overflow: hidden;
             padding: 115px 0;
             background:
-                radial-gradient(circle at 82% 22%, rgba(224, 162, 60, 0.17), transparent 28%),
+                radial-gradient(circle at 82% 22%, rgba(168, 212, 74, 0.17), transparent 28%),
                 var(--park-dark);
             color: var(--white);
         }
@@ -632,7 +632,7 @@
 
         /* Footer */
 
-        .site-footer { padding: 30px 0; background: #0f241d; color: rgba(255, 255, 255, 0.62); text-align: center; }
+        .site-footer { padding: 30px 0; background: #0a2e1c; color: rgba(255, 255, 255, 0.62); text-align: center; }
         .site-footer-content { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .site-footer p { font-size: 0.82rem; }
         .site-footer a { color: var(--white); font-weight: 700; text-decoration: none; }
@@ -660,7 +660,7 @@
             border: 0;
             border-radius: 50%;
             background: var(--park-dark);
-            box-shadow: 0 14px 34px rgba(17, 38, 31, 0.3);
+            box-shadow: 0 14px 34px rgba(8, 50, 30, 0.3);
             color: var(--white);
             cursor: pointer;
             opacity: 0;
@@ -691,7 +691,7 @@
 
         @media (max-width: 850px) {
             .page-width { width: min(calc(100% - 34px), var(--page-width)); }
-            .site-header { background: rgba(14, 32, 26, 0.72); }
+            .site-header { background: rgba(8, 50, 30, 0.72); }
             .navigation-actions { margin-left: auto; gap: 14px; }
             .all-reports-link { font-size: 0.82rem; }
             .all-reports-link::after { display: none; }
@@ -709,7 +709,7 @@
                 padding: 12px;
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 18px;
-                background: rgba(14, 32, 26, 0.98);
+                background: rgba(8, 50, 30, 0.98);
                 box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
             }
 
@@ -718,7 +718,7 @@
             .navigation-links a:hover { background: rgba(255, 255, 255, 0.08); }
             .navigation-links a::after { display: none; }
 
-            .hero { min-height: 670px; background-position: 55% 80%; }
+            .hero { min-height: 670px; background-position: 55% 100%; }
             .hero::after { height: 72px; }
             .hero-content { width: 100%; padding-bottom: 80px; }
             .intro-grid { grid-template-columns: 1fr; }
@@ -742,12 +742,12 @@
                 background:
                     linear-gradient(
                         180deg,
-                        rgba(12, 28, 22, 0.12) 0%,
-                        rgba(12, 28, 22, 0.4) 35%,
-                        rgba(12, 28, 22, 0.95) 100%
+                        rgba(8, 60, 34, 0.3) 0%,
+                        rgba(8, 60, 34, 0.55) 35%,
+                        rgba(7, 52, 30, 0.96) 100%
                     ),
                     url("bushy-parkrun-hero.jpg")
-                    62% 82% / cover no-repeat;
+                    62% 100% / cover no-repeat;
             }
 
             .hero-content { padding-top: 125px; padding-bottom: 86px; }
@@ -861,8 +861,8 @@
 
                     <div class="intro-number reveal">
                         <div class="intro-number-inner">
-                            <strong>#1</strong>
-                            <span>Where parkrun began</span>
+                            <strong>2004</strong>
+                            <span>The year parkrun began</span>
                         </div>
                     </div>
 
@@ -873,9 +873,10 @@
                         <h2>Discover more than the finishing times.</h2>
 
                         <p>
-                            Under the tall lime trees of Bushy Park in
-                            Teddington, the very first parkrun started in
-                            2004. Every Bushy parkrun since has brought
+                            On the edge of south-west London, in the
+                            deer-filled royal parkland of Bushy Park, the very
+                            first parkrun started in 2004. Every Bushy parkrun
+                            since has brought
                             together runners, walkers, volunteers, milestones
                             and personal achievements from across the
                             community.
@@ -898,10 +899,10 @@
                             </div>
 
                             <div>
-                                <strong>A one-off event feature</strong>
+                                <strong>Refreshed weekly</strong>
                                 <p>
-                                    This dashboard has been created as a special
-                                    interactive look at Bushy parkrun.
+                                    This dashboard is refreshed every week with
+                                    the latest Bushy parkrun results.
                                 </p>
                             </div>
                         </div>
