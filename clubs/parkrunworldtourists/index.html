@@ -75,6 +75,7 @@
             --charcoal: #202a33;
             --text: #626b73;
             --white: #ffffff;
+            --error: #a4473f;
             --border: rgba(28, 46, 64, 0.13);
             --border-light: rgba(255, 255, 255, 0.13);
             --shadow:
@@ -1028,6 +1029,269 @@
         .dashboard-tip strong {
             color: var(--forest-dark);
         }
+        /* Feedback section */
+        .feedback-section {
+            position: relative;
+            overflow: hidden;
+            padding: 110px 0 120px;
+            background:
+                radial-gradient(
+                    circle at 86% 14%,
+                    rgba(217, 160, 102, 0.16),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    145deg,
+                    #101a24 0%,
+                    #1c2e40 100%
+                );
+            color: var(--white);
+        }
+        .feedback-section::before {
+            position: absolute;
+            bottom: -220px;
+            left: -180px;
+            width: 480px;
+            height: 480px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 50%;
+            content: "";
+        }
+        .feedback-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            align-items: start;
+            gap: 64px;
+        }
+        .feedback-copy .eyebrow {
+            margin-bottom: 18px;
+            color: var(--tourist-light);
+        }
+        .feedback-copy h2 {
+            max-width: 480px;
+            margin-bottom: 20px;
+            font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1.08;
+        }
+        .feedback-copy p {
+            max-width: 460px;
+            margin-bottom: 14px;
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        .feedback-ideas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 460px;
+            margin-top: 26px;
+            list-style: none;
+        }
+        .feedback-ideas li {
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.86);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .feedback-card {
+            padding: 34px;
+            border-radius: var(--radius-large);
+            background: var(--linen);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+            color: var(--charcoal);
+        }
+        .feedback-form .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        .feedback-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .feedback-form .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .feedback-form label {
+            color: var(--forest-dark);
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+        .feedback-form label span {
+            color: var(--error);
+        }
+        .feedback-form .form-optional {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .feedback-form .form-control {
+            width: 100%;
+            min-height: 50px;
+            padding: 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--ivory);
+            color: var(--charcoal);
+            font: inherit;
+            font-size: 1rem;
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+        .feedback-form textarea.form-control {
+            min-height: 140px;
+            padding-top: 13px;
+            resize: vertical;
+        }
+        .feedback-form .form-control:focus {
+            border-color: var(--tourist);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(217, 160, 102, 0.18);
+        }
+        .feedback-form .honeypot {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .feedback-submit {
+            display: inline-flex;
+            width: 100%;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 22px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--tourist);
+            color: var(--forest-deep);
+            font: inherit;
+            font-size: 0.87rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition:
+                background 0.22s ease,
+                transform 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+        .feedback-submit:hover {
+            background: var(--tourist-dark);
+            box-shadow: 0 10px 24px rgba(185, 126, 66, 0.28);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        .feedback-submit:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .feedback-submit svg {
+            width: 18px;
+            height: 18px;
+        }
+        .feedback-privacy {
+            margin-top: 16px;
+            color: var(--text);
+            font-size: 0.76rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .feedback-message {
+            display: none;
+            margin-top: 18px;
+            padding: 15px 17px;
+            border-left: 4px solid var(--tourist);
+            border-radius: 0 10px 10px 0;
+            background: var(--stone-light);
+            color: var(--forest-dark);
+            font-size: 0.86rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        .feedback-message.visible {
+            display: block;
+        }
+        .feedback-message.error {
+            border-left-color: var(--error);
+        }
+        .feedback-success {
+            display: none;
+            padding: 30px 8px;
+            text-align: center;
+        }
+        .feedback-success.visible {
+            display: block;
+        }
+        .feedback-success-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: var(--stone-light);
+            color: var(--tourist-dark);
+        }
+        .feedback-success-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+        .feedback-success h3 {
+            margin-bottom: 10px;
+            color: var(--forest-dark);
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+        .feedback-success p {
+            max-width: 360px;
+            margin: 0 auto;
+            color: var(--text);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+        @media (max-width: 900px) {
+            .feedback-grid {
+                grid-template-columns: 1fr;
+                gap: 44px;
+            }
+            .feedback-copy h2,
+            .feedback-copy p,
+            .feedback-ideas {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 680px) {
+            .feedback-section {
+                padding: 85px 0 90px;
+            }
+            .feedback-card {
+                padding: 24px 20px;
+                border-radius: 24px;
+            }
+            .feedback-form .form-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .feedback-form .form-group.full-width {
+                grid-column: auto;
+            }
+        }
+
         .site-footer {
             padding: 31px 0;
             background: #0d1620;
@@ -1276,6 +1540,9 @@
                 </li>
                 <li>
                     <a href="#dashboard">Explore the dashboard</a>
+                </li>
+                <li>
+                    <a href="#feedback">Share your ideas</a>
                 </li>
             </ul>
             <button
@@ -1886,6 +2153,193 @@
                 </div>
             </div>
         </section>
+
+        <section
+            class="feedback-section"
+            id="feedback"
+        >
+            <div class="page-width">
+                <div class="feedback-grid">
+
+                    <div class="feedback-copy reveal">
+                        <div class="eyebrow">
+                            Your say
+                        </div>
+                        <h2>
+                            What would you like to see next?
+                        </h2>
+                        <p>
+                            This dashboard is built for the World Tourists
+                            community, so your ideas shape where it goes.
+                            Tell me what's useful, what's missing and what
+                            you'd love to see added.
+                        </p>
+                        <ul class="feedback-ideas">
+                            <li>New charts or stats</li>
+                            <li>Fun tourist stories</li>
+                            <li>Something not working</li>
+                            <li>Anything else</li>
+                        </ul>
+                    </div>
+
+                    <div class="feedback-card reveal">
+
+                        <form
+                            class="feedback-form"
+                            id="feedbackForm"
+                            action="https://formspree.io/f/mnjkevov"
+                            method="POST"
+                        >
+                            <div class="form-grid">
+
+                                <div class="form-group full-width">
+                                    <label for="feedbackType">
+                                        What's this about? <span>*</span>
+                                    </label>
+                                    <select
+                                        class="form-control"
+                                        id="feedbackType"
+                                        name="feedback_type"
+                                        required
+                                    >
+                                        <option value="">Select an option</option>
+                                        <option value="Idea for the dashboard">Idea for the dashboard</option>
+                                        <option value="Something I'd like to see">Something I'd like to see</option>
+                                        <option value="Something isn't working">Something isn't working</option>
+                                        <option value="General feedback">General feedback</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="feedbackMessage">
+                                        Your message <span>*</span>
+                                    </label>
+                                    <textarea
+                                        class="form-control"
+                                        id="feedbackMessage"
+                                        name="message"
+                                        required
+                                        placeholder="What would make this dashboard more useful or more fun for you?"
+                                    ></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="feedbackName">
+                                        Your name <span class="form-optional">(optional)</span>
+                                    </label>
+                                    <input
+                                        class="form-control"
+                                        id="feedbackName"
+                                        name="name"
+                                        type="text"
+                                        placeholder="Your name"
+                                        autocomplete="name"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="feedbackEmail">
+                                        Email <span class="form-optional">(optional)</span>
+                                    </label>
+                                    <input
+                                        class="form-control"
+                                        id="feedbackEmail"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Only if you'd like a reply"
+                                        autocomplete="email"
+                                    >
+                                </div>
+
+                            </div>
+
+                            <div class="honeypot" aria-hidden="true">
+                                <label for="feedbackWebsite">Leave this field empty</label>
+                                <input
+                                    id="feedbackWebsite"
+                                    name="_gotcha"
+                                    type="text"
+                                    tabindex="-1"
+                                    autocomplete="off"
+                                >
+                            </div>
+
+                            <input
+                                type="hidden"
+                                name="_subject"
+                                value="World Tourists dashboard feedback"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="source_page"
+                                value="parkrun World Tourists dashboard"
+                            >
+
+                            <button
+                                class="feedback-submit"
+                                id="feedbackSubmit"
+                                type="submit"
+                            >
+                                Send my feedback
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M5 12h14"></path>
+                                    <path d="m13 6 6 6-6 6"></path>
+                                </svg>
+                            </button>
+
+                            <p class="feedback-privacy">
+                                Your name and email are only used to follow
+                                up on your feedback.
+                            </p>
+
+                            <div
+                                class="feedback-message"
+                                id="feedbackError"
+                                role="alert"
+                            ></div>
+                        </form>
+
+                        <div
+                            class="feedback-success"
+                            id="feedbackSuccess"
+                            role="status"
+                            aria-live="polite"
+                        >
+                            <div class="feedback-success-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                            </div>
+                            <h3>Thank you!</h3>
+                            <p>
+                                Your feedback has been sent. Every idea helps
+                                shape the next update.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
     </main>
     <footer class="site-footer">
         <div class="page-width site-footer-content">
@@ -2022,6 +2476,53 @@
 
         revealElements.forEach((element) => {
             revealObserver.observe(element);
+        });
+
+        // ---- Feedback form (Formspree, submits without leaving the page) ----
+        const feedbackForm =
+            document.getElementById("feedbackForm");
+
+        const feedbackSubmit =
+            document.getElementById("feedbackSubmit");
+
+        const feedbackError =
+            document.getElementById("feedbackError");
+
+        const feedbackSuccess =
+            document.getElementById("feedbackSuccess");
+
+        feedbackForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            feedbackError.classList.remove("visible", "error");
+            feedbackError.textContent = "";
+
+            const originalLabel = feedbackSubmit.firstChild.textContent;
+            feedbackSubmit.disabled = true;
+            feedbackSubmit.firstChild.textContent = "Sending... ";
+
+            try {
+                const response = await fetch(feedbackForm.action, {
+                    method: "POST",
+                    body: new FormData(feedbackForm),
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Form submission failed");
+                }
+
+                feedbackForm.style.display = "none";
+                feedbackSuccess.classList.add("visible");
+            } catch (error) {
+                feedbackError.textContent =
+                    "Sorry, something went wrong sending your feedback. Please try again in a moment.";
+                feedbackError.classList.add("visible", "error");
+                feedbackSubmit.disabled = false;
+                feedbackSubmit.firstChild.textContent = originalLabel;
+            }
         });
 
         // ---- This week's stories (insights.json) ----
