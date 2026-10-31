@@ -1,1 +1,2087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YNXPYC814H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YNXPYC814H');
+</script>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="JC Slaughter Falls parkrun dashboard with event number 1 results, a record 974 parkrunners, milestones, clubs, age groups, volunteers and parkrun insights."
+    >
+
+    <title>JC Slaughter Falls parkrun Dashboard | Stats, Results & Insights</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --bush-dark: #10291d;
+            --bush: #2f6b4a;
+            --bush-mid: #7fa38b;
+            --bush-light: #dfece3;
+            --bush-pale: #f1f7f3;
+
+            --gold: #e3a43c;
+            --gold-light: #f2cb83;
+
+            --sky: #6f9fae;
+            --sky-light: #e0edf1;
+
+            --charcoal: #1f2a24;
+            --body-text: #58655d;
+
+            --white: #ffffff;
+            --off-white: #f8faf6;
+
+            --border: rgba(16, 41, 29, 0.13);
+
+            --shadow:
+                0 20px 60px rgba(10, 30, 20, 0.14);
+
+            --shadow-small:
+                0 12px 32px rgba(10, 30, 20, 0.09);
+
+            --radius-large: 30px;
+            --radius-medium: 20px;
+            --radius-small: 14px;
+
+            --page-width: 1280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            overflow-x: hidden;
+            background: var(--off-white);
+            color: var(--charcoal);
+            font-family: "Manrope", sans-serif;
+            line-height: 1.6;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img,
+        svg {
+            display: block;
+            max-width: 100%;
+        }
+
+        .page-width {
+            width: min(calc(100% - 48px), var(--page-width));
+            margin-inline: auto;
+        }
+
+        /* Navigation */
+
+        .site-header {
+            position: absolute;
+            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(10, 30, 20, 0.22);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .navigation {
+            display: flex;
+            min-height: 78px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .brand {
+            color: var(--white);
+            font-size: 0.97rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: var(--gold-light);
+        }
+
+        .navigation-actions {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .all-reports-link,
+        .navigation-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 0.87rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .all-reports-link::after,
+        .navigation-links a::after {
+            position: absolute;
+            right: 0;
+            bottom: -8px;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--gold);
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.4);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .all-reports-link:hover::after,
+        .all-reports-link:focus-visible::after,
+        .navigation-links a:hover::after,
+        .navigation-links a:focus-visible::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .navigation-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .menu-button {
+            display: none;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .menu-button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Hero (no photo yet: layered gradient and ridge silhouette) */
+
+        .hero {
+            position: relative;
+            display: flex;
+            min-height: 700px;
+            align-items: center;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                radial-gradient(
+                    circle at 80% 24%,
+                    rgba(227, 164, 60, 0.3),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    160deg,
+                    #0b2217 0%,
+                    #17402c 50%,
+                    #2b6a50 100%
+                );
+        }
+
+        .hero-ridges {
+            position: absolute;
+            z-index: -1;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 62%;
+            pointer-events: none;
+        }
+
+        .hero-ridges svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero::before {
+            position: absolute;
+            z-index: -1;
+            top: -170px;
+            right: -120px;
+            width: 560px;
+            height: 560px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .hero::after {
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            height: 110px;
+            background: var(--off-white);
+            clip-path: polygon(0 78%, 100% 0, 100% 100%, 0 100%);
+            content: "";
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: min(820px, 100%);
+            padding-top: 78px;
+            padding-bottom: 90px;
+            color: var(--white);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            color: var(--gold-light);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 34px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: "";
+        }
+
+        .record-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 24px;
+            padding: 9px 16px 9px 12px;
+            border: 1px solid rgba(242, 203, 131, 0.5);
+            border-radius: 999px;
+            background: rgba(227, 164, 60, 0.16);
+            color: var(--gold-light);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .record-pill svg {
+            width: 18px;
+            min-width: 18px;
+            height: 18px;
+        }
+
+        .hero h1 {
+            margin-bottom: 22px;
+            font-size: clamp(2.6rem, 6.4vw, 5.6rem);
+            font-weight: 800;
+            letter-spacing: -0.07em;
+            line-height: 0.98;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: var(--gold-light);
+        }
+
+        .hero-description {
+            max-width: 620px;
+            margin-bottom: 34px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2vw, 1.14rem);
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            min-height: 54px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-size: 0.89rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .primary-button {
+            background: var(--gold);
+            color: var(--bush-dark);
+        }
+
+        .secondary-button {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .primary-button:hover {
+            background: var(--gold-light);
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Shared sections */
+
+        section {
+            position: relative;
+        }
+
+        .section-heading {
+            max-width: 720px;
+            margin: 0 auto 52px;
+            text-align: center;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 15px;
+            color: var(--bush-mid);
+        }
+
+        .section-heading h2 {
+            margin-bottom: 16px;
+            color: var(--bush-dark);
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1.08;
+        }
+
+        .section-heading p {
+            color: var(--body-text);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .dashboard-section .section-heading {
+            max-width: 900px;
+        }
+
+        .dashboard-section .section-heading h2 {
+            white-space: nowrap;
+        }
+
+        /* Intro */
+
+        .intro-section {
+            padding: 90px 0 110px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 0.84fr 1.16fr;
+            align-items: center;
+            gap: clamp(50px, 7vw, 100px);
+        }
+
+        .intro-number {
+            position: relative;
+            display: flex;
+            min-height: 360px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--radius-large);
+            background:
+                radial-gradient(
+                    circle at 30% 25%,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    140deg,
+                    var(--bush),
+                    var(--bush-dark)
+                );
+            box-shadow: var(--shadow);
+            color: var(--white);
+        }
+
+        .intro-number::before,
+        .intro-number::after {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .intro-number::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .intro-number::after {
+            width: 190px;
+            height: 190px;
+        }
+
+        .intro-number-inner {
+            position: relative;
+            z-index: 2;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .intro-number strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--gold-light);
+            font-size: clamp(5rem, 12vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.08em;
+            line-height: 0.9;
+        }
+
+        .intro-number span {
+            font-size: 0.77rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .intro-copy .eyebrow {
+            margin-bottom: 18px;
+            color: var(--bush-mid);
+        }
+
+        .intro-copy h2 {
+            margin-bottom: 22px;
+            color: var(--bush-dark);
+            font-size: clamp(2.15rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.06em;
+            line-height: 1.05;
+        }
+
+        .intro-copy p {
+            margin-bottom: 18px;
+            color: var(--body-text);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .intro-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 28px;
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-small);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .intro-note-icon {
+            display: flex;
+            width: 42px;
+            min-width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--sky-light);
+            color: var(--bush-dark);
+        }
+
+        .intro-note-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .intro-note strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--bush-dark);
+            font-size: 0.91rem;
+        }
+
+        .intro-note p {
+            margin: 0;
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        /* Highlights */
+
+        .highlights-section {
+            padding: 0 0 110px;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .highlight-card {
+            position: relative;
+            overflow: hidden;
+            padding: 30px 24px 26px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-6px);
+        }
+
+        .highlight-card::after {
+            position: absolute;
+            right: -40px;
+            bottom: -50px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--bush-pale);
+            content: "";
+        }
+
+        .highlight-card strong {
+            position: relative;
+            z-index: 2;
+            display: block;
+            color: var(--bush);
+            font-size: clamp(2.4rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .highlight-card h3 {
+            position: relative;
+            z-index: 2;
+            margin: 10px 0 8px;
+            color: var(--bush-dark);
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .highlight-card p {
+            position: relative;
+            z-index: 2;
+            color: var(--body-text);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* Tutorial */
+
+        .tutorial-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background: var(--bush-pale);
+        }
+
+        .tutorial-section::before {
+            position: absolute;
+            top: -190px;
+            left: -170px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(47, 107, 74, 0.08);
+            content: "";
+        }
+
+        .tutorial-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .tutorial-card {
+            position: relative;
+            min-height: 255px;
+            overflow: hidden;
+            padding: 28px 22px 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-medium);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            border-color: rgba(47, 107, 74, 0.3);
+            box-shadow: var(--shadow);
+            transform: translateY(-8px);
+        }
+
+        .tutorial-card::after {
+            position: absolute;
+            right: -42px;
+            bottom: -55px;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: var(--bush-pale);
+            content: "";
+            transition: transform 0.35s ease;
+        }
+
+        .tutorial-card:hover::after {
+            transform: scale(1.2);
+        }
+
+        .step-number {
+            display: flex;
+            width: 46px;
+            height: 46px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            border-radius: 50%;
+            background: var(--bush-dark);
+            color: var(--gold-light);
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .tutorial-card h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 12px;
+            color: var(--bush-dark);
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tutorial-card p {
+            position: relative;
+            z-index: 2;
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* Dashboard */
+
+        .dashboard-section {
+            padding: 110px 0 125px;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--off-white) 0%,
+                    var(--white) 100%
+                );
+        }
+
+        .dashboard-shell {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-large);
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 16px 22px;
+        }
+
+        .dashboard-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dashboard-status {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 0 6px rgba(227, 164, 60, 0.2);
+        }
+
+        .dashboard-label strong {
+            display: block;
+            color: var(--bush-dark);
+            font-size: 0.93rem;
+        }
+
+        .dashboard-label span {
+            display: block;
+            margin-top: 2px;
+            color: var(--body-text);
+            font-size: 0.76rem;
+        }
+
+        .dashboard-decoration {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dashboard-decoration span {
+            display: block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--bush-light);
+        }
+
+        .dashboard-frame {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #e8f0ea;
+            aspect-ratio: 16 / 9;
+        }
+
+        .dashboard-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Placeholder shown until the Power BI link is added.
+           Delete this block and its markup once the iframe is live. */
+
+        .dashboard-pending {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 36px;
+            text-align: center;
+            background:
+                radial-gradient(
+                    circle at 30% 20%,
+                    rgba(227, 164, 60, 0.12),
+                    transparent 48%
+                ),
+                var(--bush-pale);
+        }
+
+        .dashboard-pending-icon {
+            display: flex;
+            width: 60px;
+            height: 60px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            color: var(--bush-dark);
+        }
+
+        .dashboard-pending-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .dashboard-pending strong {
+            color: var(--bush-dark);
+            font-size: 1.05rem;
+        }
+
+        .dashboard-pending p {
+            max-width: 420px;
+            color: var(--body-text);
+            font-size: 0.88rem;
+            line-height: 1.65;
+        }
+
+        .dashboard-tip {
+            display: none;
+            width: 100%;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 22px 0 0;
+            padding: 17px 20px;
+            border-left: 4px solid var(--gold);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+            background: var(--bush-pale);
+            color: var(--body-text);
+            font-size: 0.86rem;
+            line-height: 1.65;
+            text-align: left;
+        }
+
+        .dashboard-tip p {
+            margin: 0;
+            text-align: left;
+        }
+
+        .dashboard-tip strong {
+            color: var(--bush-dark);
+        }
+
+        .dashboard-tip svg {
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            color: var(--bush);
+        }
+
+        /* Closing */
+
+        .closing-section {
+            position: relative;
+            overflow: hidden;
+            padding: 115px 0;
+            background:
+                radial-gradient(
+                    circle at 82% 22%,
+                    rgba(227, 164, 60, 0.17),
+                    transparent 28%
+                ),
+                var(--bush-dark);
+            color: var(--white);
+        }
+
+        .closing-section::before {
+            position: absolute;
+            bottom: -210px;
+            left: -170px;
+            width: 460px;
+            height: 460px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .closing-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .closing-content .eyebrow {
+            justify-content: center;
+            margin-bottom: 19px;
+            color: var(--gold-light);
+        }
+
+        .closing-content h2 {
+            margin-bottom: 22px;
+            font-size: clamp(2.3rem, 6vw, 4.6rem);
+            font-weight: 800;
+            letter-spacing: -0.065em;
+            line-height: 1.02;
+        }
+
+        .closing-content p {
+            max-width: 690px;
+            margin: 0 auto 35px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .closing-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .closing-link:hover,
+        .closing-link:focus-visible {
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .closing-link svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* Footer */
+
+        .site-footer {
+            padding: 30px 0;
+            background: #0a1d14;
+            color: rgba(255, 255, 255, 0.62);
+            text-align: center;
+        }
+
+        .site-footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-footer p {
+            font-size: 0.82rem;
+        }
+
+        .site-footer a {
+            color: var(--white);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            color: var(--gold-light);
+        }
+
+        .disclaimer {
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.68rem !important;
+            line-height: 1.55;
+        }
+
+        /* Scroll to top */
+
+        .scroll-top {
+            position: fixed;
+            z-index: 40;
+            right: 22px;
+            bottom: 22px;
+            display: flex;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: var(--bush-dark);
+            box-shadow: 0 14px 34px rgba(10, 30, 20, 0.3);
+            color: var(--white);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: var(--bush);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Animation */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition:
+                opacity 0.75s ease,
+                transform 0.75s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tutorial-card:nth-child(2),
+        .highlight-card:nth-child(2) {
+            transition-delay: 0.07s;
+        }
+
+        .tutorial-card:nth-child(3),
+        .highlight-card:nth-child(3) {
+            transition-delay: 0.14s;
+        }
+
+        .tutorial-card:nth-child(4),
+        .highlight-card:nth-child(4) {
+            transition-delay: 0.21s;
+        }
+
+        .tutorial-card:nth-child(5) {
+            transition-delay: 0.28s;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1050px) {
+            .tutorial-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .highlights-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .page-width {
+                width: min(calc(100% - 34px), var(--page-width));
+            }
+
+            .site-header {
+                background: rgba(10, 30, 20, 0.72);
+            }
+
+            .navigation-actions {
+                margin-left: auto;
+                gap: 14px;
+            }
+
+            .all-reports-link {
+                font-size: 0.82rem;
+            }
+
+            .all-reports-link::after {
+                display: none;
+            }
+
+            .menu-button {
+                display: flex;
+            }
+
+            .navigation-links {
+                position: fixed;
+                top: 78px;
+                right: 17px;
+                left: 17px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                background: rgba(10, 30, 20, 0.98);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+            }
+
+            .navigation-links.open {
+                display: flex;
+            }
+
+            .navigation-links a {
+                display: block;
+                padding: 14px 15px;
+                border-radius: 11px;
+            }
+
+            .navigation-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .navigation-links a::after {
+                display: none;
+            }
+
+            .hero {
+                min-height: 670px;
+            }
+
+            .hero::after {
+                height: 72px;
+            }
+
+            .hero-content {
+                width: 100%;
+                padding-bottom: 80px;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-number {
+                min-height: 315px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tutorial-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .dashboard-section,
+            .tutorial-section {
+                padding: 90px 0;
+            }
+
+            .dashboard-tip {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-width {
+                width: min(calc(100% - 28px), var(--page-width));
+            }
+
+            .navigation {
+                min-height: 70px;
+                gap: 12px;
+            }
+
+            .brand {
+                font-size: 0.9rem;
+            }
+
+            .all-reports-link {
+                font-size: 0.75rem;
+            }
+
+            .navigation-links {
+                top: 70px;
+                right: 14px;
+                left: 14px;
+            }
+
+            .hero {
+                min-height: 660px;
+                align-items: flex-end;
+            }
+
+            .hero-content {
+                padding-top: 125px;
+                padding-bottom: 86px;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 13vw, 4rem);
+            }
+
+            .hero-description {
+                font-size: 0.98rem;
+                line-height: 1.7;
+            }
+
+            .hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+            .intro-section {
+                padding: 75px 0 85px;
+            }
+
+            .intro-number {
+                min-height: 270px;
+            }
+
+            .intro-copy h2 {
+                font-size: 2.35rem;
+            }
+
+            .highlights-section {
+                padding-bottom: 85px;
+            }
+
+            .highlights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading {
+                margin-bottom: 38px;
+            }
+
+            .dashboard-section .section-heading h2 {
+                white-space: normal;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorial-card,
+            .tutorial-card:last-child {
+                min-height: auto;
+                grid-column: auto;
+            }
+
+            .dashboard-shell {
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .dashboard-toolbar {
+                padding: 12px 10px 17px;
+            }
+
+            .dashboard-frame {
+                min-height: 400px;
+                border-radius: 14px;
+                aspect-ratio: auto;
+            }
+
+            .dashboard-pending {
+                padding: 26px;
+            }
+
+            .dashboard-tip {
+                padding: 16px;
+                font-size: 0.82rem;
+            }
+
+            .closing-section {
+                padding: 90px 0;
+            }
+
+            .closing-content h2 {
+                font-size: 2.65rem;
+            }
+
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 46px;
+                height: 46px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <nav
+            class="navigation page-width"
+            aria-label="Main navigation"
+        >
+            <a
+                class="brand"
+                href="../"
+                aria-label="Return to Event Insights"
+            >
+                Event <span>Insights</span>
+            </a>
+
+            <div class="navigation-actions">
+                <ul
+                    class="navigation-links"
+                    id="navigationLinks"
+                >
+                    <li>
+                        <a href="#highlights">Record numbers</a>
+                    </li>
+
+                    <li>
+                        <a href="#how-to">Quick guide</a>
+                    </li>
+
+                    <li>
+                        <a href="#dashboard">Explore the dashboard</a>
+                    </li>
+                </ul>
+
+                <a
+                    class="all-reports-link"
+                    href="../"
+                >
+                    Browse events
+                </a>
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="navigationLinks"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 7h16"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M4 17h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+
+        <section class="hero">
+
+            <!-- HERO IMAGE: no photo available yet. When one is published,
+                 remove this ridges block and use the same background
+                 pattern as the other event pages, for example:
+                 url("jcslaughterfalls-parkrun-hero.jpg") center / cover -->
+            <div
+                class="hero-ridges"
+                aria-hidden="true"
+            >
+                <svg
+                    viewBox="0 0 1440 520"
+                    preserveAspectRatio="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M0 300 C160 220 280 260 420 200 C560 140 640 230 780 190 C920 150 1040 70 1180 130 C1300 180 1380 150 1440 120 L1440 520 L0 520 Z"
+                        fill="rgba(255,255,255,0.05)"
+                    />
+                    <path
+                        d="M0 370 C140 320 260 350 400 310 C560 262 680 340 820 300 C960 260 1080 210 1220 250 C1320 280 1390 270 1440 250 L1440 520 L0 520 Z"
+                        fill="rgba(8,24,16,0.35)"
+                    />
+                    <path
+                        d="M0 440 C180 400 300 430 460 400 C620 370 740 430 900 400 C1060 370 1200 380 1440 360 L1440 520 L0 520 Z"
+                        fill="rgba(6,18,12,0.55)"
+                    />
+                </svg>
+            </div>
+
+            <div class="page-width">
+                <div class="hero-content">
+
+                    <div class="record-pill">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M8 21h8"></path>
+                            <path d="M12 17v4"></path>
+                            <path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"></path>
+                            <path d="M7 6H5a2 2 0 0 1 0-4h2"></path>
+                            <path d="M17 6h2a2 2 0 0 0 0-4h-2"></path>
+                        </svg>
+                        New record for an inaugural parkrun
+                    </div>
+
+                    <div class="eyebrow">
+                        Interactive event insights
+                    </div>
+
+                    <h1>
+                        JC Slaughter Falls
+                        <span>parkrun</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Explore the very first JC Slaughter Falls parkrun
+                        through interactive statistics, milestones,
+                        participation patterns and the stories behind a
+                        record-breaking event number 1.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a
+                            class="primary-button"
+                            href="#dashboard"
+                        >
+                            Explore the dashboard
+
+                            <svg
+                                class="button-icon"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="m13 6 6 6-6 6"></path>
+                            </svg>
+                        </a>
+
+                        <a
+                            class="secondary-button"
+                            href="#highlights"
+                        >
+                            See the record numbers
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="intro-section">
+            <div class="page-width">
+
+                <div class="intro-grid">
+
+                    <div class="intro-number reveal">
+                        <div class="intro-number-inner">
+                            <strong>974</strong>
+                            <span>Parkrunners at event number 1</span>
+                        </div>
+                    </div>
+
+                    <div class="intro-copy reveal">
+
+                        <div class="eyebrow">
+                            Opening day
+                        </div>
+
+                        <h2>
+                            A first event to remember.
+                        </h2>
+
+                        <p>
+                            On Saturday 31 October 2026, 974 parkrunners took
+                            on the very first JC Slaughter Falls parkrun in
+                            Brisbane's Mt Coot-tha. That is the largest
+                            inaugural attendance on record, 148 more than the
+                            previous best of 826 set by Endeavour parkrun.
+                        </p>
+
+                        <p>
+                            34 Hi-Viz Heroes helped make it happen, 97 clubs
+                            were represented, and 18 parkrunners celebrated a
+                            milestone, from a 10th all the way up to three
+                            300ths.
+                        </p>
+
+                        <p>
+                            This interactive dashboard turns those results into a
+                            story you can explore. Select age groups, clubs,
+                            milestones, charts and individual rows to uncover
+                            different perspectives within the event.
+                        </p>
+
+                        <div class="intro-note">
+
+                            <div class="intro-note-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 11v5"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <strong>A one-off event feature</strong>
+
+                                <p>
+                                    This dashboard has been created as a special
+                                    interactive look at JC Slaughter Falls
+                                    parkrun's first event.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="highlights-section"
+            id="highlights"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Record numbers
+                    </div>
+
+                    <h2>
+                        Event number 1, by the numbers.
+                    </h2>
+
+                    <p>
+                        A few of the standout figures from opening day.
+                    </p>
+
+                </div>
+
+                <div class="highlights-grid">
+
+                    <article class="highlight-card reveal">
+                        <strong>+148</strong>
+                        <h3>Above the old record</h3>
+                        <p>
+                            974 beat the previous inaugural best of 826 from
+                            Endeavour parkrun.
+                        </p>
+                    </article>
+
+                    <article class="highlight-card reveal">
+                        <strong>97</strong>
+                        <h3>Clubs represented</h3>
+                        <p>
+                            Parkrunners turned up wearing the colours of 97
+                            different clubs.
+                        </p>
+                    </article>
+
+                    <article class="highlight-card reveal">
+                        <strong>34</strong>
+                        <h3>Hi-Viz Heroes</h3>
+                        <p>
+                            The volunteer team that kept a very big first
+                            morning running smoothly.
+                        </p>
+                    </article>
+
+                    <article class="highlight-card reveal">
+                        <strong>18</strong>
+                        <h3>Milestones celebrated</h3>
+                        <p>
+                            From a 10th to three 300ths, all on opening day.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section
+            class="tutorial-section"
+            id="how-to"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        Quick tutorial
+                    </div>
+
+                    <h2>
+                        Click, filter and explore.
+                    </h2>
+
+                    <p>
+                        The dashboard is fully interactive. Here are five quick ways
+                        to get the most out of it.
+                    </p>
+
+                </div>
+
+                <div class="tutorial-grid">
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">01</div>
+
+                        <h3>Start with a chart</h3>
+
+                        <p>
+                            Click an age group, club, milestone or chart to instantly
+                            filter the page and uncover different stories.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">02</div>
+
+                        <h3>Navigate the dashboard</h3>
+
+                        <p>
+                            Use the KPI cards across the top of the page to move
+                            between the different dashboard pages.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">03</div>
+
+                        <h3>Hover for detail</h3>
+
+                        <p>
+                            Hover over charts and data points to reveal additional
+                            information and exact values.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">04</div>
+
+                        <h3>Go back to the overview</h3>
+
+                        <p>
+                            Click the parkrun logo in the top-left corner of the page
+                            to return to the dashboard home page.
+                        </p>
+                    </article>
+
+                    <article class="tutorial-card reveal">
+                        <div class="step-number">05</div>
+
+                        <h3>Reset your selections</h3>
+
+                        <p>
+                            Use the reset button in the bottom-left corner of the
+                            page to clear all filters and start exploring again.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="dashboard-section"
+            id="dashboard"
+        >
+            <div class="page-width">
+
+                <div class="section-heading reveal">
+
+                    <div class="eyebrow">
+                        JC Slaughter Falls parkrun
+                    </div>
+
+                    <h2>
+                        Explore the event dashboard.
+                    </h2>
+
+                    <p>
+                        Select charts, categories and table rows to uncover
+                        different stories within the event data.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-shell reveal">
+
+                    <div class="dashboard-toolbar">
+
+                        <div class="dashboard-label">
+
+                            <span
+                                class="dashboard-status"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div>
+                                <strong>Interactive Power BI dashboard</strong>
+                                <span>JC Slaughter Falls parkrun</span>
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="dashboard-decoration"
+                            aria-hidden="true"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-frame">
+
+                        <!-- TO GO LIVE: delete the dashboard-pending block
+                             below, uncomment this iframe and paste the Power BI
+                             "Publish to web" link into src.
+
+                        <iframe
+                            title="JC Slaughter Falls parkrun"
+                            src="PASTE_POWER_BI_PUBLISH_TO_WEB_URL_HERE"
+                            frameborder="0"
+                            allowfullscreen="true"
+                        ></iframe>
+                        -->
+
+                        <div class="dashboard-pending">
+                            <div class="dashboard-pending-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="M7 15v3"></path>
+                                    <path d="M12 10v8"></path>
+                                    <path d="M17 6v12"></path>
+                                </svg>
+                            </div>
+                            <strong>The dashboard is on its way</strong>
+                            <p>
+                                The interactive report for event number 1 will
+                                appear here shortly.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-tip reveal">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                        <path d="M9 18h6"></path>
+                    </svg>
+
+                    <p>
+                        <strong>Tip:</strong>
+                        For the best experience on mobile, rotate your phone
+                        to landscape before exploring the dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="closing-section">
+            <div class="page-width">
+
+                <div class="closing-content reveal">
+
+                    <div class="eyebrow">
+                        Thanks for visiting
+                    </div>
+
+                    <h2>
+                        There is a story behind every result.
+                    </h2>
+
+                    <p>
+                        Whether you are checking a result, celebrating a
+                        milestone, recognising a familiar name or simply
+                        exploring the event, enjoy discovering the stories
+                        created at JC Slaughter Falls parkrun.
+                    </p>
+
+                    <a
+                        class="closing-link"
+                        href="../"
+                    >
+                        Browse all event dashboards
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+                        </svg>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="page-width site-footer-content">
+
+            <p>
+                Event Insights is made with ❤️ by
+                <a
+                    href="https://datawithandrea.com.au"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Data with Andrea
+                </a>
+            </p>
+
+            <p class="disclaimer">
+                Event Insights is an independent project and is not affiliated
+                with, sponsored by or endorsed by parkrun.
+            </p>
+
+        </div>
+    </footer>
+
+    <button
+        class="scroll-top"
+        id="scrollTopButton"
+        type="button"
+        aria-label="Scroll back to the top"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+        >
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
+
+    <script>
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const navigationLinks =
+            document.getElementById("navigationLinks");
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                navigationLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            document.body.classList.toggle(
+                "menu-open",
+                isOpen
+            );
+        });
+
+        navigationLinks
+            .querySelectorAll("a")
+            .forEach((link) => {
+                link.addEventListener("click", () => {
+                    navigationLinks.classList.remove("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+                });
+            });
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12
+                }
+            );
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+
+        const scrollTopButton =
+            document.getElementById(
+                "scrollTopButton"
+            );
+
+        window.addEventListener(
+            "scroll",
+            () => {
+                scrollTopButton.classList.toggle(
+                    "visible",
+                    window.scrollY > 600
+                );
+            },
+            {
+                passive: true
+            }
+        );
+
+        scrollTopButton.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+    </script>
+
+</body>
+</html>
